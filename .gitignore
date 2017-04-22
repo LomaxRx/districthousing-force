@@ -1,0 +1,6 @@
+js_src/node_modules/
+config/
+*.xml
+*.log
+*.sublime-project
+.DS_Store
