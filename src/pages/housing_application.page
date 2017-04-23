@@ -3,5 +3,13 @@
 	<apex:includeScript value="{!$Resource.react_dom}"/>
 	<apex:includeScript value="{!$Resource.redux}"/>
 	<apex:includeScript value="{!$Resource.react_redux}"/>
+	<apex:includeScript value="{!$Resource.redux_thunk}"/>
+	<apex:includeScript value="{!$Resource.react_redux_form}"/>
 	<apex:includeScript value="{!$Resource.housing_application}"/>
+
+	<div id="app"></div>
+	<script type="text/javascript">
+		var hapForm = new HapForm();
+		console.log(hapForm);
+	</script>
 </apex:page>

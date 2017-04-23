@@ -79,8 +79,27 @@ public class HousingApplication {
 
   public class PreviousSSN {
 		// Just 'number' in HAP App
-		// reserved word in Apex. 
+		// reserved word in Apex.
     String previous_number;
+  }
+
+  public class Model {
+    Person Person = new Person();
+    Income Income = new Income();
+    Address Address = new Address();
+    Residence Residence = new Residence();
+    HouseholdMember HouseholdMember = new HouseholdMember();
+    Employment Employment = new Employment();
+    CriminalHistory CriminalHistory = new CriminalHistory();
+    Alias Alias = new Alias();
+    PreviousSSN PreviousSSN = new PreviousSSN();
+    String HousingForm = '';
+
+    public Model(){}
+
+    public String toJSON(){
+      return JSON.serialize(this);
+    }
   }
 
   public class Form {
