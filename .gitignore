@@ -1,5 +1,7 @@
 js_src/node_modules/
+node_modules/
 config/
+debug/
 *.xml
 *.log
 *.sublime-project

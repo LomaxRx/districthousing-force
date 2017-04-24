@@ -6,20 +6,37 @@ import { models } from '../initialState';
 class AddressForm extends Component {
   addAddress = () => {
       const { dispatch, addresses } = this.props;
-      dispatch(actions.push('addresses', { ...models.Address, index: addresses.length } ));
+      dispatch(actions.push('addresses', {
+        ...models.Address, index: addresses.length
+      }));
   }
 
   render() {
     const { addresses } = this.props;
     return (
-      <div>
-        <button onClick={this.addAddress}>Add</button>
+      <section>
         {addresses.map((a, i) => (
           <Form model={track('addresses[]', { index: i })}>
-            <Control.text model='.street'/>
+            <div className="field">
+              <label>Street</label>
+              <Control.text model='.street'/>
+            </div>
+            <div className="field">
+              <label>Apt</label>
+              <Control.text model='.apt'/>
+            </div>
+            <div className="field">
+              <label>City</label>
+              <Control.text model='.city'/>
+            </div>
+            <div className="field">
+              <label>State</label>
+              <Control.text model='.state'/>
+            </div>
           </Form>
         ))}
-      </div>
+        <button onClick={this.addAddress}>Add</button>
+      </section>
     );
   }
 }

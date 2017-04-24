@@ -1,4 +1,4 @@
-var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,reactDom,react) {
+var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom) {
 'use strict';
 
 Thunk = 'default' in Thunk ? Thunk['default'] : Thunk;
@@ -268,7 +268,8 @@ var AddressForm = function (_Component) {
           dispatch = _this$props.dispatch,
           addresses = _this$props.addresses;
 
-      dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { index: addresses.length })));
+      dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { index: addresses.length
+      })));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -278,20 +279,59 @@ var AddressForm = function (_Component) {
       var addresses = this.props.addresses;
 
       return React.createElement(
-        'div',
+        'section',
         null,
-        React.createElement(
-          'button',
-          { onClick: this.addAddress },
-          'Add'
-        ),
         addresses.map(function (a, i) {
           return React.createElement(
             reactReduxForm.Form,
             { model: reactReduxForm.track('addresses[]', { index: i }) },
-            React.createElement(reactReduxForm.Control.text, { model: '.street' })
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Street'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.street' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Apt'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.apt' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'City'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.city' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'State'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.state' })
+            )
           );
-        })
+        }),
+        React.createElement(
+          'button',
+          { onClick: this.addAddress },
+          'Add'
+        )
       );
     }
   }]);
@@ -306,6 +346,82 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var AddressForm$1 = reactRedux.connect(mapStateToProps)(AddressForm);
 
+var PersonForm = function (_Component) {
+  inherits(PersonForm, _Component);
+
+  function PersonForm() {
+    classCallCheck(this, PersonForm);
+    return possibleConstructorReturn(this, (PersonForm.__proto__ || Object.getPrototypeOf(PersonForm)).apply(this, arguments));
+  }
+
+  createClass(PersonForm, [{
+    key: 'render',
+    value: function render$$1() {
+      return React.createElement(
+        'section',
+        null,
+        React.createElement(
+          reactReduxForm.Form,
+          { model: 'person' },
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'First Name'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.first_name' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Middle Name'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.middle_name' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Last Name'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.last_name' })
+          )
+        )
+      );
+    }
+  }]);
+  return PersonForm;
+}(react.Component);
+
+var App = function (_Component) {
+  inherits(App, _Component);
+
+  function App() {
+    classCallCheck(this, App);
+    return possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+  }
+
+  createClass(App, [{
+    key: 'render',
+    value: function render$$1() {
+      return React.createElement(
+        'main',
+        null,
+        React.createElement(PersonForm, null),
+        React.createElement(AddressForm$1, null)
+      );
+    }
+  }]);
+  return App;
+}(react.Component);
+
 var HapForm = function HapForm() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   classCallCheck(this, HapForm);
@@ -314,10 +430,10 @@ var HapForm = function HapForm() {
   reactDom.render(React.createElement(
     reactRedux.Provider,
     { store: this.store },
-    React.createElement(AddressForm$1, null)
+    React.createElement(App, null)
   ), document.getElementById('app'));
 };
 
 return HapForm;
 
-}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,ReactDOM,React));
+}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,React,ReactDOM));
