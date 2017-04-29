@@ -280,7 +280,12 @@ var AddressForm = function (_Component) {
 
       return React.createElement(
         'section',
-        null,
+        { id: 'addresses' },
+        React.createElement(
+          'h2',
+          null,
+          'Addresses'
+        ),
         addresses.map(function (a, i) {
           return React.createElement(
             reactReduxForm.Form,
@@ -330,7 +335,7 @@ var AddressForm = function (_Component) {
         React.createElement(
           'button',
           { onClick: this.addAddress },
-          'Add'
+          'Add Address'
         )
       );
     }
@@ -357,9 +362,16 @@ var PersonForm = function (_Component) {
   createClass(PersonForm, [{
     key: 'render',
     value: function render$$1() {
+      var addresses = this.props.addresses;
+
       return React.createElement(
         'section',
-        null,
+        { id: 'contact_information' },
+        React.createElement(
+          'h2',
+          null,
+          'Contact Information'
+        ),
         React.createElement(
           reactReduxForm.Form,
           { model: 'person' },
@@ -392,6 +404,217 @@ var PersonForm = function (_Component) {
               'Last Name'
             ),
             React.createElement(reactReduxForm.Control.text, { model: '.last_name' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Social Security Number'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.ssn' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Date of Birth'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.dob' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'City of Birth'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.city_of_birth' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'State of Birth'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.state_of_birth' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Country of Birth'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.country_of_birth' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Citizenship'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.citizenship' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Cell Phone'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.cell_phone' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Home Phone'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.home_phone' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Work Phone'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.work_phone' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Email'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.email' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Occupation'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.occupation' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Marital Status'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.marital_status' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Student Status'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.student_status' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Gender'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.gender' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Race'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.race' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Ethinicity'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.ethnicity' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Driver License Number'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.driver_license_number' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Driver License State'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.driver_license_state' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Drive License Expiration Date'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.drive_licenese_exp_date' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Mailing Address'
+            ),
+            React.createElement(
+              reactReduxForm.Control.select,
+              { model: '.mailing_address_id' },
+              React.createElement('option', { value: '' }),
+              addresses.map(function (a, i) {
+                return React.createElement(
+                  'option',
+                  { value: a.id },
+                  (a.street || '') + ' ' + (a.city || '') + ', ' + (a.state || '')
+                );
+              })
+            )
           )
         )
       );
@@ -399,6 +622,14 @@ var PersonForm = function (_Component) {
   }]);
   return PersonForm;
 }(react.Component);
+
+var mapStateToProps$1 = function mapStateToProps(state) {
+  return {
+    addresses: state.addresses
+  };
+};
+
+var PersonForm$1 = reactRedux.connect(mapStateToProps$1)(PersonForm);
 
 var App = function (_Component) {
   inherits(App, _Component);
@@ -414,7 +645,7 @@ var App = function (_Component) {
       return React.createElement(
         'main',
         null,
-        React.createElement(PersonForm, null),
+        React.createElement(PersonForm$1, null),
         React.createElement(AddressForm$1, null)
       );
     }
