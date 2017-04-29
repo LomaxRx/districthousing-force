@@ -470,6 +470,11 @@ var AddressForm = function (_Component2) {
           );
         }),
         React.createElement(
+          'button',
+          { onClick: this.addAddress },
+          'Add Address'
+        ),
+        React.createElement(
           'div',
           { className: 'field' },
           React.createElement(
@@ -489,11 +494,6 @@ var AddressForm = function (_Component2) {
               );
             })
           )
-        ),
-        React.createElement(
-          'button',
-          { onClick: this.addAddress },
-          'Add Address'
         )
       );
     }

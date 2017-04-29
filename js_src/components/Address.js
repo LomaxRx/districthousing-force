@@ -102,6 +102,7 @@ class AddressForm extends Component {
             }
           </Form>
         ))}
+        <button onClick={this.addAddress}>Add Address</button>
         <div className='field'>
           <label>Mailing Address</label>
           <Control.select model='person.mailing_address_id'>
@@ -111,7 +112,6 @@ class AddressForm extends Component {
             ))}
           </Control.select>
         </div>
-        <button onClick={this.addAddress}>Add Address</button>
       </section>
     );
   }
