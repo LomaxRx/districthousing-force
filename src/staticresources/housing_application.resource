@@ -787,7 +787,7 @@ var HouseholdMemberForm = function (_Component) {
           dispatch = _this$props.dispatch,
           household_members = _this$props.household_members;
 
-      dispatch(reactReduxForm.actions.push(_extends({}, models.HouseholdMember, { index: household_members.length
+      dispatch(reactReduxForm.actions.push('household_members', _extends({}, models.HouseholdMember, { index: household_members.length
       })));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
@@ -929,7 +929,7 @@ var IncomeForm = function (_Component) {
           dispatch = _this$props.dispatch,
           incomes = _this$props.incomes;
 
-      dispatch(reactReduxForm.actions.push(_extends({}, models.Income, { index: incomes.length
+      dispatch(reactReduxForm.actions.push('incomes', _extends({}, models.Income, { index: incomes.length
       })));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
@@ -1016,7 +1016,7 @@ var EmploymentForm = function (_Component) {
           dispatch = _this$props.dispatch,
           employments = _this$props.employments;
 
-      dispatch(reactReduxForm.actions.push(_extends({}, models.Employment, { index: employments.length
+      dispatch(reactReduxForm.actions.push('employments', _extends({}, models.Employment, { index: employments.length
       })));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
@@ -1188,7 +1188,7 @@ var CriminalHistoryForm = function (_Component) {
           dispatch = _this$props.dispatch,
           criminal_histories = _this$props.criminal_histories;
 
-      dispatch(action.push(_extends({}, models.CriminalHistory, { index: criminal_histories.length
+      dispatch(reactReduxForm.actions.push('criminal_histories', _extends({}, models.CriminalHistory, { index: criminal_histories.length
       })));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }

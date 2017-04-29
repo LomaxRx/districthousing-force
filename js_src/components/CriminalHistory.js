@@ -6,7 +6,7 @@ import { models } from '../initialState';
 class CriminalHistoryForm extends Component {
   addCriminalHistory = () => {
     const { dispatch, criminal_histories } = this.props;
-    dispatch(action.push({
+    dispatch(actions.push('criminal_histories', {
       ...models.CriminalHistory, index: criminal_histories.length
     }));
   }

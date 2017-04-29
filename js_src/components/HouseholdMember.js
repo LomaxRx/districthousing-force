@@ -6,7 +6,7 @@ import { models } from '../initialState';
 class HouseholdMemberForm extends Component {
   addHouseholdMember = () => {
     const { dispatch, household_members } = this.props;
-    dispatch(actions.push({
+    dispatch(actions.push('household_members', {
       ...models.HouseholdMember, index: household_members.length
     }));
   }

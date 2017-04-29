@@ -7,7 +7,7 @@ import { models } from '../initialState';
 class IncomeForm extends Component {
   addIncome = () => {
     const { dispatch, incomes } = this.props;
-    dispatch(actions.push({
+    dispatch(actions.push('incomes', {
       ...models.Income, index: incomes.length
     }));
   }

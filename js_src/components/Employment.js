@@ -7,7 +7,7 @@ import { models } from '../initialState';
 class EmploymentForm extends Component {
   addEmployment = () => {
     const { dispatch, employments } = this.props;
-    dispatch(actions.push({
+    dispatch(actions.push('employments', {
       ...models.Employment, index: employments.length
     }));
   }
