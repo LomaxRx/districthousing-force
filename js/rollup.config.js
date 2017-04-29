@@ -16,12 +16,11 @@ export default {
     'react-redux-form': 'ReactReduxForm'
   },
   plugins: [
+    sass({
+      output: '../src/staticresources/housing_application_style.resource'
+    }),
     babel({
       exclude: 'node_modules/**'
-    }),
-    sass({
-      file: 'src/sass/index.scss',
-      output: '../src/staticresources/housing_application_style.scss'
     })
   ]
 };

@@ -1,3 +1,5 @@
+import './sass/index.scss';
+
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { initialState } from './initialState';

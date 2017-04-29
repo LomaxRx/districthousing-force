@@ -1,4 +1,6 @@
 <apex:page showHeader="true" sidebar="false">
+	<apex:stylesheet value="{!URLFOR($Resource.housing_application_style)}"/>
+
 	<apex:includeScript value="{!$Resource.react}"/>
 	<apex:includeScript value="{!$Resource.react_dom}"/>
 	<apex:includeScript value="{!$Resource.redux}"/>
