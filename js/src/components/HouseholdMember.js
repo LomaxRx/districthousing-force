@@ -51,7 +51,9 @@ class HouseholdMemberForm extends Component {
             </div>
           </Form>
         ))}
-        <button onClick={this.addHouseholdMember}>Add Household Member</button>
+        <Form>
+          <button onClick={this.addHouseholdMember}>Add Household Member</button>
+        </Form>
       </section>
     );
   }
