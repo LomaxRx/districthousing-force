@@ -14,7 +14,8 @@ class AddressForm extends Component {
   render() {
     const { addresses } = this.props;
     return (
-      <section>
+      <section id="addresses">
+        <h2>Addresses</h2>
         {addresses.map((a, i) => (
           <Form model={track('addresses[]', { index: i })}>
             <div className="field">
@@ -35,7 +36,7 @@ class AddressForm extends Component {
             </div>
           </Form>
         ))}
-        <button onClick={this.addAddress}>Add</button>
+        <button onClick={this.addAddress}>Add Address</button>
       </section>
     );
   }

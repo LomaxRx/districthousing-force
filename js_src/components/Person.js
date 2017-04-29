@@ -6,7 +6,8 @@ class PersonForm extends Component {
   render() {
     const { addresses } = this.props;
     return (
-      <section>
+      <section id="contact_information">
+        <h2>Contact Information</h2>
         <Form model='person'>
           <div className='field'>
             <label>First Name</label>
@@ -57,7 +58,7 @@ class PersonForm extends Component {
             <Control.text model='.work_phone'/>
           </div>
           <div className='field'>
-            <label>email</label>
+            <label>Email</label>
             <Control.text model='.email'/>
           </div>
           <div className='field'>
@@ -99,8 +100,9 @@ class PersonForm extends Component {
           <div className='field'>
             <label>Mailing Address</label>
             <Control.select model='.mailing_address_id'>
+              <option value=''></option>
               {addresses.map((a,i)=>(
-                <option value={a.id}>{`${a.street} ${a.city}, ${a.state}`}</option>
+                <option value={a.id}>{`${a.street||''} ${a.city||''}, ${a.state||''}`}</option>
               ))}
             </Control.select>
           </div>

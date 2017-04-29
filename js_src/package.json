@@ -8,7 +8,7 @@
     "build": "rollup -c",
     "sf-deploy": "cd .. && mavensmate compile src/staticresources/housing_application.resource &> sf.log && grep -o 'Succeeded' sf.log | tr -d '\n' | awk '{if (length($1) > 0) print \"Synced to SF\"; else print \"Failed SF sync\"; }' && rm sf.log",
     "dev": "npm run build && npm run sf-deploy",
-    "watch": "watch 'npm run dev'"
+    "watch": "watch 'npm run dev' components/"
   },
   "author": "Andrew Lomax",
   "license": "ISC",
