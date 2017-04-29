@@ -1,7 +1,8 @@
 import babel from 'rollup-plugin-babel';
+import sass from 'rollup-plugin-sass';
 
 export default {
-  entry: 'index.js',
+  entry: 'src/index.js',
   dest: '../src/staticresources/housing_application.resource',
   format: 'iife',
   moduleName: 'HapForm',
@@ -17,6 +18,10 @@ export default {
   plugins: [
     babel({
       exclude: 'node_modules/**'
+    }),
+    sass({
+      file: 'src/sass/index.scss',
+      output: '../src/staticresources/housing_application_style.scss'
     })
   ]
 };

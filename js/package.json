@@ -8,8 +8,8 @@
     "sf-deploy": "cd .. && mavensmate compile src/staticresources/housing_application.resource &> sf.log && grep -o 'Succeeded' sf.log | tr -d '\n' | awk '{if (length($1) > 0) print \"Synced to SF\"; else print \"Failed SF sync\"; }' && rm sf.log",
     "build": "rollup -c",
     "build:deploy": "npm run build && npm run sf-deploy",
-    "watch": "watch 'npm run build' components/",
-    "watch:deploy": "watch 'npm run build:deploy' components/"
+    "watch": "watch 'npm run build' src/",
+    "watch:deploy": "watch 'npm run build:deploy' src/"
   },
   "author": "Andrew Lomax",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "redux-thunk": "^2.2.0",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-sass": "^0.5.1",
     "watch": "^1.0.2"
   }
 }
