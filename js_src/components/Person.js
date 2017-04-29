@@ -97,15 +97,6 @@ class PersonForm extends Component {
             <label>Drive License Expiration Date</label>
             <Control.text model='.drive_licenese_exp_date'/>
           </div>
-          <div className='field'>
-            <label>Mailing Address</label>
-            <Control.select model='.mailing_address_id'>
-              <option value=''></option>
-              {addresses.map((a,i)=>(
-                <option value={a.id}>{`${a.street||''} ${a.city||''}, ${a.state||''}`}</option>
-              ))}
-            </Control.select>
-          </div>
         </Form>
       </section>
     );

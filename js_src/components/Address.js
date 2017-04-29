@@ -102,6 +102,15 @@ class AddressForm extends Component {
             }
           </Form>
         ))}
+        <div className='field'>
+          <label>Mailing Address</label>
+          <Control.select model='person.mailing_address_id'>
+            <option value=''></option>
+            {addresses.map((a,i)=>(
+              <option value={a.id}>{`${a.street||''} ${a.city||''}, ${a.state||''}`}</option>
+            ))}
+          </Control.select>
+        </div>
         <button onClick={this.addAddress}>Add Address</button>
       </section>
     );

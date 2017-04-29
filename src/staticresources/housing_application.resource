@@ -470,6 +470,27 @@ var AddressForm = function (_Component2) {
           );
         }),
         React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'Mailing Address'
+          ),
+          React.createElement(
+            reactReduxForm.Control.select,
+            { model: 'person.mailing_address_id' },
+            React.createElement('option', { value: '' }),
+            addresses.map(function (a, i) {
+              return React.createElement(
+                'option',
+                { value: a.id },
+                (a.street || '') + ' ' + (a.city || '') + ', ' + (a.state || '')
+              );
+            })
+          )
+        ),
+        React.createElement(
           'button',
           { onClick: this.addAddress },
           'Add Address'
@@ -731,27 +752,6 @@ var PersonForm = function (_Component) {
               'Drive License Expiration Date'
             ),
             React.createElement(reactReduxForm.Control.text, { model: '.drive_licenese_exp_date' })
-          ),
-          React.createElement(
-            'div',
-            { className: 'field' },
-            React.createElement(
-              'label',
-              null,
-              'Mailing Address'
-            ),
-            React.createElement(
-              reactReduxForm.Control.select,
-              { model: '.mailing_address_id' },
-              React.createElement('option', { value: '' }),
-              addresses.map(function (a, i) {
-                return React.createElement(
-                  'option',
-                  { value: a.id },
-                  (a.street || '') + ' ' + (a.city || '') + ', ' + (a.state || '')
-                );
-              })
-            )
           )
         )
       );
