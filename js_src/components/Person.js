@@ -82,7 +82,7 @@ class PersonForm extends Component {
             <Control.text model='.race'/>
           </div>
           <div className='field'>
-            <label>Ethinicity</label>
+            <label>Ethnicity</label>
             <Control.text model='.ethnicity'/>
           </div>
           <div className='field'>
