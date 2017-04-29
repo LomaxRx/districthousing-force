@@ -10,7 +10,7 @@ import AddressForm from './components/Address';
 import PersonForm from './components/Person';
 import HouseholdMemberForm from './components/HouseholdMember';
 import IncomeForm from './components/Income';
-import EmpoymentForm from './components/Employment';
+import EmploymentForm from './components/Employment';
 import CriminalHistoryForm from './components/CriminalHistory';
 
 class App extends Component {

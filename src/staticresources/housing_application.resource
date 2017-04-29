@@ -997,7 +997,7 @@ var mapStateToProps$3 = function mapStateToProps(state) {
 
 var IncomeForm$1 = reactRedux.connect(mapStateToProps$3)(IncomeForm);
 
-var EmploymentForm$1 = function (_Component) {
+var EmploymentForm = function (_Component) {
   inherits(EmploymentForm, _Component);
 
   function EmploymentForm() {
@@ -1167,7 +1167,7 @@ var mapStateToProps$4 = function mapStateToProps(state) {
   };
 };
 
-reactRedux.connect(mapStateToProps$4)(EmploymentForm$1);
+var EmploymentForm$1 = reactRedux.connect(mapStateToProps$4)(EmploymentForm);
 
 var CriminalHistoryForm = function (_Component) {
   inherits(CriminalHistoryForm, _Component);
@@ -1279,7 +1279,7 @@ var App = function (_Component) {
         React.createElement(AddressForm$1, null),
         React.createElement(HouseholdMemberForm$1, null),
         React.createElement(IncomeForm$1, null),
-        React.createElement(EmploymentForm, null),
+        React.createElement(EmploymentForm$1, null),
         React.createElement(CriminalHistoryForm$1, null)
       );
     }
