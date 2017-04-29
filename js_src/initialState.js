@@ -65,7 +65,7 @@ export let models = {
 			"cell_phone": null
 		},
 		"end_date": null,
-		"current": null,
+		"current": false,
 		"address_id": null
 	},
 	"PreviousSSN": {

@@ -70,7 +70,7 @@ var models = {
 			"cell_phone": null
 		},
 		"end_date": null,
-		"current": null,
+		"current": false,
 		"address_id": null
 	},
 	"PreviousSSN": {
@@ -249,28 +249,154 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-var AddressForm = function (_Component) {
-  inherits(AddressForm, _Component);
+var ResidenceForm = function (_Component) {
+  inherits(ResidenceForm, _Component);
 
-  function AddressForm() {
+  function ResidenceForm() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    classCallCheck(this, AddressForm);
+    classCallCheck(this, ResidenceForm);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = AddressForm.__proto__ || Object.getPrototypeOf(AddressForm)).call.apply(_ref, [this].concat(args))), _this), _this.addAddress = function () {
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = ResidenceForm.__proto__ || Object.getPrototypeOf(ResidenceForm)).call.apply(_ref, [this].concat(args))), _this), _this.addResidence = function () {
       var _this$props = _this.props,
           dispatch = _this$props.dispatch,
-          addresses = _this$props.addresses;
+          residences = _this$props.residences,
+          addressId = _this$props.addressId;
+
+      dispatch(reactReduxForm.actions.push('residences', _extends({}, models.Residence, {
+        address_id: addressId,
+        index: residences.length
+      })));
+
+      return residences.length;
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(ResidenceForm, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.setState({ index: this.addResidence() });
+    }
+  }, {
+    key: 'render',
+    value: function render$$1() {
+      var index = this.props.index;
+
+      return React.createElement(
+        reactReduxForm.Form,
+        { model: reactReduxForm.track('residences[]', { index: index }) },
+        React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'Start Date'
+          ),
+          React.createElement(reactReduxForm.Control.text, { model: '.start_date' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'End Date'
+          ),
+          React.createElement(reactReduxForm.Control.text, { model: '.end_date' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'Current'
+          ),
+          React.createElement(reactReduxForm.Control.checkbox, { model: '.current' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'Landlord\'s First Name'
+          ),
+          React.createElement(reactReduxForm.Control.text, { model: '.landlord.first_name' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'Landlord\'s Last Name'
+          ),
+          React.createElement(reactReduxForm.Control.text, { model: '.landlord.last_name' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'Landlord\'s Phone Number'
+          ),
+          React.createElement(reactReduxForm.Control.text, { model: '.landlord.work_phone' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'field' },
+          React.createElement(
+            'label',
+            null,
+            'Reason for leaving'
+          ),
+          React.createElement(reactReduxForm.Control.textarea, { model: '.reason' })
+        )
+      );
+    }
+  }]);
+  return ResidenceForm;
+}(react.Component);
+
+var mapStateToResidenceProps = function mapStateToResidenceProps(state) {
+  return {
+    residences: state.residences
+  };
+};
+
+ResidenceForm = reactRedux.connect(mapStateToResidenceProps)(ResidenceForm);
+
+var AddressForm = function (_Component2) {
+  inherits(AddressForm, _Component2);
+
+  function AddressForm() {
+    var _ref2;
+
+    var _temp2, _this2, _ret2;
+
+    classCallCheck(this, AddressForm);
+
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return _ret2 = (_temp2 = (_this2 = possibleConstructorReturn(this, (_ref2 = AddressForm.__proto__ || Object.getPrototypeOf(AddressForm)).call.apply(_ref2, [this].concat(args))), _this2), _this2.addAddress = function () {
+      var _this2$props = _this2.props,
+          dispatch = _this2$props.dispatch,
+          addresses = _this2$props.addresses;
 
       dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { index: addresses.length
       })));
-    }, _temp), possibleConstructorReturn(_this, _ret);
+    }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
   createClass(AddressForm, [{
@@ -284,7 +410,7 @@ var AddressForm = function (_Component) {
         React.createElement(
           'h2',
           null,
-          'Addresses'
+          'Current and Previous Addresses'
         ),
         addresses.map(function (a, i) {
           return React.createElement(
@@ -329,7 +455,18 @@ var AddressForm = function (_Component) {
                 'State'
               ),
               React.createElement(reactReduxForm.Control.text, { model: '.state' })
-            )
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Is this a previous residence?'
+              ),
+              React.createElement(reactReduxForm.Control.checkbox, { model: '.residence' })
+            ),
+            a.residence === true && React.createElement(ResidenceForm, { addressId: i })
           );
         }),
         React.createElement(
