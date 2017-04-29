@@ -33,9 +33,9 @@ class IncomeForm extends Component {
             </div>
           </Form>
         ))}
-        <Form>
+        <div className='sub-section'>
           <button onClick={this.addIncome}>Add Income</button>
-        </Form>
+        </div>
       </section>
     );
   }

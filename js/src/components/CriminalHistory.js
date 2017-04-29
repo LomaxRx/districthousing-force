@@ -32,9 +32,9 @@ class CriminalHistoryForm extends Component {
             </div>
           </Form>
         ))}
-        <Form>
+        <div className="sub-section">
           <button onClick={this.addCriminalHistory}>Add Criminal History</button>
-        </Form>
+        </div>
       </section>
     )
   }

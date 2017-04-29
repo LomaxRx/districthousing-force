@@ -65,9 +65,9 @@ class EmploymentForm extends Component {
             </div>
           </Form>
         ))}
-        <Form>
+        <div className='sub-section'>
           <button onClick={this.addEmployment}>Add Employment</button>
-        </Form>
+        </div>
       </section>
     );
   }
