@@ -16,6 +16,7 @@ class IncomeForm extends Component {
     const { incomes } = this.props;
     return (
       <section id="incomes">
+        <h2>Income</h2>
         {incomes.map((inc,i)=>(
           <Form model={track('incomes[]', { index: i })}>
             <div className="field">

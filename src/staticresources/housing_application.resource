@@ -942,6 +942,11 @@ var IncomeForm = function (_Component) {
       return React.createElement(
         'section',
         { id: 'incomes' },
+        React.createElement(
+          'h2',
+          null,
+          'Income'
+        ),
         incomes.map(function (inc, i) {
           return React.createElement(
             reactReduxForm.Form,
