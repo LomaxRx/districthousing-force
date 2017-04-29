@@ -14,42 +14,45 @@ class HouseholdMemberForm extends Component {
   render() {
     const { household_members } = this.props;
     return (
-      {household_members.map((h,i)=>(
-        <Form model={track('household_members[]', { index: i })}>
-          <div className="field">
-            <label>Relationship</label>
-            <Control.text model='.relationship'/>
-          </div>
-          <div className="field">
-            <label>First Name</label>
-            <Control.text model='.member.first_name'/>
-          </div>
-          <div className="field">
-            <label>Last Name</label>
-            <Control.text model='.member.last_name'/>
-          </div>
-          <div className="field">
-            <label>Date of Birth</label>
-            <Control.text model='.member.dob'/>
-          </div>
-          <div className="field">
-            <label>Social Security Number</label>
-            <Control.text model='.member.ssn'/>
-          </div><div className="field">
-            <label>Home Phone</label>
-            <Control.text model='.member.home_phone'/>
-          </div>
-          <div className="field">
-            <label>Cell Phone</label>
-            <Control.text model='.member.cell_phone'/>
-          </div>
-          <div className="field">
-            <label>Work Phone</label>
-            <Control.text model='.member.work_phone'/>
-          </div>
-        </Form>
-      ))}
-      <button onClick={this.addHouseholdMember}>Add Household Member</button>
+      <section id="household_members">
+        <h2>Household Members</h2>
+        {household_members.map((h,i)=>(
+          <Form model={track('household_members[]', { index: i })}>
+            <div className="field">
+              <label>Relationship</label>
+              <Control.text model='.relationship'/>
+            </div>
+            <div className="field">
+              <label>First Name</label>
+              <Control.text model='.member.first_name'/>
+            </div>
+            <div className="field">
+              <label>Last Name</label>
+              <Control.text model='.member.last_name'/>
+            </div>
+            <div className="field">
+              <label>Date of Birth</label>
+              <Control.text model='.member.dob'/>
+            </div>
+            <div className="field">
+              <label>Social Security Number</label>
+              <Control.text model='.member.ssn'/>
+            </div><div className="field">
+              <label>Home Phone</label>
+              <Control.text model='.member.home_phone'/>
+            </div>
+            <div className="field">
+              <label>Cell Phone</label>
+              <Control.text model='.member.cell_phone'/>
+            </div>
+            <div className="field">
+              <label>Work Phone</label>
+              <Control.text model='.member.work_phone'/>
+            </div>
+          </Form>
+        ))}
+        <button onClick={this.addHouseholdMember}>Add Household Member</button>
+      </section>
     );
   }
 }

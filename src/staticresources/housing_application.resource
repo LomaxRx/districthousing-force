@@ -768,6 +768,499 @@ var mapStateToProps$1 = function mapStateToProps(state) {
 
 var PersonForm$1 = reactRedux.connect(mapStateToProps$1)(PersonForm);
 
+var HouseholdMemberForm = function (_Component) {
+  inherits(HouseholdMemberForm, _Component);
+
+  function HouseholdMemberForm() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, HouseholdMemberForm);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = HouseholdMemberForm.__proto__ || Object.getPrototypeOf(HouseholdMemberForm)).call.apply(_ref, [this].concat(args))), _this), _this.addHouseholdMember = function () {
+      var _this$props = _this.props,
+          dispatch = _this$props.dispatch,
+          household_members = _this$props.household_members;
+
+      dispatch(reactReduxForm.actions.push(_extends({}, models.HouseholdMember, { index: household_members.length
+      })));
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(HouseholdMemberForm, [{
+    key: 'render',
+    value: function render$$1() {
+      var household_members = this.props.household_members;
+
+      return React.createElement(
+        'section',
+        { id: 'household_members' },
+        React.createElement(
+          'h2',
+          null,
+          'Household Members'
+        ),
+        household_members.map(function (h, i) {
+          return React.createElement(
+            reactReduxForm.Form,
+            { model: reactReduxForm.track('household_members[]', { index: i }) },
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Relationship'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.relationship' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'First Name'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.member.first_name' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Last Name'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.member.last_name' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Date of Birth'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.member.dob' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Social Security Number'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.member.ssn' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Home Phone'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.member.home_phone' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Cell Phone'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.member.cell_phone' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Work Phone'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.member.work_phone' })
+            )
+          );
+        }),
+        React.createElement(
+          'button',
+          { onClick: this.addHouseholdMember },
+          'Add Household Member'
+        )
+      );
+    }
+  }]);
+  return HouseholdMemberForm;
+}(react.Component);
+
+var mapStateToProps$2 = function mapStateToProps(state) {
+  return {
+    household_members: state.household_members
+  };
+};
+
+var HouseholdMemberForm$1 = reactRedux.connect(mapStateToProps$2)(HouseholdMemberForm);
+
+var IncomeForm = function (_Component) {
+  inherits(IncomeForm, _Component);
+
+  function IncomeForm() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, IncomeForm);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = IncomeForm.__proto__ || Object.getPrototypeOf(IncomeForm)).call.apply(_ref, [this].concat(args))), _this), _this.addIncome = function () {
+      var _this$props = _this.props,
+          dispatch = _this$props.dispatch,
+          incomes = _this$props.incomes;
+
+      dispatch(reactReduxForm.actions.push(_extends({}, models.Income, { index: incomes.length
+      })));
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(IncomeForm, [{
+    key: 'render',
+    value: function render$$1() {
+      var incomes = this.props.incomes;
+
+      return React.createElement(
+        'section',
+        { id: 'incomes' },
+        incomes.map(function (inc, i) {
+          return React.createElement(
+            reactReduxForm.Form,
+            { model: reactReduxForm.track('incomes[]', { index: i }) },
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Income Type'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.income_type' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Amount'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.amount' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Interval'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.interval' })
+            )
+          );
+        }),
+        React.createElement(
+          'button',
+          { onClick: this.addIncome },
+          'Add Income'
+        )
+      );
+    }
+  }]);
+  return IncomeForm;
+}(react.Component);
+
+var mapStateToProps$3 = function mapStateToProps(state) {
+  return {
+    incomes: state.incomes
+  };
+};
+
+var IncomeForm$1 = reactRedux.connect(mapStateToProps$3)(IncomeForm);
+
+var EmploymentForm$1 = function (_Component) {
+  inherits(EmploymentForm, _Component);
+
+  function EmploymentForm() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, EmploymentForm);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = EmploymentForm.__proto__ || Object.getPrototypeOf(EmploymentForm)).call.apply(_ref, [this].concat(args))), _this), _this.addEmployment = function () {
+      var _this$props = _this.props,
+          dispatch = _this$props.dispatch,
+          employments = _this$props.employments;
+
+      dispatch(reactReduxForm.actions.push(_extends({}, models.Employment, { index: employments.length
+      })));
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(EmploymentForm, [{
+    key: 'render',
+    value: function render$$1() {
+      var employments = this.props.employments;
+
+      return React.createElement(
+        'section',
+        { id: 'employments' },
+        React.createElement(
+          'h2',
+          null,
+          'Employment History'
+        ),
+        employments.map(function (e, i) {
+          return React.createElement(
+            reactReduxForm.Form,
+            { model: reactReduxForm.track('employments[]', { index: i }) },
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Employer Name'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.employer_name' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Position'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.position' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Start Date'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.start_date' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'End Date'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.end_date' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Current'
+              ),
+              React.createElement(reactReduxForm.Control.checkbox, { model: '.current' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Part Time'
+              ),
+              React.createElement(reactReduxForm.Control.checkbox, { model: '.part_tie' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Phone'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.phone' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Supervisor Name'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.supervisor_name' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Street'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.address.street' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'City'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.address.city' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'State'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.address.state' })
+            )
+          );
+        }),
+        React.createElement(
+          'button',
+          { onClick: this.addEmployment },
+          'Add Employment'
+        )
+      );
+    }
+  }]);
+  return EmploymentForm;
+}(react.Component);
+
+var mapStateToProps$4 = function mapStateToProps(state) {
+  return {
+    employments: state.employments
+  };
+};
+
+reactRedux.connect(mapStateToProps$4)(EmploymentForm$1);
+
+var CriminalHistoryForm = function (_Component) {
+  inherits(CriminalHistoryForm, _Component);
+
+  function CriminalHistoryForm() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, CriminalHistoryForm);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = CriminalHistoryForm.__proto__ || Object.getPrototypeOf(CriminalHistoryForm)).call.apply(_ref, [this].concat(args))), _this), _this.addCriminalHistory = function () {
+      var _this$props = _this.props,
+          dispatch = _this$props.dispatch,
+          criminal_histories = _this$props.criminal_histories;
+
+      dispatch(action.push(_extends({}, models.CriminalHistory, { index: criminal_histories.length
+      })));
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(CriminalHistoryForm, [{
+    key: 'render',
+    value: function render$$1() {
+      var criminal_histories = this.props.criminal_histories;
+
+      return React.createElement(
+        'section',
+        { id: 'criminal_histories' },
+        React.createElement(
+          'h2',
+          null,
+          'Criminal History'
+        ),
+        criminal_histories.map(function (c, i) {
+          return React.createElement(
+            reactReduxForm.Form,
+            { model: reactReduxForm.track('criminal_histories[]', { index: i }) },
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Crime Type'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.crime_type' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Year'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.year' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Description'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.description' })
+            )
+          );
+        }),
+        React.createElement(
+          'button',
+          { onClick: this.addCriminalHistory },
+          'Add Criminal History'
+        )
+      );
+    }
+  }]);
+  return CriminalHistoryForm;
+}(react.Component);
+
+var mapStateToProps$5 = function mapStateToProps(state) {
+  return {
+    criminal_histories: state.criminal_histories
+  };
+};
+
+var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$5)(CriminalHistoryForm);
+
 var App = function (_Component) {
   inherits(App, _Component);
 
@@ -783,7 +1276,11 @@ var App = function (_Component) {
         'main',
         null,
         React.createElement(PersonForm$1, null),
-        React.createElement(AddressForm$1, null)
+        React.createElement(AddressForm$1, null),
+        React.createElement(HouseholdMemberForm$1, null),
+        React.createElement(IncomeForm$1, null),
+        React.createElement(EmploymentForm, null),
+        React.createElement(CriminalHistoryForm$1, null)
       );
     }
   }]);
