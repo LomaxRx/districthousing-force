@@ -462,7 +462,7 @@ var AddressForm = function (_Component2) {
               React.createElement(
                 'label',
                 null,
-                'Is this a previous residence?'
+                'Current or previous residence?'
               ),
               React.createElement(reactReduxForm.Control.checkbox, { model: '.residence' })
             ),
@@ -698,7 +698,7 @@ var PersonForm = function (_Component) {
             React.createElement(
               'label',
               null,
-              'Ethinicity'
+              'Ethnicity'
             ),
             React.createElement(reactReduxForm.Control.text, { model: '.ethnicity' })
           ),

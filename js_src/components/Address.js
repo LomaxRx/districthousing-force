@@ -94,7 +94,7 @@ class AddressForm extends Component {
               <Control.text model='.state'/>
             </div>
             <div className="field">
-              <label>Is this a previous residence?</label>
+              <label>Current or previous residence?</label>
               <Control.checkbox model='.residence'/>
             </div>
             {a.residence===true &&
