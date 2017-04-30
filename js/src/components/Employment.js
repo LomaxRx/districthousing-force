@@ -2,18 +2,19 @@ import { Component } from 'react';
 import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
-
+import { uniqueInteger } from '../utils';
 
 class EmploymentForm extends Component {
   addEmployment = () => {
     const { dispatch, employments } = this.props;
     dispatch(actions.push('employments', {
-      ...models.Employment, id: employments.length
+      ...models.Employment, id: uniqueInteger(employments)
     }));
   }
 
-  removeEmployment = (id) => {
-
+  removeEmployment = (index) => {
+    const { dispatch } = this.props;
+    dispatch(actions.remove('employments', index));
   }
 
   render() {
@@ -25,7 +26,7 @@ class EmploymentForm extends Component {
           <Form model={track('employments[]', { id: e.id })} className='form-item'>
             <h3>
               Employment {i+1}
-              <button className='remove-button' onClick={()=>{this.removeEmployment(e.id)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeEmployment(i)}}>X</button>
             </h3>
             <div className="field">
               <label>Employer Name</label>

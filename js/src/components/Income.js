@@ -2,18 +2,19 @@ import { Component } from 'react';
 import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
-
+import { uniqueInteger } from '../utils';
 
 class IncomeForm extends Component {
   addIncome = () => {
     const { dispatch, incomes } = this.props;
     dispatch(actions.push('incomes', {
-      ...models.Income, id: incomes.length
+      ...models.Income, id: uniqueInteger(incomes)
     }));
   }
 
-  removeIncome = (id) => {
-
+  removeIncome = (index) => {
+    const { dispatch } = this.props;
+    dispatch(actions.remove('incomes', index));
   }
 
   render() {
@@ -25,7 +26,7 @@ class IncomeForm extends Component {
           <Form model={track('incomes[]', { id: inc.id })} className='form-item'>
             <h3>
               Income {i+1}
-              <button className='remove-button' onClick={()=>{this.removeIncome(inc.id)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeIncome(i)}}>X</button>
             </h3>
             <div className="field">
               <label>Income Type</label>

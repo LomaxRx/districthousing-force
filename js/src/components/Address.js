@@ -2,25 +2,37 @@ import { Component } from 'react';
 import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
+import { uniqueInteger, getIndex } from '../utils';
 
 class ResidenceForm extends Component {
   addResidence = () => {
     const { dispatch, residences, addressId } = this.props;
+    let id = uniqueInteger(residences);
     dispatch(actions.push('residences', {
         ...models.Residence,
         address_id: addressId,
-        id: residences.length
+        id
     }));
 
-    return residences.length;
+    return id;
+  }
+
+  removeResidence = () => {
+    const { dispatch, residences } = this.props;
+    const { id } = this.state;
+    dispatch(actions.remove('residences'), getIndex(residences, id));
   }
 
   componentWillMount(){
     this.setState({ id: this.addResidence() });
   }
 
+  componentDidUnmount(){
+    this.removeResidence();
+  }
+
   render(){
-    const { id } = this.props;
+    const { id } = this.state;
     return(
       <Form model={track('residences[]', { id })}>
         <div className="field">
@@ -66,12 +78,13 @@ class AddressForm extends Component {
   addAddress = () => {
       const { dispatch, addresses } = this.props;
       dispatch(actions.push('addresses', {
-        ...models.Address, id: addresses.length
+        ...models.Address, id: uniqueInteger(addresses)
       }));
   }
 
-  removeAddress = (id) => {
-
+  removeAddress = (index) => {
+    const { dispatch } = this.props;
+    dispatch(actions.remove('addresses', index));
   }
 
   render() {
@@ -83,7 +96,7 @@ class AddressForm extends Component {
           <Form model={track('addresses[]', { id: a.id })} className='form-item'>
             <h3>
               Address {i+1}
-              <button className='remove-button'onClick={()=>{this.removeAddress(a.id)}}>X</button>
+              <button className='remove-button'onClick={()=>{this.removeAddress(i)}}>X</button>
             </h3>
             <div className="field">
               <label>Street</label>

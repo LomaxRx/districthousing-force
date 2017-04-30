@@ -2,17 +2,19 @@ import { Component } from 'react';
 import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
+import { uniqueInteger } from '../utils';
 
 class HouseholdMemberForm extends Component {
   addHouseholdMember = () => {
     const { dispatch, household_members } = this.props;
     dispatch(actions.push('household_members', {
-      ...models.HouseholdMember, id: household_members.length
+      ...models.HouseholdMember, id: uniqueInteger(household_members)
     }));
   }
 
-  removeHouseholdMember = (id) => {
-
+  removeHouseholdMember = (index) => {
+    const { dispatch } = this.props;
+    dispatch(actions.remove('household_members', index));
   }
 
   render() {
@@ -24,7 +26,7 @@ class HouseholdMemberForm extends Component {
           <Form model={track('household_members[]', { id: h.id })} className='form-item'>
             <h3>
               Member {i+1}
-              <button className='remove-button' onClick={()=>{this.removeHouseholdMember(h.id)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeHouseholdMember(i)}}>X</button>
             </h3>
             <div className="field">
               <label>Relationship</label>

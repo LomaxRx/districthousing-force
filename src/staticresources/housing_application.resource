@@ -269,6 +269,25 @@ var models = {
 	}, defineProperty(_Address, "id", null), defineProperty(_Address, "city", null), defineProperty(_Address, "apt", null), _Address)
 };
 
+var uniqueInteger = function uniqueInteger(list) {
+  var accessor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
+
+  var max = -1;
+
+  for (var i = 0; i < list.length; i++) {
+    var val = list[i][accessor];
+    if (val > max) max = val;
+  }
+
+  return max + 1;
+};
+
+var getIndex = function getIndex(list, id) {
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].id === id) return i;
+  }return false;
+};
+
 var ResidenceForm = function (_Component) {
   inherits(ResidenceForm, _Component);
 
@@ -289,12 +308,20 @@ var ResidenceForm = function (_Component) {
           residences = _this$props.residences,
           addressId = _this$props.addressId;
 
+      var id = uniqueInteger(residences);
       dispatch(reactReduxForm.actions.push('residences', _extends({}, models.Residence, {
         address_id: addressId,
-        id: residences.length
+        id: id
       })));
 
-      return residences.length;
+      return id;
+    }, _this.removeResidence = function () {
+      var _this$props2 = _this.props,
+          dispatch = _this$props2.dispatch,
+          residences = _this$props2.residences;
+      var id = _this.state.id;
+
+      dispatch(reactReduxForm.actions.remove('residences'), getIndex(residences, id));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -304,9 +331,14 @@ var ResidenceForm = function (_Component) {
       this.setState({ id: this.addResidence() });
     }
   }, {
+    key: 'componentDidUnmount',
+    value: function componentDidUnmount() {
+      this.removeResidence();
+    }
+  }, {
     key: 'render',
     value: function render$$1() {
-      var id = this.props.id;
+      var id = this.state.id;
 
       return React.createElement(
         reactReduxForm.Form,
@@ -414,9 +446,13 @@ var AddressForm = function (_Component2) {
           dispatch = _this2$props.dispatch,
           addresses = _this2$props.addresses;
 
-      dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { id: addresses.length
+      dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { id: uniqueInteger(addresses)
       })));
-    }, _this2.removeAddress = function (id) {}, _temp2), possibleConstructorReturn(_this2, _ret2);
+    }, _this2.removeAddress = function (index) {
+      var dispatch = _this2.props.dispatch;
+
+      dispatch(reactReduxForm.actions.remove('addresses', index));
+    }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
   createClass(AddressForm, [{
@@ -446,7 +482,7 @@ var AddressForm = function (_Component2) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this3.removeAddress(a.id);
+                    _this3.removeAddress(i);
                   } },
                 'X'
               )
@@ -826,9 +862,13 @@ var HouseholdMemberForm = function (_Component) {
           dispatch = _this$props.dispatch,
           household_members = _this$props.household_members;
 
-      dispatch(reactReduxForm.actions.push('household_members', _extends({}, models.HouseholdMember, { id: household_members.length
+      dispatch(reactReduxForm.actions.push('household_members', _extends({}, models.HouseholdMember, { id: uniqueInteger(household_members)
       })));
-    }, _this.removeHouseholdMember = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeHouseholdMember = function (index) {
+      var dispatch = _this.props.dispatch;
+
+      dispatch(reactReduxForm.actions.remove('household_members', index));
+    }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(HouseholdMemberForm, [{
@@ -858,7 +898,7 @@ var HouseholdMemberForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeHouseholdMember(h.id);
+                    _this2.removeHouseholdMember(i);
                   } },
                 'X'
               )
@@ -987,9 +1027,13 @@ var IncomeForm = function (_Component) {
           dispatch = _this$props.dispatch,
           incomes = _this$props.incomes;
 
-      dispatch(reactReduxForm.actions.push('incomes', _extends({}, models.Income, { id: incomes.length
+      dispatch(reactReduxForm.actions.push('incomes', _extends({}, models.Income, { id: uniqueInteger(incomes)
       })));
-    }, _this.removeIncome = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeIncome = function (index) {
+      var dispatch = _this.props.dispatch;
+
+      dispatch(reactReduxForm.actions.remove('incomes', index));
+    }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(IncomeForm, [{
@@ -1019,7 +1063,7 @@ var IncomeForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeIncome(inc.id);
+                    _this2.removeIncome(i);
                   } },
                 'X'
               )
@@ -1098,9 +1142,13 @@ var EmploymentForm = function (_Component) {
           dispatch = _this$props.dispatch,
           employments = _this$props.employments;
 
-      dispatch(reactReduxForm.actions.push('employments', _extends({}, models.Employment, { id: employments.length
+      dispatch(reactReduxForm.actions.push('employments', _extends({}, models.Employment, { id: uniqueInteger(employments)
       })));
-    }, _this.removeEmployment = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeEmployment = function (index) {
+      var dispatch = _this.props.dispatch;
+
+      dispatch(reactReduxForm.actions.remove('employments', index));
+    }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(EmploymentForm, [{
@@ -1130,7 +1178,7 @@ var EmploymentForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeEmployment(e.id);
+                    _this2.removeEmployment(i);
                   } },
                 'X'
               )
@@ -1289,9 +1337,13 @@ var CriminalHistoryForm = function (_Component) {
           dispatch = _this$props.dispatch,
           criminal_histories = _this$props.criminal_histories;
 
-      dispatch(reactReduxForm.actions.push('criminal_histories', _extends({}, models.CriminalHistory, { id: criminal_histories.length
+      dispatch(reactReduxForm.actions.push('criminal_histories', _extends({}, models.CriminalHistory, { id: uniqueInteger(criminal_histories)
       })));
-    }, _this.removeCriminalHistory = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeCriminalHistory = function (index) {
+      var dispatch = _this.props.dispatch;
+
+      dispatch(reactReduxForm.actions.remove('criminal_histories', index));
+    }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(CriminalHistoryForm, [{
@@ -1321,7 +1373,7 @@ var CriminalHistoryForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeCriminalHistory(c.id);
+                    _this2.removeCriminalHistory(i);
                   } },
                 'X'
               )
