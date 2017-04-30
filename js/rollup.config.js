@@ -6,14 +6,15 @@ export default {
   dest: '../src/staticresources/housing_application.resource',
   format: 'iife',
   moduleName: 'HapForm',
-  external: ['react','react-dom','redux','react-redux', 'react-redux-form', 'redux-thunk'],
+  external: ['react','react-dom','redux','react-redux', 'react-redux-form', 'redux-thunk', 'react-datepicker'],
   globals: {
     'react': 'React',
     'react-dom': 'ReactDOM',
     'redux': 'Redux',
     'react-redux': 'ReactRedux',
     'redux-thunk': 'ReduxThunk',
-    'react-redux-form': 'ReactReduxForm'
+    'react-redux-form': 'ReactReduxForm',
+    'react-datepicker': 'DatePicker'
   },
   plugins: [
     sass({
