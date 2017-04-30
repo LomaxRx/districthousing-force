@@ -12,13 +12,21 @@ class EmploymentForm extends Component {
     }));
   }
 
+  removeEmployment = (index) => {
+
+  }
+
   render() {
     const { employments } = this.props;
     return (
-      <section id="employments">
+      <section id='employments' className='form-list'>
         <h2>Employment History</h2>
         {employments.map((e,i)=>(
-          <Form model={track('employments[]', { index: i })}>
+          <Form model={track('employments[]', { index: i })} className='form-item'>
+            <h3>
+              Employment {i+1}
+              <button className='remove-button' onClick={()=>{this.removeEmployment(i)}}>X</button>
+            </h3>
             <div className="field">
               <label>Employer Name</label>
               <Control.text model='.employer_name'/>

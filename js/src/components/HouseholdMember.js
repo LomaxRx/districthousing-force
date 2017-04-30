@@ -11,13 +11,21 @@ class HouseholdMemberForm extends Component {
     }));
   }
 
+  removeHouseholdMember = (index) => {
+
+  }
+
   render() {
     const { household_members } = this.props;
     return (
-      <section id="household_members">
+      <section id='household_members' className='form-list'>
         <h2>Household Members</h2>
         {household_members.map((h,i)=>(
-          <Form model={track('household_members[]', { index: i })}>
+          <Form model={track('household_members[]', { index: i })} className='form-item'>
+            <h3>
+              Member {i+1}
+              <button className='remove-button' onClick={()=>{this.removeHouseholdMember(i)}}>X</button>
+            </h3>
             <div className="field">
               <label>Relationship</label>
               <Control.text model='.relationship'/>

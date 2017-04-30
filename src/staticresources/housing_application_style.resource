@@ -4,7 +4,8 @@
 #app {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 16px;
-  color: #333555; }
+  color: #333555;
+  margin-top: 75px; }
   #app * {
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
@@ -16,8 +17,7 @@
   #app h1 {
     font-size: 2rem; }
   #app h2 {
-    font-size: 1.4rem;
-    margin: 20px 0; }
+    font-size: 1.4rem; }
   #app main {
     width: 66.666%;
     max-width: 1020px;
@@ -26,19 +26,25 @@
   #app section {
     display: block;
     margin: 50px 0;
-    padding: 40px 0;
     border-radius: 0px;
     box-shadow: 0px 0px 1px 0px #AFAFB1;
     background: #fff; }
     #app section h2 {
-      margin: 0 0 20px 40px;
+      padding: 40px 0 0 40px;
       font-size: 1.2rem;
+      position: relative;
+      left: -5px; }
+    #app section h3 {
       position: relative;
       left: -5px; }
   #app form, #app .sub-section {
     display: block;
     width: 100%;
-    padding: 0px 40px; }
+    padding: 25px 40px;
+    margin-top: 25px;
+    border-top: 1px solid rgba(175, 175, 177, 0.25); }
+  #app .sub-section {
+    background: rgba(175, 175, 177, 0.05); }
   #app label {
     margin: 0px 0px 5px 0px;
     width: 25%;
@@ -84,7 +90,7 @@
     background: rgba(0, 110, 167, 0.75);
     color: #fff;
     border: 1px solid #006EA7;
-    border-radius: 2px;
+    border-radius: 4px;
     padding: 0.5em;
     font-weight: 600;
     font-size: 0.8em;
@@ -93,6 +99,9 @@
     -ms-transition: background 0.5s ease, border 0.5s ease;
     -o-transition: background 0.5s ease, border 0.5s ease;
     transition: background 0.5s ease, border 0.5s ease; }
+    #app button.remove-button {
+      float: right;
+      padding: 0.5em 0.75em; }
   #app button:hover {
     cursor: pointer;
     border: 1px solid rgba(0, 110, 167, 0);

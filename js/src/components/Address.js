@@ -70,13 +70,21 @@ class AddressForm extends Component {
       }));
   }
 
+  removeAddress = (index) => {
+
+  }
+
   render() {
     const { addresses } = this.props;
     return (
-      <section id="addresses">
+      <section id='addresses' className='form-list'>
         <h2>Current and Previous Addresses</h2>
         {addresses.map((a, i) => (
-          <Form model={track('addresses[]', { index: i })}>
+          <Form model={track('addresses[]', { index: i })} className='form-item'>
+            <h3>
+              Address {i+1}
+              <button className='remove-button'onClick={()=>{this.removeAddress(i)}}>X</button>
+            </h3>
             <div className="field">
               <label>Street</label>
               <Control.text model='.street'/>
@@ -105,7 +113,7 @@ class AddressForm extends Component {
         <div className="sub-section">
           <button onClick={this.addAddress}>Add Address</button>
           <div className='field'>
-            <label>Mailing Address</label>
+            <label>Select Mailing Address</label>
             <Control.select model='person.mailing_address_id'>
               <option value=''></option>
               {addresses.map((a,i)=>(

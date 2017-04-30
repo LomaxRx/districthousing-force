@@ -1,7 +1,13 @@
 form, .sub-section{
   display: block;
   width: 100%;
-  padding: 0px $gutter;
+  padding: 25px $gutter;
+  margin-top: 25px;
+  border-top: 1px solid rgba($gray,0.25);
+}
+
+.sub-section {
+  background: rgba($gray,0.05);
 }
 
 label {

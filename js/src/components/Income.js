@@ -12,13 +12,21 @@ class IncomeForm extends Component {
     }));
   }
 
+  removeIncome = (index) => {
+    
+  }
+
   render() {
     const { incomes } = this.props;
     return (
-      <section id="incomes">
+      <section id="incomes" className='form-list'>
         <h2>Income</h2>
         {incomes.map((inc,i)=>(
-          <Form model={track('incomes[]', { index: i })}>
+          <Form model={track('incomes[]', { index: i })} className='form-item'>
+            <h3>
+              Income {i+1}
+              <button className='remove-button' onClick={()=>{this.removeIncome(i)}}>X</button>
+            </h3>
             <div className="field">
               <label>Income Type</label>
               <Control.text model='.income_type'/>

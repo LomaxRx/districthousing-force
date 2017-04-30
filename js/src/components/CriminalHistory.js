@@ -11,13 +11,21 @@ class CriminalHistoryForm extends Component {
     }));
   }
 
+  removeCriminalHistory = (index) => {
+
+  }
+
   render() {
     const { criminal_histories } = this.props;
     return (
-      <section id="criminal_histories">
+      <section id='criminal_histories' className='form-list'>
         <h2>Criminal History</h2>
         {criminal_histories.map((c,i)=>(
-          <Form model={track('criminal_histories[]', { index: i })}>
+          <Form model={track('criminal_histories[]', { index: i })} className='form-item'>
+            <h3>
+              Criminal History {i+1}
+              <button className='remove-button' onClick={()=>{this.removeCriminalHistory(i)}}>X</button>
+            </h3>
             <div className="field">
               <label>Crime Type</label>
               <Control.text model='.crime_type'/>

@@ -8,6 +8,7 @@
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 16px;
   color: $black;
+  margin-top: 75px;
 
   * {
     -moz-box-sizing: border-box;
@@ -27,7 +28,6 @@
 
   h2 {
     font-size: 1.4rem;
-    margin: $small-gutter 0;
   }
 
   main {
@@ -40,14 +40,18 @@
   section {
     display: block;
     margin: 50px 0;
-    padding: $gutter 0;
     border-radius: $border-radius;
     box-shadow: 0px 0px 1px 0px $gray;
     background: $white;
 
     h2 {
-      margin: 0 0 $small-gutter $gutter;
+      padding: $gutter 0 0 $gutter;
       font-size: 1.2rem;
+      position: relative;
+      left: -5px;
+    }
+
+    h3 {
       position: relative;
       left: -5px;
     }

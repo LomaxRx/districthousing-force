@@ -396,17 +396,19 @@ var AddressForm = function (_Component2) {
 
       dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { index: addresses.length
       })));
-    }, _temp2), possibleConstructorReturn(_this2, _ret2);
+    }, _this2.removeAddress = function (index) {}, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
   createClass(AddressForm, [{
     key: 'render',
     value: function render$$1() {
+      var _this3 = this;
+
       var addresses = this.props.addresses;
 
       return React.createElement(
         'section',
-        { id: 'addresses' },
+        { id: 'addresses', className: 'form-list' },
         React.createElement(
           'h2',
           null,
@@ -415,7 +417,20 @@ var AddressForm = function (_Component2) {
         addresses.map(function (a, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('addresses[]', { index: i }) },
+            { model: reactReduxForm.track('addresses[]', { index: i }), className: 'form-item' },
+            React.createElement(
+              'h3',
+              null,
+              'Address ',
+              i + 1,
+              React.createElement(
+                'button',
+                { className: 'remove-button', onClick: function onClick() {
+                    _this3.removeAddress(i);
+                  } },
+                'X'
+              )
+            ),
             React.createElement(
               'div',
               { className: 'field' },
@@ -483,7 +498,7 @@ var AddressForm = function (_Component2) {
             React.createElement(
               'label',
               null,
-              'Mailing Address'
+              'Select Mailing Address'
             ),
             React.createElement(
               reactReduxForm.Control.select,
@@ -793,17 +808,19 @@ var HouseholdMemberForm = function (_Component) {
 
       dispatch(reactReduxForm.actions.push('household_members', _extends({}, models.HouseholdMember, { index: household_members.length
       })));
-    }, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeHouseholdMember = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(HouseholdMemberForm, [{
     key: 'render',
     value: function render$$1() {
+      var _this2 = this;
+
       var household_members = this.props.household_members;
 
       return React.createElement(
         'section',
-        { id: 'household_members' },
+        { id: 'household_members', className: 'form-list' },
         React.createElement(
           'h2',
           null,
@@ -812,7 +829,20 @@ var HouseholdMemberForm = function (_Component) {
         household_members.map(function (h, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('household_members[]', { index: i }) },
+            { model: reactReduxForm.track('household_members[]', { index: i }), className: 'form-item' },
+            React.createElement(
+              'h3',
+              null,
+              'Member ',
+              i + 1,
+              React.createElement(
+                'button',
+                { className: 'remove-button', onClick: function onClick() {
+                    _this2.removeHouseholdMember(i);
+                  } },
+                'X'
+              )
+            ),
             React.createElement(
               'div',
               { className: 'field' },
@@ -939,17 +969,19 @@ var IncomeForm = function (_Component) {
 
       dispatch(reactReduxForm.actions.push('incomes', _extends({}, models.Income, { index: incomes.length
       })));
-    }, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeIncome = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(IncomeForm, [{
     key: 'render',
     value: function render$$1() {
+      var _this2 = this;
+
       var incomes = this.props.incomes;
 
       return React.createElement(
         'section',
-        { id: 'incomes' },
+        { id: 'incomes', className: 'form-list' },
         React.createElement(
           'h2',
           null,
@@ -958,7 +990,20 @@ var IncomeForm = function (_Component) {
         incomes.map(function (inc, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('incomes[]', { index: i }) },
+            { model: reactReduxForm.track('incomes[]', { index: i }), className: 'form-item' },
+            React.createElement(
+              'h3',
+              null,
+              'Income ',
+              i + 1,
+              React.createElement(
+                'button',
+                { className: 'remove-button', onClick: function onClick() {
+                    _this2.removeIncome(i);
+                  } },
+                'X'
+              )
+            ),
             React.createElement(
               'div',
               { className: 'field' },
@@ -1035,17 +1080,19 @@ var EmploymentForm = function (_Component) {
 
       dispatch(reactReduxForm.actions.push('employments', _extends({}, models.Employment, { index: employments.length
       })));
-    }, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeEmployment = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(EmploymentForm, [{
     key: 'render',
     value: function render$$1() {
+      var _this2 = this;
+
       var employments = this.props.employments;
 
       return React.createElement(
         'section',
-        { id: 'employments' },
+        { id: 'employments', className: 'form-list' },
         React.createElement(
           'h2',
           null,
@@ -1054,7 +1101,20 @@ var EmploymentForm = function (_Component) {
         employments.map(function (e, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('employments[]', { index: i }) },
+            { model: reactReduxForm.track('employments[]', { index: i }), className: 'form-item' },
+            React.createElement(
+              'h3',
+              null,
+              'Employment ',
+              i + 1,
+              React.createElement(
+                'button',
+                { className: 'remove-button', onClick: function onClick() {
+                    _this2.removeEmployment(i);
+                  } },
+                'X'
+              )
+            ),
             React.createElement(
               'div',
               { className: 'field' },
@@ -1211,17 +1271,19 @@ var CriminalHistoryForm = function (_Component) {
 
       dispatch(reactReduxForm.actions.push('criminal_histories', _extends({}, models.CriminalHistory, { index: criminal_histories.length
       })));
-    }, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeCriminalHistory = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(CriminalHistoryForm, [{
     key: 'render',
     value: function render$$1() {
+      var _this2 = this;
+
       var criminal_histories = this.props.criminal_histories;
 
       return React.createElement(
         'section',
-        { id: 'criminal_histories' },
+        { id: 'criminal_histories', className: 'form-list' },
         React.createElement(
           'h2',
           null,
@@ -1230,7 +1292,20 @@ var CriminalHistoryForm = function (_Component) {
         criminal_histories.map(function (c, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('criminal_histories[]', { index: i }) },
+            { model: reactReduxForm.track('criminal_histories[]', { index: i }), className: 'form-item' },
+            React.createElement(
+              'h3',
+              null,
+              'Criminal History ',
+              i + 1,
+              React.createElement(
+                'button',
+                { className: 'remove-button', onClick: function onClick() {
+                    _this2.removeCriminalHistory(i);
+                  } },
+                'X'
+              )
+            ),
             React.createElement(
               'div',
               { className: 'field' },
@@ -1300,6 +1375,11 @@ var App = function (_Component) {
       return React.createElement(
         'main',
         null,
+        React.createElement(
+          'h1',
+          null,
+          'Affordable Housing FTW'
+        ),
         React.createElement(PersonForm$1, null),
         React.createElement(AddressForm$1, null),
         React.createElement(HouseholdMemberForm$1, null),
