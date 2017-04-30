@@ -210,7 +210,7 @@ public class HousingApplication {
       Integer i = 0;
       for(Address__c client_address :client_addresses){
         Address a = new Address();
-        a.Id = i;
+        a.id = i;
         a.street = client_address.Name;
         if(client_address.Address_2__c!=''&&client_address.Address_2__c!=null)
           a.street += ' ' + client_address.Address_2__c;
@@ -221,6 +221,8 @@ public class HousingApplication {
           client_address.Start_Date__c!=null||client_address.End_Date__c!=null
         ){
           Residence r = new Residence();
+          r.id = residences.size();
+          r.address_id = a.Id;
           r.start_date = client_address.Start_Date__c;
           r.end_date = client_address.End_Date__c;
           r.current = client_address.Current_Address__c;
@@ -228,6 +230,7 @@ public class HousingApplication {
           r.landlord.cell_phone = client_address.Landlord_Cell_Phone__c;
           r.landlord.home_phone = client_address.Landlord_Home_Phone__c;
           r.landlord.work_phone = client_address.Landlord_Work_Phone__c;
+          residences.add(r);
         }
 
         addresses.add(a);
