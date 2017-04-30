@@ -28,17 +28,21 @@ class CriminalHistoryForm extends Component {
               Criminal History {i+1}
               <button className='remove-button' onClick={()=>{this.removeCriminalHistory(i)}}>X</button>
             </h3>
-            <div className="field">
-              <label>Crime Type</label>
-              <Control.text model='.crime_type'/>
+            <div className='row'>
+              <div className="field col-md-8">
+                <label>Crime Type</label>
+                <Control.text model='.crime_type'/>
+              </div>
+              <div className="field col-md-4">
+                <label>Year</label>
+                <Control.text model='.year'/>
+              </div>
             </div>
-            <div className="field">
-              <label>Year</label>
-              <Control.text model='.year'/>
-            </div>
-            <div className="field">
-              <label>Description</label>
-              <Control.textarea model='.description'/>
+            <div className='row'>
+              <div className="field">
+                <label>Description</label>
+                <Control.textarea model='.description'/>
+              </div>
             </div>
           </Form>
         ))}

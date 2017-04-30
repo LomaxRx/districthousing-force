@@ -29,36 +29,45 @@ class HouseholdMemberForm extends Component {
               Member {i+1}
               <button className='remove-button' onClick={()=>{this.removeHouseholdMember(i)}}>X</button>
             </h3>
-            <div className="field">
-              <label>Relationship</label>
-              <Control.text model='.relationship'/>
+            <div className='row'>
+              <div className="field col-md-6">
+                <label>First Name</label>
+                <Control.text model='.member.first_name'/>
+              </div>
+              <div className="field col-md-6">
+                <label>Last Name</label>
+                <Control.text model='.member.last_name'/>
+              </div>
             </div>
-            <div className="field">
-              <label>First Name</label>
-              <Control.text model='.member.first_name'/>
+            <div className='row'>
+              <div className="field">
+                <label>Relationship</label>
+                <Control.text model='.relationship'/>
+              </div>
             </div>
-            <div className="field">
-              <label>Last Name</label>
-              <Control.text model='.member.last_name'/>
+            <div className='row'>
+              <div className="field col-md-8">
+                <label>Social Security Number</label>
+                <Control.text model='.member.ssn'/>
+              </div>
+              <div className="field col-md-4">
+                <label>Date of Birth</label>
+                <DatePicker model='.member.dob'/>
+              </div>
             </div>
-            <div className="field">
-              <label>Date of Birth</label>
-              <DatePicker model='.member.dob'/>
-            </div>
-            <div className="field">
-              <label>Social Security Number</label>
-              <Control.text model='.member.ssn'/>
-            </div><div className="field">
-              <label>Home Phone</label>
-              <Control.text model='.member.home_phone'/>
-            </div>
-            <div className="field">
-              <label>Cell Phone</label>
-              <Control.text model='.member.cell_phone'/>
-            </div>
-            <div className="field">
-              <label>Work Phone</label>
-              <Control.text model='.member.work_phone'/>
+            <div className='row'>
+              <div className="field col-md-4">
+                <label>Home Phone</label>
+                <Control.text model='.member.home_phone'/>
+              </div>
+              <div className="field col-md-4">
+                <label>Cell Phone</label>
+                <Control.text model='.member.cell_phone'/>
+              </div>
+              <div className="field col-md-4">
+                <label>Work Phone</label>
+                <Control.text model='.member.work_phone'/>
+              </div>
             </div>
           </Form>
         ))}

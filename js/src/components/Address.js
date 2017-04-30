@@ -40,33 +40,39 @@ class ResidenceForm extends Component {
     const { id } = this.state;
     return(
       <Form model={track('residences[]', { id })}>
-        <div className="field">
-          <label>Start Date</label>
-          <DatePicker model='.start_date'/>
+        <div className="row">
+          <div className="field col-md-5">
+            <label>Start Date</label>
+            <DatePicker model='.start_date'/>
+          </div>
+          <div className="field col-md-5">
+            <label>End Date</label>
+            <DatePicker model='.end_date'/>
+          </div>
+          <div className="field col-md-2">
+            <label>Current</label>
+            <Control.checkbox model='.current'/>
+          </div>
         </div>
-        <div className="field">
-          <label>End Date</label>
-          <DatePicker model='.end_date'/>
+        <div className="row">
+          <div className="field col-md-4">
+            <label>Landlord's First Name</label>
+            <Control.text model='.landlord.first_name'/>
+          </div>
+          <div className="field col-md-4">
+            <label>Landlord's Last Name</label>
+            <Control.text model='.landlord.last_name'/>
+          </div>
+          <div className="field col-md-4">
+            <label>Landlord's Phone Number</label>
+            <Control.text model='.landlord.work_phone'/>
+          </div>
         </div>
-        <div className="field">
-          <label>Current</label>
-          <Control.checkbox model='.current'/>
-        </div>
-        <div className="field">
-          <label>Landlord's First Name</label>
-          <Control.text model='.landlord.first_name'/>
-        </div>
-        <div className="field">
-          <label>Landlord's Last Name</label>
-          <Control.text model='.landlord.last_name'/>
-        </div>
-        <div className="field">
-          <label>Landlord's Phone Number</label>
-          <Control.text model='.landlord.work_phone'/>
-        </div>
-        <div className="field">
-          <label>Reason for leaving</label>
-          <Control.textarea model='.reason'/>
+        <div className="row">
+          <div className="field">
+            <label>Reason for leaving</label>
+            <Control.textarea model='.reason'/>
+          </div>
         </div>
       </Form>
     )
@@ -103,25 +109,29 @@ class AddressForm extends Component {
               Address {i+1}
               <button className='remove-button'onClick={()=>{this.removeAddress(i)}}>X</button>
             </h3>
-            <div className="field">
-              <label>Street</label>
-              <Control.text model='.street'/>
+            <div className="row">
+              <div className="field col-md-10">
+                <label>Street</label>
+                <Control.text model='.street'/>
+              </div>
+              <div className="field col-md-2">
+                <label>Apt</label>
+                <Control.text model='.apt'/>
+              </div>
             </div>
-            <div className="field">
-              <label>Apt</label>
-              <Control.text model='.apt'/>
-            </div>
-            <div className="field">
-              <label>City</label>
-              <Control.text model='.city'/>
-            </div>
-            <div className="field">
-              <label>State</label>
-              <Control.text model='.state'/>
-            </div>
-            <div className="field">
-              <label>Current or previous residence?</label>
-              <Control.checkbox model='.residence'/>
+            <div className="row">
+              <div className="field col-md-8">
+                <label>City</label>
+                <Control.text model='.city'/>
+              </div>
+              <div className="field col-md-2">
+                <label>State</label>
+                <Control.text model='.state'/>
+              </div>
+              <div className="field col-md-2">
+                <label>Current or previous residence?</label>
+                <Control.checkbox model='.residence'/>
+              </div>
             </div>
             {a.residence===true &&
               <ResidenceForm addressId={i} />
@@ -130,14 +140,16 @@ class AddressForm extends Component {
         ))}
         <div className="sub-section">
           <button onClick={this.addAddress}>Add Address</button>
-          <div className='field'>
-            <label>Select Mailing Address</label>
-            <Control.select model='person.mailing_address_id'>
-              <option value=''></option>
-              {addresses.map((a,i)=>(
-                <option value={a.id}>{`${a.street||''} ${a.city||''}, ${a.state||''}`}</option>
-              ))}
-            </Control.select>
+          <div className="row">
+            <div className='field'>
+              <label>Select Mailing Address</label>
+              <Control.select model='person.mailing_address_id'>
+                <option value=''></option>
+                {addresses.map((a,i)=>(
+                  <option value={a.id}>{`${a.street||''} ${a.city||''}, ${a.state||''}`}</option>
+                ))}
+              </Control.select>
+            </div>
           </div>
         </div>
       </section>

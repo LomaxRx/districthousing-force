@@ -28,17 +28,19 @@ class IncomeForm extends Component {
               Income {i+1}
               <button className='remove-button' onClick={()=>{this.removeIncome(i)}}>X</button>
             </h3>
-            <div className="field">
-              <label>Income Type</label>
-              <Control.text model='.income_type'/>
-            </div>
-            <div className="field">
-              <label>Amount</label>
-              <Control.text model='.amount'/>
-            </div>
-            <div className="field">
-              <label>Interval</label>
-              <Control.text model='.interval'/>
+            <div className='row'>
+              <div className="field col-md-4">
+                <label>Income Type</label>
+                <Control.text model='.income_type'/>
+              </div>
+              <div className="field col-md-4">
+                <label>Amount ($)</label>
+                <Control.text model='.amount'/>
+              </div>
+              <div className="field col-md-4">
+                <label>Interval</label>
+                <Control.text model='.interval'/>
+              </div>
             </div>
           </Form>
         ))}

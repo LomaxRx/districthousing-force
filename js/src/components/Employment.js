@@ -29,49 +29,57 @@ class EmploymentForm extends Component {
               Employment {i+1}
               <button className='remove-button' onClick={()=>{this.removeEmployment(i)}}>X</button>
             </h3>
-            <div className="field">
-              <label>Employer Name</label>
-              <Control.text model='.employer_name'/>
+            <div className='row'>
+              <div className="field col-md-6">
+                <label>Employer Name</label>
+                <Control.text model='.employer_name'/>
+              </div>
+              <div className="field col-md-6">
+                <label>Position</label>
+                <Control.text model='.position'/>
+              </div>
             </div>
-            <div className="field">
-              <label>Position</label>
-              <Control.text model='.position'/>
+            <div className='row'>
+              <div className="field col-md-4">
+                <label>Start Date</label>
+                <DatePicker model='.start_date'/>
+              </div>
+              <div className="field col-md-4">
+                <label>End Date</label>
+                <DatePicker model='.end_date'/>
+              </div>
+              <div className="field col-md-2">
+                <label>Current</label>
+                <Control.checkbox model='.current'/>
+              </div>
+              <div className="field col-md-2">
+                <label>Part Time</label>
+                <Control.checkbox model='.part_tie'/>
+              </div>
             </div>
-            <div className="field">
-              <label>Start Date</label>
-              <DatePicker model='.start_date'/>
+            <div className='row'>
+              <div className="field col-md-6">
+                <label>Phone</label>
+                <Control.text model='.phone'/>
+              </div>
+              <div className="field col-md-6">
+                <label>Supervisor Name</label>
+                <Control.text model='.supervisor_name'/>
+              </div>
             </div>
-            <div className="field">
-              <label>End Date</label>
-              <DatePicker model='.end_date'/>
-            </div>
-            <div className="field">
-              <label>Current</label>
-              <Control.checkbox model='.current'/>
-            </div>
-            <div className="field">
-              <label>Part Time</label>
-              <Control.checkbox model='.part_tie'/>
-            </div>
-            <div className="field">
-              <label>Phone</label>
-              <Control.text model='.phone'/>
-            </div>
-            <div className="field">
-              <label>Supervisor Name</label>
-              <Control.text model='.supervisor_name'/>
-            </div>
-            <div className="field">
-              <label>Street</label>
-              <Control.text model='.address.street'/>
-            </div>
-            <div className="field">
-              <label>City</label>
-              <Control.text model='.address.city'/>
-            </div>
-            <div className="field">
-              <label>State</label>
-              <Control.text model='.address.state'/>
+            <div className='row'>
+              <div className="field col-md-5">
+                <label>Street</label>
+                <Control.text model='.address.street'/>
+              </div>
+              <div className="field col-md-5">
+                <label>City</label>
+                <Control.text model='.address.city'/>
+              </div>
+              <div className="field col-md-2">
+                <label>State</label>
+                <Control.text model='.address.state'/>
+              </div>
             </div>
           </Form>
         ))}

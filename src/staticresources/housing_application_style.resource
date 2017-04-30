@@ -1,9 +1,9 @@
-#app .row {
+#app section h3, #app .row {
   *zoom: 1; }
-  #app .row:before, #app .row:after {
+  #app section h3:before, #app .row:before, #app section h3:after, #app .row:after {
     content: " ";
     display: table; }
-  #app .row:after {
+  #app section h3:after, #app .row:after {
     clear: both; }
 
 /* DayPicker styles */
@@ -117,69 +117,71 @@
   color: #FFF;
   background-color: #4A90E2; }
 
-.datepicker {
-  position: relative; }
-  .datepicker .DayPicker {
+.datepicker .DayPicker {
+  position: absolute;
+  background: #fff;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  margin-top: 0px;
+  border: 1px solid rgba(175, 175, 177, 0.5);
+  opacity: 0;
+  z-index: -100;
+  -webkit-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+  -moz-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+  -ms-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+  -o-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+  transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+  .datepicker .DayPicker:before {
+    content: ' ';
     position: absolute;
-    background: #fff;
-    left: 50%;
-    -webkit-transform: translate(-50%, 0);
-    -ms-transform: translate(-50%, 0);
-    -o-transform: translate(-50%, 0);
-    transform: translate(-50%, 0);
-    margin-top: 0px;
-    border: 1px solid rgba(175, 175, 177, 0.5);
-    opacity: 0;
-    z-index: -100;
-    -webkit-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
-    -moz-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
-    -ms-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
-    -o-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
-    transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    -ms-user-select: none;
-    user-select: none; }
-    .datepicker .DayPicker:before {
-      content: ' ';
-      position: absolute;
-      display: block;
-      width: 20px;
-      height: 20px;
-      top: -11px;
-      left: calc(50% - 5px);
-      background: #fff;
-      border-top: 1px solid rgba(175, 175, 177, 0.5);
-      border-left: 1px solid rgba(175, 175, 177, 0.5);
-      -webkit-transform: rotate(45deg);
-      -moz-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      -o-transform: rotate(45deg);
-      transform: rotate(45deg); }
-  .datepicker .DayPicker-Day {
-    outline: none; }
-    .datepicker .DayPicker-Day:focus, .datepicker .DayPicker-Day:active, .datepicker .DayPicker-Day:hover {
-      background: #006EA7;
-      color: #fff;
-      text-shadow: 0px 0px 2px 0px #fff; }
-  .datepicker .DayPicker-Caption {
-    font-weight: 600;
-    text-transform: uppercase;
-    color: rgba(51, 53, 85, 0.6); }
-  .datepicker.active .DayPicker {
-    z-index: 1000;
     display: block;
-    opacity: 1;
-    margin-top: 15px;
-    -webkit-user-select: auto;
-    -moz-user-select: auto;
-    -o-user-select: auto;
-    -ms-user-select: auto;
-    user-select: auto; }
-  .datepicker.active input[type=text] {
-    border: 1px solid rgba(81, 203, 238, 0.8);
-    background: rgba(81, 203, 238, 0.1); }
+    width: 20px;
+    height: 20px;
+    top: -11px;
+    left: calc(50% - 5px);
+    background: #fff;
+    border-top: 1px solid rgba(175, 175, 177, 0.5);
+    border-left: 1px solid rgba(175, 175, 177, 0.5);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg); }
+
+.datepicker .DayPicker-Day {
+  outline: none; }
+  .datepicker .DayPicker-Day:focus, .datepicker .DayPicker-Day:active, .datepicker .DayPicker-Day:hover {
+    background: #006EA7;
+    color: #fff;
+    text-shadow: 0px 0px 2px 0px #fff; }
+
+.datepicker .DayPicker-Caption {
+  font-weight: 600;
+  text-transform: uppercase;
+  color: rgba(72, 72, 72, 0.6); }
+
+.datepicker.active .DayPicker {
+  z-index: 1000;
+  display: block;
+  opacity: 1;
+  margin-top: 15px;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -o-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto; }
+
+.datepicker.active input[type=text] {
+  border: 1px solid rgba(81, 203, 238, 0.8);
+  background: rgba(81, 203, 238, 0.1); }
 
 .bodyDiv {
   background: #f2f3f7 !important; }
@@ -187,7 +189,7 @@
 #app {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 16px;
-  color: #333555;
+  color: #484848;
   margin-top: 75px; }
   #app * {
     -moz-box-sizing: border-box;
@@ -196,7 +198,7 @@
     font-weight: 900;
     text-transform: uppercase;
     display: block;
-    color: rgba(51, 53, 85, 0.6); }
+    color: rgba(72, 72, 72, 0.6); }
   #app h1 {
     font-size: 2rem; }
   #app h2 {
@@ -228,6 +230,8 @@
     border-top: 1px solid rgba(175, 175, 177, 0.25); }
   #app .sub-section {
     background: rgba(175, 175, 177, 0.05); }
+  #app .form-item {
+    padding: 25px 50px; }
   #app label {
     margin: 0px 0px 5px 0px;
     width: 25%;
@@ -235,13 +239,13 @@
     font-weight: 600;
     display: inline-block;
     text-transform: uppercase;
-    color: rgba(51, 53, 85, 0.6); }
+    color: rgba(72, 72, 72, 0.45); }
   #app input[type=text], #app textarea {
     border: none;
     outline: none;
     padding: 0.5em;
     margin: 5px 1px 0px 0px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border: 1px solid rgba(175, 175, 177, 0.6);
     border-radius: 0px; }
   #app textarea {
@@ -256,22 +260,37 @@
     transition: background 0.4s ease; }
   #app input[type=text] {
     display: inline-block; }
+  #app .field {
+    position: relative;
+    border: 1px solid rgba(175, 175, 177, 0.6);
+    padding: 0; }
+    #app .field label {
+      position: absolute;
+      top: 0.5em;
+      left: 0.5em;
+      display: block;
+      width: 100%;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      -ms-user-select: none;
+      user-select: none; }
+    #app .field input, #app .field textarea {
+      padding-top: 32px;
+      display: block;
+      margin: 0 !important;
+      width: 100%;
+      border: none !important; }
   #app .row {
     width: 100%;
     margin: 0; }
-    #app .row .field input[type=text] {
-      border-left: none; }
-    #app .row .field:first-child input[type=text] {
+    #app .row .field {
+      border-left: none;
+      border-bottom: none; }
+    #app .row .field:first-child {
       border-left: 1px solid rgba(175, 175, 177, 0.6); }
-  #app .field {
-    margin: 15px 0;
-    padding: 0; }
-    #app .field label {
-      display: block;
-      width: 100%; }
-    #app .field input, #app .field textarea {
-      display: block;
-      width: 100%; }
+    #app .row:last-child .field {
+      border-bottom: 1px solid rgba(175, 175, 177, 0.6); }
   #app button {
     border: none;
     outline: none;
@@ -281,7 +300,7 @@
     color: #fff;
     border: 1px solid #006EA7;
     border-radius: 4px;
-    box-shadow: 0px 0px 1px 1px rgba(51, 53, 85, 0.25);
+    box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.08);
     padding: 0.5em;
     font-weight: 600;
     font-size: 0.8em;
@@ -292,6 +311,8 @@
     transition: background 0.25s ease-out, border 0.25s ease-out, box-shadow 0.25s ease-out; }
     #app button.remove-button {
       float: right;
+      position: relative;
+      top: -10px;
       padding: 0.5em 0.75em;
       border: 1px solid #A32645;
       background: rgba(163, 38, 69, 0.75); }
@@ -299,7 +320,7 @@
     cursor: pointer;
     border: 1px solid rgba(0, 110, 167, 0);
     background: rgba(0, 110, 167, 0.95);
-    box-shadow: 0px 0px 1px 1px rgba(51, 53, 85, 0); }
+    box-shadow: 0px 0px 1px 1px rgba(72, 72, 72, 0); }
     #app button:hover.remove-button {
       border: 1px solid rgba(163, 38, 69, 0);
       background: rgba(163, 38, 69, 0.95); }

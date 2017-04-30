@@ -436,73 +436,85 @@ var ResidenceForm = function (_Component) {
         { model: reactReduxForm.track('residences[]', { id: id }) },
         React.createElement(
           'div',
-          { className: 'field' },
+          { className: 'row' },
           React.createElement(
-            'label',
-            null,
-            'Start Date'
+            'div',
+            { className: 'field col-md-5' },
+            React.createElement(
+              'label',
+              null,
+              'Start Date'
+            ),
+            React.createElement(CustomControl, { model: '.start_date' })
           ),
-          React.createElement(CustomControl, { model: '.start_date' })
+          React.createElement(
+            'div',
+            { className: 'field col-md-5' },
+            React.createElement(
+              'label',
+              null,
+              'End Date'
+            ),
+            React.createElement(CustomControl, { model: '.end_date' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field col-md-2' },
+            React.createElement(
+              'label',
+              null,
+              'Current'
+            ),
+            React.createElement(reactReduxForm.Control.checkbox, { model: '.current' })
+          )
         ),
         React.createElement(
           'div',
-          { className: 'field' },
+          { className: 'row' },
           React.createElement(
-            'label',
-            null,
-            'End Date'
+            'div',
+            { className: 'field col-md-4' },
+            React.createElement(
+              'label',
+              null,
+              'Landlord\'s First Name'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.landlord.first_name' })
           ),
-          React.createElement(CustomControl, { model: '.end_date' })
+          React.createElement(
+            'div',
+            { className: 'field col-md-4' },
+            React.createElement(
+              'label',
+              null,
+              'Landlord\'s Last Name'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.landlord.last_name' })
+          ),
+          React.createElement(
+            'div',
+            { className: 'field col-md-4' },
+            React.createElement(
+              'label',
+              null,
+              'Landlord\'s Phone Number'
+            ),
+            React.createElement(reactReduxForm.Control.text, { model: '.landlord.work_phone' })
+          )
         ),
         React.createElement(
           'div',
-          { className: 'field' },
+          { className: 'row' },
           React.createElement(
-            'label',
-            null,
-            'Current'
-          ),
-          React.createElement(reactReduxForm.Control.checkbox, { model: '.current' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'field' },
-          React.createElement(
-            'label',
-            null,
-            'Landlord\'s First Name'
-          ),
-          React.createElement(reactReduxForm.Control.text, { model: '.landlord.first_name' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'field' },
-          React.createElement(
-            'label',
-            null,
-            'Landlord\'s Last Name'
-          ),
-          React.createElement(reactReduxForm.Control.text, { model: '.landlord.last_name' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'field' },
-          React.createElement(
-            'label',
-            null,
-            'Landlord\'s Phone Number'
-          ),
-          React.createElement(reactReduxForm.Control.text, { model: '.landlord.work_phone' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'field' },
-          React.createElement(
-            'label',
-            null,
-            'Reason for leaving'
-          ),
-          React.createElement(reactReduxForm.Control.textarea, { model: '.reason' })
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Reason for leaving'
+            ),
+            React.createElement(reactReduxForm.Control.textarea, { model: '.reason' })
+          )
         )
       );
     }
@@ -580,53 +592,61 @@ var AddressForm = function (_Component2) {
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Street'
+                'div',
+                { className: 'field col-md-10' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Street'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.street' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.street' })
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Apt'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.apt' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Apt'
+                'div',
+                { className: 'field col-md-8' },
+                React.createElement(
+                  'label',
+                  null,
+                  'City'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.city' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.apt' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'City'
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'State'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.state' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.city' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'State'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.state' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'Current or previous residence?'
-              ),
-              React.createElement(reactReduxForm.Control.checkbox, { model: '.residence' })
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Current or previous residence?'
+                ),
+                React.createElement(reactReduxForm.Control.checkbox, { model: '.residence' })
+              )
             ),
             a.residence === true && React.createElement(ResidenceForm, { addressId: i })
           );
@@ -641,23 +661,27 @@ var AddressForm = function (_Component2) {
           ),
           React.createElement(
             'div',
-            { className: 'field' },
+            { className: 'row' },
             React.createElement(
-              'label',
-              null,
-              'Select Mailing Address'
-            ),
-            React.createElement(
-              reactReduxForm.Control.select,
-              { model: 'person.mailing_address_id' },
-              React.createElement('option', { value: '' }),
-              addresses.map(function (a, i) {
-                return React.createElement(
-                  'option',
-                  { value: a.id },
-                  (a.street || '') + ' ' + (a.city || '') + ', ' + (a.state || '')
-                );
-              })
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Select Mailing Address'
+              ),
+              React.createElement(
+                reactReduxForm.Control.select,
+                { model: 'person.mailing_address_id' },
+                React.createElement('option', { value: '' }),
+                addresses.map(function (a, i) {
+                  return React.createElement(
+                    'option',
+                    { value: a.id },
+                    (a.street || '') + ' ' + (a.city || '') + ', ' + (a.state || '')
+                  );
+                })
+              )
             )
           )
         )
@@ -841,13 +865,17 @@ var PersonForm = function (_Component) {
           ),
           React.createElement(
             'div',
-            { className: 'field' },
+            { className: 'row' },
             React.createElement(
-              'label',
-              null,
-              'Email'
-            ),
-            React.createElement(reactReduxForm.Control.text, { model: '.email' })
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                'Email'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.email' })
+            )
           ),
           React.createElement(
             'div',
@@ -1018,83 +1046,99 @@ var HouseholdMemberForm = function (_Component) {
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Relationship'
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'First Name'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.member.first_name' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.relationship' })
+              React.createElement(
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Last Name'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.member.last_name' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'First Name'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.member.first_name' })
+                'div',
+                { className: 'field' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Relationship'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.relationship' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Last Name'
+                'div',
+                { className: 'field col-md-8' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Social Security Number'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.member.ssn' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.member.last_name' })
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Date of Birth'
+                ),
+                React.createElement(CustomControl, { model: '.member.dob' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Date of Birth'
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Home Phone'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.member.home_phone' })
               ),
-              React.createElement(CustomControl, { model: '.member.dob' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'Social Security Number'
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Cell Phone'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.member.cell_phone' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.member.ssn' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'Home Phone'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.member.home_phone' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'Cell Phone'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.member.cell_phone' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'Work Phone'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.member.work_phone' })
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Work Phone'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.member.work_phone' })
+              )
             )
           );
         }),
@@ -1183,33 +1227,37 @@ var IncomeForm = function (_Component) {
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Income Type'
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Income Type'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.income_type' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.income_type' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'Amount'
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Amount ($)'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.amount' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.amount' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'Interval'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.interval' })
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Interval'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.interval' })
+              )
             )
           );
         }),
@@ -1298,113 +1346,129 @@ var EmploymentForm = function (_Component) {
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Employer Name'
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Employer Name'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.employer_name' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.employer_name' })
+              React.createElement(
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Position'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.position' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Position'
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Start Date'
+                ),
+                React.createElement(CustomControl, { model: '.start_date' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.position' })
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'End Date'
+                ),
+                React.createElement(CustomControl, { model: '.end_date' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Current'
+                ),
+                React.createElement(reactReduxForm.Control.checkbox, { model: '.current' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Part Time'
+                ),
+                React.createElement(reactReduxForm.Control.checkbox, { model: '.part_tie' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Start Date'
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Phone'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.phone' })
               ),
-              React.createElement(CustomControl, { model: '.start_date' })
+              React.createElement(
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Supervisor Name'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.supervisor_name' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'End Date'
+                'div',
+                { className: 'field col-md-5' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Street'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.address.street' })
               ),
-              React.createElement(CustomControl, { model: '.end_date' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'Current'
+                'div',
+                { className: 'field col-md-5' },
+                React.createElement(
+                  'label',
+                  null,
+                  'City'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.address.city' })
               ),
-              React.createElement(reactReduxForm.Control.checkbox, { model: '.current' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
               React.createElement(
-                'label',
-                null,
-                'Part Time'
-              ),
-              React.createElement(reactReduxForm.Control.checkbox, { model: '.part_tie' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'Phone'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.phone' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'Supervisor Name'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.supervisor_name' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'Street'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.address.street' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'City'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.address.city' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'State'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.address.state' })
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'State'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.address.state' })
+              )
             )
           );
         }),
@@ -1493,33 +1557,41 @@ var CriminalHistoryForm = function (_Component) {
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Crime Type'
+                'div',
+                { className: 'field col-md-8' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Crime Type'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.crime_type' })
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.crime_type' })
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Year'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.year' })
+              )
             ),
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'row' },
               React.createElement(
-                'label',
-                null,
-                'Year'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.year' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                'Description'
-              ),
-              React.createElement(reactReduxForm.Control.textarea, { model: '.description' })
+                'div',
+                { className: 'field' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Description'
+                ),
+                React.createElement(reactReduxForm.Control.textarea, { model: '.description' })
+              )
             )
           );
         }),
