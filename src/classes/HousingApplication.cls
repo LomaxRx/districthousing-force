@@ -38,6 +38,7 @@ public class HousingApplication {
     String city;
     String state;
     String apt;
+    Boolean residence;
   }
 
   public class Residence {
@@ -218,8 +219,9 @@ public class HousingApplication {
           client_address.Landlord_Name__c!=null||client_address.Landlord_Name__c!=''||
           client_address.Start_Date__c!=null||client_address.End_Date__c!=null
         ){
+          a.residence = TRUE;
           Residence r = new Residence();
-          r.id = residences.size();
+          r.id = a.id;
           r.address_id = a.Id;
           r.start_date = client_address.Start_Date__c;
           r.end_date = client_address.End_Date__c;

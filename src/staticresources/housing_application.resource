@@ -266,7 +266,7 @@ var models = {
 		"id": null,
 		"street": null,
 		"state": null
-	}, defineProperty(_Address, "id", null), defineProperty(_Address, "city", null), defineProperty(_Address, "apt", null), _Address)
+	}, defineProperty(_Address, "id", null), defineProperty(_Address, "city", null), defineProperty(_Address, "apt", null), defineProperty(_Address, "residence", false), _Address)
 };
 
 var uniqueInteger = function uniqueInteger(list) {
@@ -308,7 +308,7 @@ var ResidenceForm = function (_Component) {
           residences = _this$props.residences,
           addressId = _this$props.addressId;
 
-      var id = uniqueInteger(residences);
+      var id = addressId;
       dispatch(reactReduxForm.actions.push('residences', _extends({}, models.Residence, {
         address_id: addressId,
         id: id
@@ -328,11 +328,15 @@ var ResidenceForm = function (_Component) {
   createClass(ResidenceForm, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.setState({ id: this.addResidence() });
+      var _props = this.props,
+          residences = _props.residences,
+          addressId = _props.addressId;
+
+      if (getIndex(residences, addressId) === false) this.setState({ id: this.addResidence() });else this.setState({ id: addressId });
     }
   }, {
-    key: 'componentDidUnmount',
-    value: function componentDidUnmount() {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
       this.removeResidence();
     }
   }, {

@@ -168,6 +168,7 @@ export let models = {
 		"state": null,
 		"id": null,
 		"city": null,
-		"apt": null
+		"apt": null,
+		"residence": false
 	}
 };

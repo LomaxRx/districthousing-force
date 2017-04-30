@@ -7,7 +7,7 @@ import { uniqueInteger, getIndex } from '../utils';
 class ResidenceForm extends Component {
   addResidence = () => {
     const { dispatch, residences, addressId } = this.props;
-    let id = uniqueInteger(residences);
+    let id = addressId;
     dispatch(actions.push('residences', {
         ...models.Residence,
         address_id: addressId,
@@ -24,10 +24,14 @@ class ResidenceForm extends Component {
   }
 
   componentWillMount(){
-    this.setState({ id: this.addResidence() });
+    const { residences, addressId } = this.props;
+    if(getIndex(residences, addressId)===false)
+      this.setState({ id: this.addResidence() });
+    else
+      this.setState({ id: addressId });
   }
 
-  componentDidUnmount(){
+  componentWillUnmount(){
     this.removeResidence();
   }
 
