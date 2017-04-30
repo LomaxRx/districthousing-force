@@ -735,16 +735,6 @@ var PersonForm = function (_Component) {
           ),
           React.createElement(
             'div',
-            { className: 'field' },
-            React.createElement(
-              'label',
-              null,
-              'Social Security Number'
-            ),
-            React.createElement(reactReduxForm.Control.text, { model: '.ssn' })
-          ),
-          React.createElement(
-            'div',
             { className: 'row' },
             React.createElement(
               'div',
@@ -758,7 +748,21 @@ var PersonForm = function (_Component) {
             ),
             React.createElement(
               'div',
-              { className: 'field col-md-6' },
+              { className: 'field col-md-8' },
+              React.createElement(
+                'label',
+                null,
+                'Social Security Number'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.ssn' })
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'row' },
+            React.createElement(
+              'div',
+              { className: 'field col-md-10' },
               React.createElement(
                 'label',
                 null,
@@ -786,9 +790,9 @@ var PersonForm = function (_Component) {
               React.createElement(
                 'label',
                 null,
-                'Country of Birth'
+                'Citizenship'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.country_of_birth' })
+              React.createElement(reactReduxForm.Control.text, { model: '.citizenship' })
             ),
             React.createElement(
               'div',
@@ -796,9 +800,9 @@ var PersonForm = function (_Component) {
               React.createElement(
                 'label',
                 null,
-                'Citizenship'
+                'Occupation'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.citizenship' })
+              React.createElement(reactReduxForm.Control.text, { model: '.occupation' })
             )
           ),
           React.createElement(
@@ -844,16 +848,6 @@ var PersonForm = function (_Component) {
               'Email'
             ),
             React.createElement(reactReduxForm.Control.text, { model: '.email' })
-          ),
-          React.createElement(
-            'div',
-            { className: 'field' },
-            React.createElement(
-              'label',
-              null,
-              'Occupation'
-            ),
-            React.createElement(reactReduxForm.Control.text, { model: '.occupation' })
           ),
           React.createElement(
             'div',
@@ -918,16 +912,6 @@ var PersonForm = function (_Component) {
             { className: 'row' },
             React.createElement(
               'div',
-              { className: 'field col-md-2' },
-              React.createElement(
-                'label',
-                null,
-                'Driver License State'
-              ),
-              React.createElement(reactReduxForm.Control.text, { model: '.driver_license_state' })
-            ),
-            React.createElement(
-              'div',
               { className: 'field col-md-6' },
               React.createElement(
                 'label',
@@ -938,13 +922,23 @@ var PersonForm = function (_Component) {
             ),
             React.createElement(
               'div',
+              { className: 'field col-md-2' },
+              React.createElement(
+                'label',
+                null,
+                'License State'
+              ),
+              React.createElement(reactReduxForm.Control.text, { model: '.driver_license_state' })
+            ),
+            React.createElement(
+              'div',
               { className: 'field col-md-4' },
               React.createElement(
                 'label',
                 null,
-                'Drive License Expiration Date'
+                'License Expiration Date'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.drive_licenese_exp_date' })
+              React.createElement(CustomControl, { model: '.drive_licenese_exp_date' })
             )
           )
         )

@@ -24,16 +24,18 @@ class PersonForm extends Component {
               <Control.text model='.last_name'/>
             </div>
           </div>
-          <div className='field'>
-            <label>Social Security Number</label>
-            <Control.text model='.ssn'/>
-          </div>
           <div className='row'>
             <div className='field col-md-4'>
               <label>Date of Birth</label>
               <DatePicker model='.dob'/>
             </div>
-            <div className='field col-md-6'>
+            <div className='field col-md-8'>
+              <label>Social Security Number</label>
+              <Control.text model='.ssn'/>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='field col-md-10'>
               <label>City of Birth</label>
               <Control.text model='.city_of_birth'/>
             </div>
@@ -44,12 +46,12 @@ class PersonForm extends Component {
          </div>
          <div className='row'>
             <div className='field col-md-6'>
-              <label>Country of Birth</label>
-              <Control.text model='.country_of_birth'/>
-            </div>
-            <div className='field col-md-6'>
               <label>Citizenship</label>
               <Control.text model='.citizenship'/>
+            </div>
+            <div className='field col-md-6'>
+              <label>Occupation</label>
+              <Control.text model='.occupation'/>
             </div>
         </div>
         <div className='row'>
@@ -69,10 +71,6 @@ class PersonForm extends Component {
           <div className='field'>
             <label>Email</label>
             <Control.text model='.email'/>
-          </div>
-          <div className='field'>
-            <label>Occupation</label>
-            <Control.text model='.occupation'/>
           </div>
           <div className='row'>
             <div className='field col-md-6'>
@@ -99,17 +97,17 @@ class PersonForm extends Component {
             </div>
           </div>
           <div className='row'>
-            <div className='field col-md-2'>
-              <label>Driver License State</label>
-              <Control.text model='.driver_license_state'/>
-            </div>
             <div className='field col-md-6'>
               <label>Driver License Number</label>
               <Control.text model='.driver_license_number'/>
             </div>
+            <div className='field col-md-2'>
+              <label>License State</label>
+              <Control.text model='.driver_license_state'/>
+            </div>
             <div className='field col-md-4'>
-              <label>Drive License Expiration Date</label>
-              <Control.text model='.drive_licenese_exp_date'/>
+              <label>License Expiration Date</label>
+              <DatePicker model='.drive_licenese_exp_date'/>
             </div>
           </div>
         </Form>
