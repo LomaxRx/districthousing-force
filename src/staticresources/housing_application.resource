@@ -470,29 +470,33 @@ var AddressForm = function (_Component2) {
           );
         }),
         React.createElement(
-          'button',
-          { onClick: this.addAddress },
-          'Add Address'
-        ),
-        React.createElement(
           'div',
-          { className: 'field' },
+          { className: 'sub-section' },
           React.createElement(
-            'label',
-            null,
-            'Mailing Address'
+            'button',
+            { onClick: this.addAddress },
+            'Add Address'
           ),
           React.createElement(
-            reactReduxForm.Control.select,
-            { model: 'person.mailing_address_id' },
-            React.createElement('option', { value: '' }),
-            addresses.map(function (a, i) {
-              return React.createElement(
-                'option',
-                { value: a.id },
-                (a.street || '') + ' ' + (a.city || '') + ', ' + (a.state || '')
-              );
-            })
+            'div',
+            { className: 'field' },
+            React.createElement(
+              'label',
+              null,
+              'Mailing Address'
+            ),
+            React.createElement(
+              reactReduxForm.Control.select,
+              { model: 'person.mailing_address_id' },
+              React.createElement('option', { value: '' }),
+              addresses.map(function (a, i) {
+                return React.createElement(
+                  'option',
+                  { value: a.id },
+                  (a.street || '') + ' ' + (a.city || '') + ', ' + (a.state || '')
+                );
+              })
+            )
           )
         )
       );
@@ -892,9 +896,13 @@ var HouseholdMemberForm = function (_Component) {
           );
         }),
         React.createElement(
-          'button',
-          { onClick: this.addHouseholdMember },
-          'Add Household Member'
+          'div',
+          { className: 'sub-section' },
+          React.createElement(
+            'button',
+            { onClick: this.addHouseholdMember },
+            'Add Household Member'
+          )
         )
       );
     }
@@ -984,9 +992,13 @@ var IncomeForm = function (_Component) {
           );
         }),
         React.createElement(
-          'button',
-          { onClick: this.addIncome },
-          'Add Income'
+          'div',
+          { className: 'sub-section' },
+          React.createElement(
+            'button',
+            { onClick: this.addIncome },
+            'Add Income'
+          )
         )
       );
     }
@@ -1156,9 +1168,13 @@ var EmploymentForm = function (_Component) {
           );
         }),
         React.createElement(
-          'button',
-          { onClick: this.addEmployment },
-          'Add Employment'
+          'div',
+          { className: 'sub-section' },
+          React.createElement(
+            'button',
+            { onClick: this.addEmployment },
+            'Add Employment'
+          )
         )
       );
     }
@@ -1248,9 +1264,13 @@ var CriminalHistoryForm = function (_Component) {
           );
         }),
         React.createElement(
-          'button',
-          { onClick: this.addCriminalHistory },
-          'Add Criminal History'
+          'div',
+          { className: 'sub-section' },
+          React.createElement(
+            'button',
+            { onClick: this.addCriminalHistory },
+            'Add Criminal History'
+          )
         )
       );
     }

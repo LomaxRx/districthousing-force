@@ -1,0 +1,53 @@
+form, .sub-section{
+  display: block;
+  width: 100%;
+  padding: 0px $gutter;
+}
+
+label {
+  margin: 0px 0px 5px 0px;
+  width: 25%;
+  font-size: 0.8em;
+  font-weight: 600;
+  display: inline-block;
+  text-transform: uppercase;
+  color: rgba($black,0.6);
+}
+
+input[type=text], textarea {
+  border: none;
+  outline: none;
+  padding: 0.5em;
+  margin: 5px 1px 0px 0px;
+  font-size: 1.2rem;
+  border: 1px solid rgba($gray,0.6);
+  border-radius: $border-radius;
+  //box-shadow: 0px 0px 1px 1px $gray;
+}
+
+textarea {
+  border: 1px solid $gray;
+}
+
+input[type=text]:focus, textarea:focus {
+  border: 1px solid $bright-blue;
+  background: $light-blue;
+  @include transition(background 0.4s ease);
+}
+
+input[type=text]{
+  display: inline-block;
+}
+
+.field {
+  margin: 15px 0 $small-gutter 0;
+  width: 100%;
+  label {
+    display: block;
+    width: 100%;
+  }
+  input, textarea {
+    display: block;
+    width: 100%;
+  }
+}

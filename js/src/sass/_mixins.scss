@@ -1,0 +1,29 @@
+$blue: #006EA7;
+$bright-blue: rgba(81, 203, 238, 0.8);
+$light-blue: rgba(81, 203, 238, 0.1);
+$black: #333555;
+$gray: #AFAFB1;
+$light-gray: #f2f3f7;
+$white: #fff;
+$border-radius: 0px;
+$gutter: 40px;
+$small-gutter: 20px;
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+%clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
