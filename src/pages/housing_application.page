@@ -1,4 +1,4 @@
-<apex:page showHeader="true" sidebar="false">
+<apex:page showHeader="true" sidebar="false" controller="HousingApplicationController">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900" rel="stylesheet"></link>
     <apex:stylesheet value="{!$Resource.housing_application_style}"/>
 
@@ -13,7 +13,6 @@
 
     <div id="app"></div>
     <script type="text/javascript">
-        var hapForm = new HapForm();
-        console.log(hapForm);
+      var hapForm = new HapForm({!initialState});
     </script>
 </apex:page>

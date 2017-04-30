@@ -85,7 +85,7 @@ public class HousingApplication {
 
   public class Model {
     /**
-      Convenience class for getting JSON version of all entire app model
+      Convenience class for getting JSON version of entire app model
     **/
     Person Person = new Person();
     Income Income = new Income();
