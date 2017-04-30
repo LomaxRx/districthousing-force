@@ -119,9 +119,20 @@
     -ms-transform: translate(-50%, 0);
     -o-transform: translate(-50%, 0);
     transform: translate(-50%, 0);
-    margin-top: 15px;
+    margin-top: 0px;
     border: 1px solid rgba(175, 175, 177, 0.5);
-    z-index: 1000; }
+    opacity: 0;
+    z-index: -100;
+    -webkit-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+    -moz-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+    -ms-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+    -o-transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out, margin 0.15s ease-in-out;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
     .datepicker .DayPicker:before {
       content: ' ';
       position: absolute;
@@ -140,14 +151,27 @@
       transform: rotate(45deg); }
   .datepicker .DayPicker-Day {
     outline: none; }
-    .datepicker .DayPicker-Day:focus, .datepicker .DayPicker-Day:active {
+    .datepicker .DayPicker-Day:focus, .datepicker .DayPicker-Day:active, .datepicker .DayPicker-Day:hover {
       background: #006EA7;
       color: #fff;
-      font-weight: 600; }
+      text-shadow: 0px 0px 2px 0px #fff; }
   .datepicker .DayPicker-Caption {
     font-weight: 600;
     text-transform: uppercase;
     color: rgba(51, 53, 85, 0.6); }
+  .datepicker.active .DayPicker {
+    z-index: 1000;
+    display: block;
+    opacity: 1;
+    margin-top: 15px;
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -o-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto; }
+  .datepicker.active input[type=text] {
+    border: 1px solid rgba(81, 203, 238, 0.8);
+    background: rgba(81, 203, 238, 0.1); }
 
 .bodyDiv {
   background: #f2f3f7 !important; }

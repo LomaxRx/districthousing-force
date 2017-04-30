@@ -304,30 +304,58 @@ var DatePicker = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = DatePicker.__proto__ || Object.getPrototypeOf(DatePicker)).call.apply(_ref, [this].concat(args))), _this), _this.handleDayClick = function (day) {
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = DatePicker.__proto__ || Object.getPrototypeOf(DatePicker)).call.apply(_ref, [this].concat(args))), _this), _this.clickedInside = false, _this.clickTimeout = null, _this.input = null, _this.componentWillUnmount = function () {
+      clearTimeout(_this.clickTimeout);
+    }, _this.activate = function () {
+      _this.setState({ active: true });
+    }, _this.deactivate = function () {
+      if (!_this.clickedInside) {
+        _this.setState({ active: false });
+      } else {
+        _this.input.focus();
+      }
+    }, _this.mouseDown = function () {
+      _this.clickedInside = true;
+      // The input's onBlur method is called from a queue right after onMouseDown event.
+      // setTimeout adds another callback in the queue, but is called later than onBlur event
+      _this.clickTimeout = setTimeout(function () {
+        _this.clickedInside = false;
+      }, 0);
+    }, _this.dayClick = function (day) {
       var _this$props = _this.props,
           name = _this$props.name,
           dispatch = _this$props.dispatch;
 
-      console.log(name);
       var d = moment(day).format('L');
       dispatch(reactReduxForm.actions.change(name, d));
+      if (_this.input) _this.input.blur();
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(DatePicker, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      if (this.props.value) this.handleDayClick(this.props.value);
+      if (this.props.value) this.dayClick(this.props.value);
+      this.setState({ active: false });
     }
   }, {
     key: 'render',
     value: function render$$1() {
+      var _this2 = this;
+
+      var active = this.state.active;
+
       return React.createElement(
         'div',
-        { className: 'datepicker' },
-        React.createElement('input', _extends({ type: 'text' }, this.props)),
-        React.createElement(DayPicker, { onDayClick: this.handleDayClick })
+        { className: 'datepicker ' + (active ? 'active' : ''), onMouseDown: this.mouseDown },
+        React.createElement('input', _extends({ type: 'text' }, this.props, {
+          onFocus: this.activate,
+          onBlur: this.deactivate,
+          ref: function ref(el) {
+            _this2.input = el;
+          }
+        })),
+        React.createElement(DayPicker, { onDayClick: this.dayClick })
       );
     }
   }]);

@@ -5,9 +5,12 @@
     position: absolute;
     background: $white;
     @include horizontal-center
-    margin-top: 15px;
+    margin-top: 0px;
     border: 1px solid rgba($gray, 0.5);
-    z-index: 1000;
+    opacity: 0;
+    z-index: -100;
+    @include transition(opacity 0.15s ease-in-out, margin 0.15s ease-in-out);
+    @include user-select(none);
 
     &:before{
       content: ' ';
@@ -26,16 +29,30 @@
 
   .DayPicker-Day {
     outline: none;
-    &:focus, &:active {
+    &:focus, &:active , &:hover{
       background: $blue;
       color: $white;
-      font-weight: 600;
+      text-shadow: 0px 0px 2px 0px $white;
     }
   }
-
   .DayPicker-Caption {
     font-weight: 600;
     text-transform: uppercase;
     color: rgba($black,0.6);
+  }
+
+  &.active{
+    .DayPicker{
+      z-index: 1000;
+      display: block;
+      opacity: 1;
+      margin-top: 15px;
+      @include user-select(auto);
+    }
+
+    input[type=text]{
+      border: 1px solid $bright-blue;
+      background: $light-blue;
+    }
   }
 }

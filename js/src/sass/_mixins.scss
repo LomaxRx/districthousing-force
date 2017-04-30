@@ -61,3 +61,11 @@ $small-gutter: 20px;
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+@mixin user-select($arg){
+  -webkit-user-select: $arg;
+  -moz-user-select: $arg;
+  -o-user-select: $arg;
+  -ms-user-select: $arg;
+  user-select: $arg;
+}
