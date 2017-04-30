@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Form, Control } from 'react-redux-form';
 import { connect } from 'react-redux';
+import DatePicker from './DatePicker';
 
 class PersonForm extends Component {
   render() {
@@ -27,7 +28,7 @@ class PersonForm extends Component {
           </div>
           <div className='field'>
             <label>Date of Birth</label>
-            <Control.text model='.dob'/>
+            <DatePicker model='.dob'/>
           </div>
           <div className='field'>
             <label>City of Birth</label>

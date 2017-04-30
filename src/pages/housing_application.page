@@ -8,6 +8,7 @@
     <apex:includeScript value="{!$Resource.react_redux}"/>
     <apex:includeScript value="{!$Resource.redux_thunk}"/>
     <apex:includeScript value="{!$Resource.react_redux_form}"/>
+    <apex:includeScript value="{!$Resource.moment}"/>
     <apex:includeScript value="{!$Resource.react_datepicker}"/>
     <apex:includeScript value="{!$Resource.housing_application}"/>
 
