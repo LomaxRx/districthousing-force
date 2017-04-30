@@ -1,3 +1,11 @@
+#app .row {
+  *zoom: 1; }
+  #app .row:before, #app .row:after {
+    content: " ";
+    display: table; }
+  #app .row:after {
+    clear: both; }
+
 /* DayPicker styles */
 .DayPicker {
   display: -webkit-box;
@@ -248,9 +256,16 @@
     transition: background 0.4s ease; }
   #app input[type=text] {
     display: inline-block; }
+  #app .row {
+    width: 100%;
+    margin: 0; }
+    #app .row .field input[type=text] {
+      border-left: none; }
+    #app .row .field:first-child input[type=text] {
+      border-left: 1px solid rgba(175, 175, 177, 0.6); }
   #app .field {
-    margin: 15px 0 20px 0;
-    width: 100%; }
+    margin: 15px 0;
+    padding: 0; }
     #app .field label {
       display: block;
       width: 100%; }
