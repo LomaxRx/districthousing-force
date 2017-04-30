@@ -26,6 +26,7 @@ public class HousingApplication {
   }
 
   public class Income {
+    Integer id;
     Integer amount;
     String interval;
     String income_type;
@@ -40,6 +41,7 @@ public class HousingApplication {
   }
 
   public class Residence {
+    Integer id;
     Integer address_id;
 		// actually just 'start' and 'end' in Housing app.
 		// keywords in Apex.
@@ -51,11 +53,13 @@ public class HousingApplication {
   }
 
   public class HouseholdMember {
+    Integer id;
     Person member = new Person();
     String relationship;
   }
 
   public class Employment {
+    Integer id;
     Date start_date;
     Date end_date;
     String employer_name;
@@ -68,18 +72,21 @@ public class HousingApplication {
   }
 
   public class CriminalHistory {
+    Integer id;
     String description;
     Integer year;
     String crime_type;
   }
 
   public class Alias {
+    Integer id;
     String name;
   }
 
   public class PreviousSSN {
 		// Just 'number' in HAP App
 		// reserved word in Apex.
+    Integer id;
     String previous_number;
   }
 
@@ -180,11 +187,14 @@ public class HousingApplication {
         WHERE Client__c=:clientId AND RecordType.Name='Income' AND Current__c=TRUE
       ];
 
+      Integer i = 0;
       for(Income_and_Benefits__c client_income :client_incomes){
-        Income i = new Income();
-        i.amount = client_income.Amount__c.intValue();
-        i.income_type = client_income.Type__c;
-        incomes.add(i);
+        Income inc = new Income();
+        inc.id = i;
+        inc.amount = client_income.Amount__c.intValue();
+        inc.income_type = client_income.Type__c;
+        incomes.add(inc);
+        i+=1;
       }
     }
 
@@ -221,7 +231,7 @@ public class HousingApplication {
         }
 
         addresses.add(a);
-        i = i+1;
+        i+=1;
       }
     }
 
@@ -232,12 +242,15 @@ public class HousingApplication {
         WHERE Client__c=:clientId
       ];
 
+      Integer i = 0;
       for(Household_Members__c client_household_member :client_household_members){
         HouseholdMember member = new HouseholdMember();
+        member.id = i;
         member.member.first_name = client_household_member.Name;
         member.member.dob = client_household_member.DOB__c;
         member.relationship = client_household_member.Relationship__c;
         household_members.add(member);
+        i+=1;
       }
     }
 

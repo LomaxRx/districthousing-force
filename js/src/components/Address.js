@@ -9,20 +9,20 @@ class ResidenceForm extends Component {
     dispatch(actions.push('residences', {
         ...models.Residence,
         address_id: addressId,
-        index: residences.length
+        id: residences.length
     }));
 
     return residences.length;
   }
 
   componentWillMount(){
-    this.setState({ index: this.addResidence() });
+    this.setState({ id: this.addResidence() });
   }
 
   render(){
-    const { index } = this.props;
+    const { id } = this.props;
     return(
-      <Form model={track('residences[]', { index })}>
+      <Form model={track('residences[]', { id })}>
         <div className="field">
           <label>Start Date</label>
           <Control.text model='.start_date'/>
@@ -66,11 +66,11 @@ class AddressForm extends Component {
   addAddress = () => {
       const { dispatch, addresses } = this.props;
       dispatch(actions.push('addresses', {
-        ...models.Address, index: addresses.length
+        ...models.Address, id: addresses.length
       }));
   }
 
-  removeAddress = (index) => {
+  removeAddress = (id) => {
 
   }
 
@@ -80,10 +80,10 @@ class AddressForm extends Component {
       <section id='addresses' className='form-list'>
         <h2>Current and Previous Addresses</h2>
         {addresses.map((a, i) => (
-          <Form model={track('addresses[]', { index: i })} className='form-item'>
+          <Form model={track('addresses[]', { id: a.id })} className='form-item'>
             <h3>
               Address {i+1}
-              <button className='remove-button'onClick={()=>{this.removeAddress(i)}}>X</button>
+              <button className='remove-button'onClick={()=>{this.removeAddress(a.id)}}>X</button>
             </h3>
             <div className="field">
               <label>Street</label>

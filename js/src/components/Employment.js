@@ -8,11 +8,11 @@ class EmploymentForm extends Component {
   addEmployment = () => {
     const { dispatch, employments } = this.props;
     dispatch(actions.push('employments', {
-      ...models.Employment, index: employments.length
+      ...models.Employment, id: employments.length
     }));
   }
 
-  removeEmployment = (index) => {
+  removeEmployment = (id) => {
 
   }
 
@@ -22,10 +22,10 @@ class EmploymentForm extends Component {
       <section id='employments' className='form-list'>
         <h2>Employment History</h2>
         {employments.map((e,i)=>(
-          <Form model={track('employments[]', { index: i })} className='form-item'>
+          <Form model={track('employments[]', { id: e.id })} className='form-item'>
             <h3>
               Employment {i+1}
-              <button className='remove-button' onClick={()=>{this.removeEmployment(i)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeEmployment(e.id)}}>X</button>
             </h3>
             <div className="field">
               <label>Employer Name</label>

@@ -8,12 +8,12 @@ class IncomeForm extends Component {
   addIncome = () => {
     const { dispatch, incomes } = this.props;
     dispatch(actions.push('incomes', {
-      ...models.Income, index: incomes.length
+      ...models.Income, id: incomes.length
     }));
   }
 
-  removeIncome = (index) => {
-    
+  removeIncome = (id) => {
+
   }
 
   render() {
@@ -22,10 +22,10 @@ class IncomeForm extends Component {
       <section id="incomes" className='form-list'>
         <h2>Income</h2>
         {incomes.map((inc,i)=>(
-          <Form model={track('incomes[]', { index: i })} className='form-item'>
+          <Form model={track('incomes[]', { id: inc.id })} className='form-item'>
             <h3>
               Income {i+1}
-              <button className='remove-button' onClick={()=>{this.removeIncome(i)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeIncome(inc.id)}}>X</button>
             </h3>
             <div className="field">
               <label>Income Type</label>

@@ -7,11 +7,11 @@ class HouseholdMemberForm extends Component {
   addHouseholdMember = () => {
     const { dispatch, household_members } = this.props;
     dispatch(actions.push('household_members', {
-      ...models.HouseholdMember, index: household_members.length
+      ...models.HouseholdMember, id: household_members.length
     }));
   }
 
-  removeHouseholdMember = (index) => {
+  removeHouseholdMember = (id) => {
 
   }
 
@@ -21,10 +21,10 @@ class HouseholdMemberForm extends Component {
       <section id='household_members' className='form-list'>
         <h2>Household Members</h2>
         {household_members.map((h,i)=>(
-          <Form model={track('household_members[]', { index: i })} className='form-item'>
+          <Form model={track('household_members[]', { id: h.id })} className='form-item'>
             <h3>
               Member {i+1}
-              <button className='remove-button' onClick={()=>{this.removeHouseholdMember(i)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeHouseholdMember(h.id)}}>X</button>
             </h3>
             <div className="field">
               <label>Relationship</label>

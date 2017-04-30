@@ -37,6 +37,7 @@ export let initialState = {
 
 export let models = {
 	"Residence": {
+		"id": null,
 		"start_date": null,
 		"reason": null,
 		"landlord": {
@@ -69,6 +70,7 @@ export let models = {
 		"address_id": null
 	},
 	"PreviousSSN": {
+		"id": null,
 		"previous_number": null
 	},
 	"Person": {
@@ -97,12 +99,14 @@ export let models = {
 		"cell_phone": null
 	},
 	"Income": {
+		"id": null,
 		"interval": null,
 		"income_type": null,
 		"amount": null
 	},
 	"HousingForm": "",
 	"HouseholdMember": {
+		"id": null,
 		"relationship": null,
 		"member": {
 			"work_phone": null,
@@ -131,6 +135,7 @@ export let models = {
 		}
 	},
 	"Employment": {
+		"id": null,
 		"supervisor_name": null,
 		"start_date": null,
 		"position": null,
@@ -148,14 +153,17 @@ export let models = {
 		}
 	},
 	"CriminalHistory": {
+		"id": null,
 		"year": null,
 		"description": null,
 		"crime_type": null
 	},
 	"Alias": {
+		"id": null,
 		"name": null
 	},
 	"Address": {
+		"id": null,
 		"street": null,
 		"state": null,
 		"id": null,

@@ -7,11 +7,11 @@ class CriminalHistoryForm extends Component {
   addCriminalHistory = () => {
     const { dispatch, criminal_histories } = this.props;
     dispatch(actions.push('criminal_histories', {
-      ...models.CriminalHistory, index: criminal_histories.length
+      ...models.CriminalHistory, id: criminal_histories.length
     }));
   }
 
-  removeCriminalHistory = (index) => {
+  removeCriminalHistory = (id) => {
 
   }
 
@@ -21,10 +21,10 @@ class CriminalHistoryForm extends Component {
       <section id='criminal_histories' className='form-list'>
         <h2>Criminal History</h2>
         {criminal_histories.map((c,i)=>(
-          <Form model={track('criminal_histories[]', { index: i })} className='form-item'>
+          <Form model={track('criminal_histories[]', { id: c.id })} className='form-item'>
             <h3>
               Criminal History {i+1}
-              <button className='remove-button' onClick={()=>{this.removeCriminalHistory(i)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeCriminalHistory(c.id)}}>X</button>
             </h3>
             <div className="field">
               <label>Crime Type</label>

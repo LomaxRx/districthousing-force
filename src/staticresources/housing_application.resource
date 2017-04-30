@@ -3,172 +3,6 @@ var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom) {
 
 Thunk = 'default' in Thunk ? Thunk['default'] : Thunk;
 
-var initialState = {
-	"residences": [],
-	"previous_ssns": [],
-	"person": {
-		"work_phone": null,
-		"student_status": null,
-		"state_of_birth": null,
-		"ssn": null,
-		"race": null,
-		"occupation": null,
-		"middle_name": null,
-		"marital_status": null,
-		"mailing_address_id": null,
-		"last_name": null,
-		"home_phone": null,
-		"gender": null,
-		"first_name": null,
-		"ethnicity": null,
-		"email": null,
-		"driver_license_state": null,
-		"driver_license_number": null,
-		"driver_license_exp_date": null,
-		"dob": null,
-		"country_of_birth": null,
-		"city_of_birth": null,
-		"citizenship": null,
-		"cell_phone": null
-	},
-	"incomes": [],
-	"housing_forms": [],
-	"household_members": [],
-	"employments": [],
-	"criminal_histories": [],
-	"aliases": [],
-	"addresses": []
-};
-
-var models = {
-	"Residence": {
-		"start_date": null,
-		"reason": null,
-		"landlord": {
-			"work_phone": null,
-			"student_status": null,
-			"state_of_birth": null,
-			"ssn": null,
-			"race": null,
-			"occupation": null,
-			"middle_name": null,
-			"marital_status": null,
-			"mailing_address_id": null,
-			"last_name": null,
-			"home_phone": null,
-			"gender": null,
-			"first_name": null,
-			"ethnicity": null,
-			"email": null,
-			"driver_license_state": null,
-			"driver_license_number": null,
-			"driver_license_exp_date": null,
-			"dob": null,
-			"country_of_birth": null,
-			"city_of_birth": null,
-			"citizenship": null,
-			"cell_phone": null
-		},
-		"end_date": null,
-		"current": false,
-		"address_id": null
-	},
-	"PreviousSSN": {
-		"previous_number": null
-	},
-	"Person": {
-		"work_phone": null,
-		"student_status": null,
-		"state_of_birth": null,
-		"ssn": null,
-		"race": null,
-		"occupation": null,
-		"middle_name": null,
-		"marital_status": null,
-		"mailing_address_id": null,
-		"last_name": null,
-		"home_phone": null,
-		"gender": null,
-		"first_name": null,
-		"ethnicity": null,
-		"email": null,
-		"driver_license_state": null,
-		"driver_license_number": null,
-		"driver_license_exp_date": null,
-		"dob": null,
-		"country_of_birth": null,
-		"city_of_birth": null,
-		"citizenship": null,
-		"cell_phone": null
-	},
-	"Income": {
-		"interval": null,
-		"income_type": null,
-		"amount": null
-	},
-	"HousingForm": "",
-	"HouseholdMember": {
-		"relationship": null,
-		"member": {
-			"work_phone": null,
-			"student_status": null,
-			"state_of_birth": null,
-			"ssn": null,
-			"race": null,
-			"occupation": null,
-			"middle_name": null,
-			"marital_status": null,
-			"mailing_address_id": null,
-			"last_name": null,
-			"home_phone": null,
-			"gender": null,
-			"first_name": null,
-			"ethnicity": null,
-			"email": null,
-			"driver_license_state": null,
-			"driver_license_number": null,
-			"driver_license_exp_date": null,
-			"dob": null,
-			"country_of_birth": null,
-			"city_of_birth": null,
-			"citizenship": null,
-			"cell_phone": null
-		}
-	},
-	"Employment": {
-		"supervisor_name": null,
-		"start_date": null,
-		"position": null,
-		"phone": null,
-		"part_time": null,
-		"end_date": null,
-		"employer_name": null,
-		"current": null,
-		"address": {
-			"street": null,
-			"state": null,
-			"id": null,
-			"city": null,
-			"apt": null
-		}
-	},
-	"CriminalHistory": {
-		"year": null,
-		"description": null,
-		"crime_type": null
-	},
-	"Alias": {
-		"name": null
-	},
-	"Address": {
-		"street": null,
-		"state": null,
-		"id": null,
-		"city": null,
-		"apt": null
-	}
-};
-
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -197,7 +31,20 @@ var createClass = function () {
 
 
 
+var defineProperty = function (obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
 
+  return obj;
+};
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -249,6 +96,179 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
+var _Address;
+
+var initialState = {
+	"residences": [],
+	"previous_ssns": [],
+	"person": {
+		"work_phone": null,
+		"student_status": null,
+		"state_of_birth": null,
+		"ssn": null,
+		"race": null,
+		"occupation": null,
+		"middle_name": null,
+		"marital_status": null,
+		"mailing_address_id": null,
+		"last_name": null,
+		"home_phone": null,
+		"gender": null,
+		"first_name": null,
+		"ethnicity": null,
+		"email": null,
+		"driver_license_state": null,
+		"driver_license_number": null,
+		"driver_license_exp_date": null,
+		"dob": null,
+		"country_of_birth": null,
+		"city_of_birth": null,
+		"citizenship": null,
+		"cell_phone": null
+	},
+	"incomes": [],
+	"housing_forms": [],
+	"household_members": [],
+	"employments": [],
+	"criminal_histories": [],
+	"aliases": [],
+	"addresses": []
+};
+
+var models = {
+	"Residence": {
+		"id": null,
+		"start_date": null,
+		"reason": null,
+		"landlord": {
+			"work_phone": null,
+			"student_status": null,
+			"state_of_birth": null,
+			"ssn": null,
+			"race": null,
+			"occupation": null,
+			"middle_name": null,
+			"marital_status": null,
+			"mailing_address_id": null,
+			"last_name": null,
+			"home_phone": null,
+			"gender": null,
+			"first_name": null,
+			"ethnicity": null,
+			"email": null,
+			"driver_license_state": null,
+			"driver_license_number": null,
+			"driver_license_exp_date": null,
+			"dob": null,
+			"country_of_birth": null,
+			"city_of_birth": null,
+			"citizenship": null,
+			"cell_phone": null
+		},
+		"end_date": null,
+		"current": false,
+		"address_id": null
+	},
+	"PreviousSSN": {
+		"id": null,
+		"previous_number": null
+	},
+	"Person": {
+		"work_phone": null,
+		"student_status": null,
+		"state_of_birth": null,
+		"ssn": null,
+		"race": null,
+		"occupation": null,
+		"middle_name": null,
+		"marital_status": null,
+		"mailing_address_id": null,
+		"last_name": null,
+		"home_phone": null,
+		"gender": null,
+		"first_name": null,
+		"ethnicity": null,
+		"email": null,
+		"driver_license_state": null,
+		"driver_license_number": null,
+		"driver_license_exp_date": null,
+		"dob": null,
+		"country_of_birth": null,
+		"city_of_birth": null,
+		"citizenship": null,
+		"cell_phone": null
+	},
+	"Income": {
+		"id": null,
+		"interval": null,
+		"income_type": null,
+		"amount": null
+	},
+	"HousingForm": "",
+	"HouseholdMember": {
+		"id": null,
+		"relationship": null,
+		"member": {
+			"work_phone": null,
+			"student_status": null,
+			"state_of_birth": null,
+			"ssn": null,
+			"race": null,
+			"occupation": null,
+			"middle_name": null,
+			"marital_status": null,
+			"mailing_address_id": null,
+			"last_name": null,
+			"home_phone": null,
+			"gender": null,
+			"first_name": null,
+			"ethnicity": null,
+			"email": null,
+			"driver_license_state": null,
+			"driver_license_number": null,
+			"driver_license_exp_date": null,
+			"dob": null,
+			"country_of_birth": null,
+			"city_of_birth": null,
+			"citizenship": null,
+			"cell_phone": null
+		}
+	},
+	"Employment": {
+		"id": null,
+		"supervisor_name": null,
+		"start_date": null,
+		"position": null,
+		"phone": null,
+		"part_time": null,
+		"end_date": null,
+		"employer_name": null,
+		"current": null,
+		"address": {
+			"street": null,
+			"state": null,
+			"id": null,
+			"city": null,
+			"apt": null
+		}
+	},
+	"CriminalHistory": {
+		"id": null,
+		"year": null,
+		"description": null,
+		"crime_type": null
+	},
+	"Alias": {
+		"id": null,
+		"name": null
+	},
+	"Address": (_Address = {
+		"id": null,
+		"street": null,
+		"state": null
+	}, defineProperty(_Address, "id", null), defineProperty(_Address, "city", null), defineProperty(_Address, "apt", null), _Address)
+};
+
 var ResidenceForm = function (_Component) {
   inherits(ResidenceForm, _Component);
 
@@ -271,7 +291,7 @@ var ResidenceForm = function (_Component) {
 
       dispatch(reactReduxForm.actions.push('residences', _extends({}, models.Residence, {
         address_id: addressId,
-        index: residences.length
+        id: residences.length
       })));
 
       return residences.length;
@@ -281,16 +301,16 @@ var ResidenceForm = function (_Component) {
   createClass(ResidenceForm, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.setState({ index: this.addResidence() });
+      this.setState({ id: this.addResidence() });
     }
   }, {
     key: 'render',
     value: function render$$1() {
-      var index = this.props.index;
+      var id = this.props.id;
 
       return React.createElement(
         reactReduxForm.Form,
-        { model: reactReduxForm.track('residences[]', { index: index }) },
+        { model: reactReduxForm.track('residences[]', { id: id }) },
         React.createElement(
           'div',
           { className: 'field' },
@@ -394,9 +414,9 @@ var AddressForm = function (_Component2) {
           dispatch = _this2$props.dispatch,
           addresses = _this2$props.addresses;
 
-      dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { index: addresses.length
+      dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { id: addresses.length
       })));
-    }, _this2.removeAddress = function (index) {}, _temp2), possibleConstructorReturn(_this2, _ret2);
+    }, _this2.removeAddress = function (id) {}, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
   createClass(AddressForm, [{
@@ -417,7 +437,7 @@ var AddressForm = function (_Component2) {
         addresses.map(function (a, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('addresses[]', { index: i }), className: 'form-item' },
+            { model: reactReduxForm.track('addresses[]', { id: a.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -426,7 +446,7 @@ var AddressForm = function (_Component2) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this3.removeAddress(i);
+                    _this3.removeAddress(a.id);
                   } },
                 'X'
               )
@@ -806,9 +826,9 @@ var HouseholdMemberForm = function (_Component) {
           dispatch = _this$props.dispatch,
           household_members = _this$props.household_members;
 
-      dispatch(reactReduxForm.actions.push('household_members', _extends({}, models.HouseholdMember, { index: household_members.length
+      dispatch(reactReduxForm.actions.push('household_members', _extends({}, models.HouseholdMember, { id: household_members.length
       })));
-    }, _this.removeHouseholdMember = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeHouseholdMember = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(HouseholdMemberForm, [{
@@ -829,7 +849,7 @@ var HouseholdMemberForm = function (_Component) {
         household_members.map(function (h, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('household_members[]', { index: i }), className: 'form-item' },
+            { model: reactReduxForm.track('household_members[]', { id: h.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -838,7 +858,7 @@ var HouseholdMemberForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeHouseholdMember(i);
+                    _this2.removeHouseholdMember(h.id);
                   } },
                 'X'
               )
@@ -967,9 +987,9 @@ var IncomeForm = function (_Component) {
           dispatch = _this$props.dispatch,
           incomes = _this$props.incomes;
 
-      dispatch(reactReduxForm.actions.push('incomes', _extends({}, models.Income, { index: incomes.length
+      dispatch(reactReduxForm.actions.push('incomes', _extends({}, models.Income, { id: incomes.length
       })));
-    }, _this.removeIncome = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeIncome = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(IncomeForm, [{
@@ -990,7 +1010,7 @@ var IncomeForm = function (_Component) {
         incomes.map(function (inc, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('incomes[]', { index: i }), className: 'form-item' },
+            { model: reactReduxForm.track('incomes[]', { id: inc.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -999,7 +1019,7 @@ var IncomeForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeIncome(i);
+                    _this2.removeIncome(inc.id);
                   } },
                 'X'
               )
@@ -1078,9 +1098,9 @@ var EmploymentForm = function (_Component) {
           dispatch = _this$props.dispatch,
           employments = _this$props.employments;
 
-      dispatch(reactReduxForm.actions.push('employments', _extends({}, models.Employment, { index: employments.length
+      dispatch(reactReduxForm.actions.push('employments', _extends({}, models.Employment, { id: employments.length
       })));
-    }, _this.removeEmployment = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeEmployment = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(EmploymentForm, [{
@@ -1101,7 +1121,7 @@ var EmploymentForm = function (_Component) {
         employments.map(function (e, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('employments[]', { index: i }), className: 'form-item' },
+            { model: reactReduxForm.track('employments[]', { id: e.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -1110,7 +1130,7 @@ var EmploymentForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeEmployment(i);
+                    _this2.removeEmployment(e.id);
                   } },
                 'X'
               )
@@ -1269,9 +1289,9 @@ var CriminalHistoryForm = function (_Component) {
           dispatch = _this$props.dispatch,
           criminal_histories = _this$props.criminal_histories;
 
-      dispatch(reactReduxForm.actions.push('criminal_histories', _extends({}, models.CriminalHistory, { index: criminal_histories.length
+      dispatch(reactReduxForm.actions.push('criminal_histories', _extends({}, models.CriminalHistory, { id: criminal_histories.length
       })));
-    }, _this.removeCriminalHistory = function (index) {}, _temp), possibleConstructorReturn(_this, _ret);
+    }, _this.removeCriminalHistory = function (id) {}, _temp), possibleConstructorReturn(_this, _ret);
   }
 
   createClass(CriminalHistoryForm, [{
@@ -1292,7 +1312,7 @@ var CriminalHistoryForm = function (_Component) {
         criminal_histories.map(function (c, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('criminal_histories[]', { index: i }), className: 'form-item' },
+            { model: reactReduxForm.track('criminal_histories[]', { id: c.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -1301,7 +1321,7 @@ var CriminalHistoryForm = function (_Component) {
               React.createElement(
                 'button',
                 { className: 'remove-button', onClick: function onClick() {
-                    _this2.removeCriminalHistory(i);
+                    _this2.removeCriminalHistory(c.id);
                   } },
                 'X'
               )
