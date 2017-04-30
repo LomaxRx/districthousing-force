@@ -113,7 +113,6 @@ public class HousingApplication {
   }
 
   public class Form {
-    public Client__c client;
     Person person = new Person();
     Income[] incomes = new List<Income>();
     Address[] addresses = new List<Address>();
@@ -138,8 +137,7 @@ public class HousingApplication {
       ];
 
       if(clients.size()>0){
-        client = clients[0];
-        mapPerson(client);
+        mapPerson(clients[0]);
         mapIncome(clientId);
         mapAddress(clientId);
         mapHouseholdMember(clientId);
