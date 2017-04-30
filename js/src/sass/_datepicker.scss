@@ -1,0 +1,41 @@
+.datepicker{
+  position: relative;
+
+  .DayPicker{
+    position: absolute;
+    background: $white;
+    @include horizontal-center
+    margin-top: 15px;
+    border: 1px solid rgba($gray, 0.5);
+    z-index: 1000;
+
+    &:before{
+      content: ' ';
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+      top: -11px;
+      left: calc(50% - 5px);
+      background: $white;
+      border-top: 1px solid rgba($gray, 0.5);
+      border-left: 1px solid rgba($gray, 0.5);
+      @include transform(rotate(45deg));
+    }
+  }
+
+  .DayPicker-Day {
+    outline: none;
+    &:focus, &:active {
+      background: $blue;
+      color: $white;
+      font-weight: 600;
+    }
+  }
+
+  .DayPicker-Caption {
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba($black,0.6);
+  }
+}

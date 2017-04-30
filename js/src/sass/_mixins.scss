@@ -28,3 +28,36 @@ $small-gutter: 20px;
     clear: both;
   }
 }
+
+@mixin transform($arg){
+  -webkit-transform: $arg;
+  -moz-transform: $arg;
+  -ms-transform: $arg;
+  -o-transform: $arg;
+  transform: $arg;
+}
+
+@mixin horizontal-center {
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+
+@mixin vertical-center {
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+}
+
+@mixin center {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

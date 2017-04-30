@@ -38,7 +38,7 @@ class CriminalHistoryForm extends Component {
             </div>
             <div className="field">
               <label>Description</label>
-              <Control.text model='.description'/>
+              <Control.textarea model='.description'/>
             </div>
           </Form>
         ))}

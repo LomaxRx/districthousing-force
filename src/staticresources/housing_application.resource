@@ -290,6 +290,63 @@ var getIndex = function getIndex(list, id) {
   }return false;
 };
 
+var DatePicker = function (_Component) {
+  inherits(DatePicker, _Component);
+
+  function DatePicker() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, DatePicker);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = DatePicker.__proto__ || Object.getPrototypeOf(DatePicker)).call.apply(_ref, [this].concat(args))), _this), _this.handleDayClick = function (day) {
+      var _this$props = _this.props,
+          name = _this$props.name,
+          dispatch = _this$props.dispatch;
+
+      console.log(name);
+      var d = moment(day).format('L');
+      dispatch(reactReduxForm.actions.change(name, d));
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(DatePicker, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      if (this.props.value) this.handleDayClick(this.props.value);
+    }
+  }, {
+    key: 'render',
+    value: function render$$1() {
+      return React.createElement(
+        'div',
+        { className: 'datepicker' },
+        React.createElement('input', _extends({ type: 'text' }, this.props)),
+        React.createElement(DayPicker, { onDayClick: this.handleDayClick })
+      );
+    }
+  }]);
+  return DatePicker;
+}(react.Component);
+
+DatePicker = reactRedux.connect()(DatePicker);
+
+var CustomControl = function CustomControl(props) {
+  return React.createElement(reactReduxForm.Control, _extends({
+    component: DatePicker,
+    mapProps: {
+      value: function value(props) {
+        return props.viewValue;
+      }
+    }
+  }, props));
+};
+
 var ResidenceForm = function (_Component) {
   inherits(ResidenceForm, _Component);
 
@@ -357,7 +414,7 @@ var ResidenceForm = function (_Component) {
             null,
             'Start Date'
           ),
-          React.createElement(reactReduxForm.Control.text, { model: '.start_date' })
+          React.createElement(CustomControl, { model: '.start_date' })
         ),
         React.createElement(
           'div',
@@ -367,7 +424,7 @@ var ResidenceForm = function (_Component) {
             null,
             'End Date'
           ),
-          React.createElement(reactReduxForm.Control.text, { model: '.end_date' })
+          React.createElement(CustomControl, { model: '.end_date' })
         ),
         React.createElement(
           'div',
@@ -589,63 +646,6 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var AddressForm$1 = reactRedux.connect(mapStateToProps)(AddressForm);
-
-var DatePicker = function (_Component) {
-  inherits(DatePicker, _Component);
-
-  function DatePicker() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    classCallCheck(this, DatePicker);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = DatePicker.__proto__ || Object.getPrototypeOf(DatePicker)).call.apply(_ref, [this].concat(args))), _this), _this.handleDayClick = function (day) {
-      var _this$props = _this.props,
-          name = _this$props.name,
-          dispatch = _this$props.dispatch;
-
-      console.log(name);
-      var d = moment(day).format('L');
-      dispatch(reactReduxForm.actions.change(name, d));
-    }, _temp), possibleConstructorReturn(_this, _ret);
-  }
-
-  createClass(DatePicker, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      if (this.props.value) this.handleDayClick(this.props.value);
-    }
-  }, {
-    key: 'render',
-    value: function render$$1() {
-      return React.createElement(
-        'div',
-        { className: 'datepicker' },
-        React.createElement('input', _extends({ type: 'text' }, this.props)),
-        React.createElement(DayPicker, { onDayClick: this.handleDayClick })
-      );
-    }
-  }]);
-  return DatePicker;
-}(react.Component);
-
-DatePicker = reactRedux.connect()(DatePicker);
-
-var CustomControl = function CustomControl(props) {
-  return React.createElement(reactReduxForm.Control, _extends({
-    component: DatePicker,
-    mapProps: {
-      value: function value(props) {
-        return props.viewValue;
-      }
-    }
-  }, props));
-};
 
 var PersonForm = function (_Component) {
   inherits(PersonForm, _Component);
@@ -1004,7 +1004,7 @@ var HouseholdMemberForm = function (_Component) {
                 null,
                 'Date of Birth'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.member.dob' })
+              React.createElement(CustomControl, { model: '.member.dob' })
             ),
             React.createElement(
               'div',
@@ -1274,7 +1274,7 @@ var EmploymentForm = function (_Component) {
                 null,
                 'Start Date'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.start_date' })
+              React.createElement(CustomControl, { model: '.start_date' })
             ),
             React.createElement(
               'div',
@@ -1284,7 +1284,7 @@ var EmploymentForm = function (_Component) {
                 null,
                 'End Date'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.end_date' })
+              React.createElement(CustomControl, { model: '.end_date' })
             ),
             React.createElement(
               'div',
@@ -1469,7 +1469,7 @@ var CriminalHistoryForm = function (_Component) {
                 null,
                 'Description'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.description' })
+              React.createElement(reactReduxForm.Control.textarea, { model: '.description' })
             )
           );
         }),

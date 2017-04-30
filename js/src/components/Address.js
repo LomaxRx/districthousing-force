@@ -3,6 +3,7 @@ import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger, getIndex } from '../utils';
+import DatePicker from './DatePicker';
 
 class ResidenceForm extends Component {
   addResidence = () => {
@@ -41,11 +42,11 @@ class ResidenceForm extends Component {
       <Form model={track('residences[]', { id })}>
         <div className="field">
           <label>Start Date</label>
-          <Control.text model='.start_date'/>
+          <DatePicker model='.start_date'/>
         </div>
         <div className="field">
           <label>End Date</label>
-          <Control.text model='.end_date'/>
+          <DatePicker model='.end_date'/>
         </div>
         <div className="field">
           <label>Current</label>

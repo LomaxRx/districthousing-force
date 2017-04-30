@@ -3,6 +3,7 @@ import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger } from '../utils';
+import DatePicker from './DatePicker';
 
 class HouseholdMemberForm extends Component {
   addHouseholdMember = () => {
@@ -42,7 +43,7 @@ class HouseholdMemberForm extends Component {
             </div>
             <div className="field">
               <label>Date of Birth</label>
-              <Control.text model='.member.dob'/>
+              <DatePicker model='.member.dob'/>
             </div>
             <div className="field">
               <label>Social Security Number</label>

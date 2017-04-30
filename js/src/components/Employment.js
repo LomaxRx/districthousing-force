@@ -3,6 +3,7 @@ import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger } from '../utils';
+import DatePicker from './DatePicker';
 
 class EmploymentForm extends Component {
   addEmployment = () => {
@@ -38,11 +39,11 @@ class EmploymentForm extends Component {
             </div>
             <div className="field">
               <label>Start Date</label>
-              <Control.text model='.start_date'/>
+              <DatePicker model='.start_date'/>
             </div>
             <div className="field">
               <label>End Date</label>
-              <Control.text model='.end_date'/>
+              <DatePicker model='.end_date'/>
             </div>
             <div className="field">
               <label>Current</label>

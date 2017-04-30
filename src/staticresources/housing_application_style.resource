@@ -13,7 +13,8 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none; }
+  user-select: none;
+  outline: none; }
 
 .DayPicker-Month {
   display: table;
@@ -107,6 +108,46 @@
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   color: #FFF;
   background-color: #4A90E2; }
+
+.datepicker {
+  position: relative; }
+  .datepicker .DayPicker {
+    position: absolute;
+    background: #fff;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    margin-top: 15px;
+    border: 1px solid rgba(175, 175, 177, 0.5);
+    z-index: 1000; }
+    .datepicker .DayPicker:before {
+      content: ' ';
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+      top: -11px;
+      left: calc(50% - 5px);
+      background: #fff;
+      border-top: 1px solid rgba(175, 175, 177, 0.5);
+      border-left: 1px solid rgba(175, 175, 177, 0.5);
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg); }
+  .datepicker .DayPicker-Day {
+    outline: none; }
+    .datepicker .DayPicker-Day:focus, .datepicker .DayPicker-Day:active {
+      background: #006EA7;
+      color: #fff;
+      font-weight: 600; }
+  .datepicker .DayPicker-Caption {
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba(51, 53, 85, 0.6); }
 
 .bodyDiv {
   background: #f2f3f7 !important; }

@@ -15,6 +15,7 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  outline: none;
 }
 
 .DayPicker-Month {
@@ -131,3 +132,5 @@
   color: #FFF;
   background-color: #4A90E2;
 }
+
+@import 'datepicker';
