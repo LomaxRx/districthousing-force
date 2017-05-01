@@ -46,16 +46,6 @@ select {
   background-position-y: calc(1em + 20px), calc(1em + 20px), 25px;
   background-size: 5px 5px, 5px 5px, 1px 1.5em;
   background-repeat: no-repeat;
-
-  &:after{
-    content: ' ';
-    display: absolute;
-    display: block;
-    right: 0.5em;
-    @include transform(rotate(45deg));
-    border-right: 1px solid $gray;
-    border-bottom: 1px solid $gray;
-  }
 }
 
 textarea {

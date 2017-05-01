@@ -132,7 +132,7 @@ public class HousingApplication {
         Alternate_Phone__c, Alternate_Phone_Type__c, Primary_Phone__c, Primary_Phone_Type__c,
         City_of_Birth__c, State_of_Birth__c, Country_of_Birth__c, DOB__c, Drivers_License_Number__c,
         Drivers_License_State__c, Ethnicity__c, Gender__c, Hispanic__c, Marital_Status__c,
-        Student_Status__c, Race__c, SSN__c
+        Student_Status__c, Race__c, SSN__c, Occupation__c
         FROM Client__c
         WHERE id=:clientId
       ];
@@ -176,6 +176,7 @@ public class HousingApplication {
       person.marital_status = c.Marital_Status__c;
       person.driver_license_number = c.Drivers_License_Number__c;
       person.driver_license_state = c.Drivers_License_State__c;
+      person.occupation = c.Occupation__c;
 
     }
 
@@ -192,6 +193,7 @@ public class HousingApplication {
         inc.id = i;
         inc.amount = client_income.Amount__c.intValue();
         inc.income_type = client_income.Type__c;
+        inc.interval = 'Month';
         incomes.add(inc);
         i+=1;
       }
@@ -216,7 +218,7 @@ public class HousingApplication {
         a.city = client_address.City__c;
         a.state = client_address.State__c;
         if(
-          client_address.Landlord_Name__c!=null||client_address.Landlord_Name__c!=''||
+          (client_address.Landlord_Name__c!=null&&client_address.Landlord_Name__c!='')||
           client_address.Start_Date__c!=null||client_address.End_Date__c!=null
         ){
           a.residence = TRUE;
@@ -225,7 +227,6 @@ public class HousingApplication {
           r.address_id = a.Id;
           r.start_date = client_address.Start_Date__c;
           r.end_date = client_address.End_Date__c;
-          r.current = client_address.Current_Address__c;
           r.landlord.first_name = client_address.Landlord_Name__c;
           r.landlord.cell_phone = client_address.Landlord_Cell_Phone__c;
           r.landlord.home_phone = client_address.Landlord_Home_Phone__c;
@@ -249,7 +250,9 @@ public class HousingApplication {
       for(Household_Members__c client_household_member :client_household_members){
         HouseholdMember member = new HouseholdMember();
         member.id = i;
-        member.member.first_name = client_household_member.Name;
+        String[] names = client_household_member.Name.split(' ', 2);
+        member.member.first_name = names[0];
+        if(names.size()>1) member.member.last_name = names[1];
         member.member.dob = client_household_member.DOB__c;
         member.relationship = client_household_member.Relationship__c;
         household_members.add(member);

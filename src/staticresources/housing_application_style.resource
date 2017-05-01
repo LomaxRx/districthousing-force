@@ -210,7 +210,7 @@
   #app h3 {
     text-transform: uppercase; }
   #app article {
-    width: 66.666%;
+    width: 75%;
     padding: 0 15px 0 40px;
     max-width: 1020px;
     display: block; }
@@ -231,7 +231,7 @@
       position: relative;
       left: -5px; }
   #app nav {
-    width: 25%;
+    width: 20%;
     padding: 0 40px 0 15px;
     position: fixed;
     right: 0;
@@ -325,18 +325,6 @@
     background-position-y: calc(1em + 20px), calc(1em + 20px), 25px;
     background-size: 5px 5px, 5px 5px, 1px 1.5em;
     background-repeat: no-repeat; }
-    #app select:after {
-      content: ' ';
-      display: absolute;
-      display: block;
-      right: 0.5em;
-      -webkit-transform: rotate(45deg);
-      -moz-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      -o-transform: rotate(45deg);
-      transform: rotate(45deg);
-      border-right: 1px solid #AFAFB1;
-      border-bottom: 1px solid #AFAFB1; }
   #app textarea {
     border: 1px solid #AFAFB1; }
   #app input[type=checkbox] {
