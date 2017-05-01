@@ -7,7 +7,7 @@ export default {
   format: 'iife',
   moduleName: 'HapForm',
   external: [
-    'react','react-dom','redux','react-redux', 'jump.js',
+    'react','react-dom','redux','react-redux', 'jump.js', 'apex-actions',
     'react-redux-form', 'redux-thunk', 'moment','react-day-picker'
   ],
   globals: {
@@ -19,7 +19,8 @@ export default {
     'react-redux-form': 'ReactReduxForm',
     'moment': 'moment',
     'react-day-picker': 'DayPicker',
-    'jump.js': 'Jump'
+    'jump.js': 'Jump',
+    'apex-actions': 'ApexActions'
   },
   plugins: [
     sass({

@@ -1,10 +1,11 @@
-var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,DayPicker,moment,Jump) {
+var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,DayPicker,moment,Jump,ApexActions) {
 'use strict';
 
 Thunk = 'default' in Thunk ? Thunk['default'] : Thunk;
 DayPicker = 'default' in DayPicker ? DayPicker['default'] : DayPicker;
 moment = 'default' in moment ? moment['default'] : moment;
 Jump = 'default' in Jump ? Jump['default'] : Jump;
+ApexActions = 'default' in ApexActions ? ApexActions['default'] : ApexActions;
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -1679,6 +1680,11 @@ var Nav = function (_Component2) {
   }
 
   createClass(Nav, [{
+    key: 'submit',
+    value: function submit() {
+      ApexActions.submit('{LOOK AT ALL THIS DATA!}');
+    }
+  }, {
     key: 'render',
     value: function render$$1() {
       return React.createElement(
@@ -1712,7 +1718,7 @@ var Nav = function (_Component2) {
         ),
         React.createElement(
           'button',
-          null,
+          { onClick: this.submit },
           'Submit'
         )
       );
@@ -1759,6 +1765,7 @@ var App = function (_Component) {
 
 var HapForm = function HapForm() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var idSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'app';
   classCallCheck(this, HapForm);
 
   this.store = redux.createStore(reactReduxForm.combineForms(state), redux.applyMiddleware(Thunk));
@@ -1766,9 +1773,9 @@ var HapForm = function HapForm() {
     reactRedux.Provider,
     { store: this.store },
     React.createElement(App, null)
-  ), document.getElementById('app'));
+  ), document.getElementById(idSelector));
 };
 
 return HapForm;
 
-}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,React,ReactDOM,DayPicker,moment,Jump));
+}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,React,ReactDOM,DayPicker,moment,Jump,ApexActions));

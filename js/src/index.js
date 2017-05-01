@@ -36,7 +36,7 @@ class App extends Component {
 }
 
 export default class HapForm{
-    constructor(state=initialState){
+    constructor(state=initialState, idSelector='app'){
         this.store = createStore(
           combineForms(state),
           applyMiddleware(Thunk)
@@ -45,7 +45,7 @@ export default class HapForm{
           <Provider store={this.store}>
             <App />
           </Provider>,
-          document.getElementById('app')
+          document.getElementById(idSelector)
         );
     }
 }

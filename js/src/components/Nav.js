@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import Jump from 'jump.js';
+import ApexActions from 'apex-actions';
 import { easeInOutQuad } from '../utils';
 
 class NavSection extends Component {
@@ -23,6 +24,10 @@ class NavSection extends Component {
 }
 
 export default class Nav extends Component {
+  submit() {
+      ApexActions.submit('{LOOK AT ALL THIS DATA!}');
+  }
+
   render(){
     return(
       <nav>
@@ -48,7 +53,7 @@ export default class Nav extends Component {
               label='Record'/>
           </div>
         </div>
-        <button>Submit</button>
+        <button onClick={this.submit}>Submit</button>
       </nav>
     )
   }

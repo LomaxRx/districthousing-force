@@ -113,7 +113,15 @@ public class HousingApplication {
     }
   }
 
-  public class Form {
+
+  public class ClientData {
+    public Client__c client;
+    public Income_and_Benefits__c[] incomes;
+    public Household_Members__c[] household_members;
+    public Address__c[] addresses;
+  }
+
+  public class FormData {
     Person person = new Person();
     Income[] incomes = new List<Income>();
     Address[] addresses = new List<Address>();
@@ -124,9 +132,25 @@ public class HousingApplication {
     Alias[] aliases = new List<Alias>();
     PreviousSSN[] previous_ssns = new List<PreviousSSN>();
     String[] housing_forms = new List<String>();
+  }
+
+  public class PDFResult {
+    public String url {get; set;}
+    public String status {get; set;}
+    public String building {get; set;}
+  }
+
+  public class Form {
+    public String endpoint {get; set;}
+    public FormData data;
+    public ClientData client;
 
     public Form(Id clientId){
+      data = new FormData();
+      client = new ClientData();
+
       if(clientId==null) return;
+
       Client__c[] clients = [
         SELECT Id, Name, First_Name__c, Last_Name__c, Middle_Name__c, Alternate_Name__c, Email_Address__c,
         Alternate_Phone__c, Alternate_Phone_Type__c, Primary_Phone__c, Primary_Phone_Type__c,
@@ -138,6 +162,7 @@ public class HousingApplication {
       ];
 
       if(clients.size()>0){
+        client.client = clients[0];
         mapPerson(clients[0]);
         mapIncome(clientId);
         mapAddress(clientId);
@@ -146,61 +171,61 @@ public class HousingApplication {
     }
 
     private void mapPerson(Client__c c){
-      person.first_name = c.First_Name__c;
-      person.middle_name = c.Middle_Name__c;
-      person.last_name = c.Last_Name__c;
-      person.ssn = c.SSN__c;
-      person.dob = c.DOB__c;
-      person.gender = c.Gender__c;
+      data.person.first_name = c.First_Name__c;
+      data.person.middle_name = c.Middle_Name__c;
+      data.person.last_name = c.Last_Name__c;
+      data.person.ssn = c.SSN__c;
+      data.person.dob = c.DOB__c;
+      data.person.gender = c.Gender__c;
 
       if(c.Alternate_Phone_Type__c=='Mobile')
-        person.cell_phone = c.Alternate_Phone__c;
+        data.person.cell_phone = c.Alternate_Phone__c;
       else if(c.Alternate_Phone_Type__c=='Home')
-        person.home_phone = c.Alternate_Phone__c;
+        data.person.home_phone = c.Alternate_Phone__c;
       else if(c.Alternate_Phone_Type__c=='Work')
-        person.work_phone = c.Alternate_Phone__c;
+        data.person.work_phone = c.Alternate_Phone__c;
 
       if(c.Primary_Phone_Type__c=='Mobile')
-        person.cell_phone = c.Primary_Phone__c;
+        data.person.cell_phone = c.Primary_Phone__c;
       else if(c.Primary_Phone_Type__c=='Home')
-        person.home_phone = c.Primary_Phone__c;
+        data.person.home_phone = c.Primary_Phone__c;
       else if(c.Primary_Phone_Type__c=='Work')
-        person.work_phone = c.Primary_Phone__c;
+        data.person.work_phone = c.Primary_Phone__c;
       else
-        person.home_phone = c.Primary_Phone__c;
+        data.person.home_phone = c.Primary_Phone__c;
 
-      person.email = c.Email_Address__c;
-      person.race = c.Race__c;
-      person.ethnicity = c.Ethnicity__c;
-      person.student_status = c.Student_Status__c;
-      person.marital_status = c.Marital_Status__c;
-      person.driver_license_number = c.Drivers_License_Number__c;
-      person.driver_license_state = c.Drivers_License_State__c;
-      person.occupation = c.Occupation__c;
+      data.person.email = c.Email_Address__c;
+      data.person.race = c.Race__c;
+      data.person.ethnicity = c.Ethnicity__c;
+      data.person.student_status = c.Student_Status__c;
+      data.person.marital_status = c.Marital_Status__c;
+      data.person.driver_license_number = c.Drivers_License_Number__c;
+      data.person.driver_license_state = c.Drivers_License_State__c;
+      data.person.occupation = c.Occupation__c;
 
     }
 
     private void mapIncome(Id clientId){
-      Income_and_Benefits__c[] client_incomes = [
+      client.incomes = [
         SELECT Id, RecordType.Name, Amount__c, Type__c
         FROM Income_and_Benefits__c
         WHERE Client__c=:clientId AND RecordType.Name='Income' AND Current__c=TRUE
       ];
 
       Integer i = 0;
-      for(Income_and_Benefits__c client_income :client_incomes){
+      for(Income_and_Benefits__c client_income :client.incomes){
         Income inc = new Income();
         inc.id = i;
         inc.amount = client_income.Amount__c.intValue();
         inc.income_type = client_income.Type__c;
         inc.interval = 'Month';
-        incomes.add(inc);
+        data.incomes.add(inc);
         i+=1;
       }
     }
 
     private void mapAddress(Id clientId){
-      Address__c[] client_addresses = [
+      client.addresses = [
         SELECT Id, Name, Address_2__c, City__c, State__c, Zip_Code__c,
         Landlord_Name__c, Landlord_Cell_Phone__c, Landlord_Home_Phone__c, Landlord_Work_Phone__c,
         Current_Address__c, Start_Date__c, End_Date__c, Address_Type__c
@@ -209,7 +234,7 @@ public class HousingApplication {
       ];
 
       Integer i = 0;
-      for(Address__c client_address :client_addresses){
+      for(Address__c client_address :client.addresses){
         Address a = new Address();
         a.id = i;
         a.street = client_address.Name;
@@ -231,23 +256,23 @@ public class HousingApplication {
           r.landlord.cell_phone = client_address.Landlord_Cell_Phone__c;
           r.landlord.home_phone = client_address.Landlord_Home_Phone__c;
           r.landlord.work_phone = client_address.Landlord_Work_Phone__c;
-          residences.add(r);
+          data.residences.add(r);
         }
 
-        addresses.add(a);
+        data.addresses.add(a);
         i+=1;
       }
     }
 
     private void mapHouseholdMember(Id clientId){
-      Household_Members__c[] client_household_members = [
+      client.household_members = [
         SELECT Id, Name, DOB__c, Relationship__c
         FROM Household_Members__c
         WHERE Client__c=:clientId
       ];
 
       Integer i = 0;
-      for(Household_Members__c client_household_member :client_household_members){
+      for(Household_Members__c client_household_member :client.household_members){
         HouseholdMember member = new HouseholdMember();
         member.id = i;
         String[] names = client_household_member.Name.split(' ', 2);
@@ -255,14 +280,62 @@ public class HousingApplication {
         if(names.size()>1) member.member.last_name = names[1];
         member.member.dob = client_household_member.DOB__c;
         member.relationship = client_household_member.Relationship__c;
-        household_members.add(member);
+        data.household_members.add(member);
         i+=1;
       }
     }
 
     public String toJSON(){
-      return JSON.serialize(this);
+      return JSON.serialize(data);
     }
+
+    public PDFResult[] fetchPDFs(){
+      String json = this.toJSON();
+      return this.fetchPDFs(json);
+    }
+
+    public PDFResult[] fetchPDFs(String json){
+      // TODO: once Ruby endpoint is setup
+      // Http h = new Http();
+      // HttpRequest req = new HttpRequest();
+      // endpoint = endpoint.replace(' ', '%20');
+      // req.setEndpoint(endpoint);
+      // req.setMethod('POST');
+      // req.setHeader('Accept', 'application/json');
+      // req.setHeader('Content-Type', 'application/json');
+      // req.setBody(json);
+      // req.setTimeout(60000);
+      //
+      // HttpResponse res = h.send(req);
+      // String pdf_urls = res.getBody();
+      // return JSON.serialize(pdf_urls);
+
+      PDFResult p1 = new PDFResult();
+      p1.url = 'https://na-production.s3.amazonaws.com/documents/EarlyLearning-FamilyEngagement-DigitalAge.pdf';
+      p1.building = 'Building 1';
+      PDFResult p2 = new PDFResult();
+      p2.url = 'https://na-production.s3.amazonaws.com/documents/Roadmapping_AI_Final.pdf';
+      p2.building = 'Building 2';
+
+      return new List<PDFResult>{ p1, p2 };
+    }
+  }
+
+  public static Blob downloadPDF(String url){
+    Http h = new Http();
+    HttpRequest req = new HttpRequest();
+
+    url = url.replace(' ', '%20');
+    req.setEndpoint(url);
+    req.setMethod('GET');
+    req.setHeader('Content-Type', 'application/pdf');
+    req.setCompressed(true);
+    req.setTimeout(60000);
+
+    HttpResponse res = h.send(req);
+    String response = res.getBody();
+
+    return res.getBodyAsBlob();
   }
 
 }

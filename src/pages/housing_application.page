@@ -3,7 +3,6 @@
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:600,700" rel="stylesheet"></link>
     <apex:stylesheet value="{!$Resource.bootstrap_grid}"/>
     <apex:stylesheet value="{!$Resource.housing_application_style}"/>
-
     <apex:includeScript value="{!$Resource.react}"/>
     <apex:includeScript value="{!$Resource.react_dom}"/>
     <apex:includeScript value="{!$Resource.redux}"/>
@@ -13,10 +12,30 @@
     <apex:includeScript value="{!$Resource.moment}"/>
     <apex:includeScript value="{!$Resource.react_datepicker}"/>
     <apex:includeScript value="{!$Resource.jump}"/>
+    <apex:includeScript value="{!$Resource.ApexActions}"/>
     <apex:includeScript value="{!$Resource.housing_application}"/>
 
-    <div id="app"></div>
+    <div id="app">
+      <div id="form"></div>
+      <apex:outputPanel id="pdf-results">
+        <apex:repeat value="{!pdfResults}" var="result">
+          <div class="pdf-result">
+            <apex:outputLink value="{!result.url}" target="_blank">{!result.building}</apex:outputLink>
+          </div>
+        </apex:repeat>
+      </apex:outputPanel>
+    </div>
+
+    <apex:form>
+      <!-- ApexActions is literally just `var ApexActions = {};`. Used to map actionFunctions to object -->
+      <apex:actionFunction action="{!submit}" name="submitData" reRender="pdf-results">
+          <apex:param name="formData" assignTo="{!formData}" value="{!initialState}" />
+      </apex:actionFunction>
+    </apex:form>
+
     <script type="text/javascript">
-      var hapForm = new HapForm({!initialState});
+      ApexActions.submit = submitData;
+
+      var hapForm = new HapForm({!initialState}, 'form');
     </script>
 </apex:page>
