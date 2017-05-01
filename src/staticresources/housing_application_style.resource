@@ -240,7 +240,7 @@
     display: inline-block;
     text-transform: uppercase;
     color: rgba(72, 72, 72, 0.45); }
-  #app input[type=text], #app textarea {
+  #app input[type=text], #app textarea, #app select {
     border: none;
     outline: none;
     padding: 0.5em;
@@ -248,8 +248,71 @@
     font-size: 1rem;
     border: 1px solid rgba(175, 175, 177, 0.6);
     border-radius: 0px; }
+  #app select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+    background: #fff;
+    background-image: linear-gradient(45deg, transparent 50%, #AFAFB1 50%), linear-gradient(135deg, #AFAFB1 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
+    background-position-x: calc(100% - 20px), calc(100% - 15px), calc(100% - 2.5em);
+    background-position-y: calc(1em + 20px), calc(1em + 20px), 25px;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat; }
+    #app select:after {
+      content: ' ';
+      display: absolute;
+      display: block;
+      right: 0.5em;
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg);
+      border-right: 1px solid #AFAFB1;
+      border-bottom: 1px solid #AFAFB1; }
   #app textarea {
     border: 1px solid #AFAFB1; }
+  #app input[type=checkbox] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    border-radius: 4px;
+    width: 2em;
+    height: 2em;
+    outline: none;
+    position: relative;
+    background: #fff;
+    z-index: 100;
+    border: 1px solid rgba(175, 175, 177, 0.6);
+    cursor: pointer;
+    -webkit-transition: background 0.15s ease-in;
+    -moz-transition: background 0.15s ease-in;
+    -ms-transition: background 0.15s ease-in;
+    -o-transition: background 0.15s ease-in;
+    transition: background 0.15s ease-in; }
+    #app input[type=checkbox]:hover, #app input[type=checkbox]:focus {
+      background: rgba(81, 203, 238, 0.1); }
+    #app input[type=checkbox]:checked {
+      background: rgba(0, 110, 167, 0.75);
+      border: 1px solid #006EA7; }
+      #app input[type=checkbox]:checked:hover {
+        background: #006EA7; }
+      #app input[type=checkbox]:checked:after {
+        position: relative;
+        left: 0.5em;
+        content: ' ';
+        display: block;
+        width: 0.5em;
+        height: 1.25em;
+        border-bottom: 3px solid #fff;
+        border-right: 3px solid #fff;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg); }
   #app input[type=text]:focus, #app textarea:focus {
     border: 1px solid rgba(81, 203, 238, 0.8);
     background: rgba(81, 203, 238, 0.1);
@@ -270,17 +333,22 @@
       left: 0.5em;
       display: block;
       width: 100%;
+      z-index: 50;
       -webkit-user-select: none;
       -moz-user-select: none;
       -o-user-select: none;
       -ms-user-select: none;
       user-select: none; }
-    #app .field input, #app .field textarea {
+    #app .field input[type=text], #app .field textarea, #app .field select {
       padding-top: 32px;
       display: block;
-      margin: 0 !important;
+      margin: 0;
       width: 100%;
-      border: none !important; }
+      border: none; }
+    #app .field input[type=checkbox] {
+      margin: 30px auto 6px auto; }
+    #app .field .sub-section__select {
+      margin-top: 10px; }
   #app .row {
     width: 100%;
     margin: 0; }
@@ -291,6 +359,8 @@
       border-left: 1px solid rgba(175, 175, 177, 0.6); }
     #app .row:last-child .field {
       border-bottom: 1px solid rgba(175, 175, 177, 0.6); }
+  #app .sub-section .row {
+    margin-top: 10px; }
   #app button {
     border: none;
     outline: none;

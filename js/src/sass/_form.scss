@@ -24,7 +24,7 @@ label {
   color: rgba($black,0.45);
 }
 
-input[type=text], textarea {
+input[type=text], textarea, select {
   border: none;
   outline: none;
   padding: 0.5em;
@@ -35,8 +35,71 @@ input[type=text], textarea {
   //box-shadow: 0px 0px 1px 1px $gray;
 }
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;
+  background: $white;
+  background-image: linear-gradient(45deg, transparent 50%, $gray 50%), linear-gradient(135deg, $gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
+  background-position-x: calc(100% - 20px), calc(100% - 15px), calc(100% - 2.5em);
+  background-position-y: calc(1em + 20px), calc(1em + 20px), 25px;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+
+  &:after{
+    content: ' ';
+    display: absolute;
+    display: block;
+    right: 0.5em;
+    @include transform(rotate(45deg));
+    border-right: 1px solid $gray;
+    border-bottom: 1px solid $gray;
+  }
+}
+
 textarea {
   border: 1px solid $gray;
+}
+
+input[type=checkbox]{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  border-radius: 4px;
+  width: 2em;
+  height: 2em;
+  outline: none;
+  position: relative;
+  background: #fff;
+  z-index: 100;
+  border: 1px solid rgba($gray,0.6);
+  cursor: pointer;
+  @include transition(background 0.15s ease-in);
+
+  &:hover, &:focus{
+    background: $light-blue;
+  }
+
+  &:checked{
+    background: rgba($blue,0.75);
+    border: 1px solid $blue;
+    &:hover{
+      background: $blue;
+    }
+    &:after{
+      position: relative;
+      left: 0.5em;
+      content: ' ';
+      display: block;
+      width: 0.5em;
+      height: 1.25em;
+      border-bottom: 3px solid $white;
+      border-right: 3px solid $white;
+      @include transform(rotate(45deg));
+    }
+  }
 }
 
 input[type=text]:focus, textarea:focus {
@@ -60,14 +123,23 @@ input[type=text]{
     left: 0.5em;
     display: block;
     width: 100%;
+    z-index: 50;
     @include user-select(none);
   }
-  input, textarea {
+  input[type=text], textarea, select {
     padding-top: 32px;
     display: block;
-    margin: 0 !important;
+    margin: 0;
     width: 100%;
-    border: none !important;
+    border: none;
+  }
+
+  input[type=checkbox] {
+    margin: 30px auto 6px auto;
+  }
+
+  .sub-section__select{
+    margin-top: 10px;
   }
 }
 
@@ -91,4 +163,8 @@ input[type=text]{
   }
 
 
+}
+
+.sub-section .row {
+  margin-top: 10px;
 }

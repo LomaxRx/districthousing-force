@@ -109,28 +109,30 @@ class AddressForm extends Component {
               Address {i+1}
               <button className='remove-button'onClick={()=>{this.removeAddress(i)}}>X</button>
             </h3>
-            <div className="row">
-              <div className="field col-md-10">
-                <label>Street</label>
-                <Control.text model='.street'/>
+            <div>
+              <div className="row">
+                <div className="field col-md-10">
+                  <label>Street</label>
+                  <Control.text model='.street'/>
+                </div>
+                <div className="field col-md-2">
+                  <label>Apt</label>
+                  <Control.text model='.apt'/>
+                </div>
               </div>
-              <div className="field col-md-2">
-                <label>Apt</label>
-                <Control.text model='.apt'/>
-              </div>
-            </div>
-            <div className="row">
-              <div className="field col-md-8">
-                <label>City</label>
-                <Control.text model='.city'/>
-              </div>
-              <div className="field col-md-2">
-                <label>State</label>
-                <Control.text model='.state'/>
-              </div>
-              <div className="field col-md-2">
-                <label>Current or previous residence?</label>
-                <Control.checkbox model='.residence'/>
+              <div className="row">
+                <div className="field col-md-8">
+                  <label>City</label>
+                  <Control.text model='.city'/>
+                </div>
+                <div className="field col-md-2">
+                  <label>State</label>
+                  <Control.text model='.state'/>
+                </div>
+                <div className="field col-md-2">
+                  <label>Residence</label>
+                  <Control.checkbox model='.residence'/>
+                </div>
               </div>
             </div>
             {a.residence===true &&
@@ -141,7 +143,7 @@ class AddressForm extends Component {
         <div className="sub-section">
           <button onClick={this.addAddress}>Add Address</button>
           <div className="row">
-            <div className='field'>
+            <div className='field col-md-6'>
               <label>Select Mailing Address</label>
               <Control.select model='person.mailing_address_id'>
                 <option value=''></option>

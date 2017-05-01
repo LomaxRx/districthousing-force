@@ -592,60 +592,64 @@ var AddressForm = function (_Component2) {
             ),
             React.createElement(
               'div',
-              { className: 'row' },
+              null,
               React.createElement(
                 'div',
-                { className: 'field col-md-10' },
+                { className: 'row' },
                 React.createElement(
-                  'label',
-                  null,
-                  'Street'
+                  'div',
+                  { className: 'field col-md-10' },
+                  React.createElement(
+                    'label',
+                    null,
+                    'Street'
+                  ),
+                  React.createElement(reactReduxForm.Control.text, { model: '.street' })
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.street' })
+                React.createElement(
+                  'div',
+                  { className: 'field col-md-2' },
+                  React.createElement(
+                    'label',
+                    null,
+                    'Apt'
+                  ),
+                  React.createElement(reactReduxForm.Control.text, { model: '.apt' })
+                )
               ),
               React.createElement(
                 'div',
-                { className: 'field col-md-2' },
+                { className: 'row' },
                 React.createElement(
-                  'label',
-                  null,
-                  'Apt'
+                  'div',
+                  { className: 'field col-md-8' },
+                  React.createElement(
+                    'label',
+                    null,
+                    'City'
+                  ),
+                  React.createElement(reactReduxForm.Control.text, { model: '.city' })
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.apt' })
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'row' },
-              React.createElement(
-                'div',
-                { className: 'field col-md-8' },
                 React.createElement(
-                  'label',
-                  null,
-                  'City'
+                  'div',
+                  { className: 'field col-md-2' },
+                  React.createElement(
+                    'label',
+                    null,
+                    'State'
+                  ),
+                  React.createElement(reactReduxForm.Control.text, { model: '.state' })
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.city' })
-              ),
-              React.createElement(
-                'div',
-                { className: 'field col-md-2' },
                 React.createElement(
-                  'label',
-                  null,
-                  'State'
-                ),
-                React.createElement(reactReduxForm.Control.text, { model: '.state' })
-              ),
-              React.createElement(
-                'div',
-                { className: 'field col-md-2' },
-                React.createElement(
-                  'label',
-                  null,
-                  'Current or previous residence?'
-                ),
-                React.createElement(reactReduxForm.Control.checkbox, { model: '.residence' })
+                  'div',
+                  { className: 'field col-md-2' },
+                  React.createElement(
+                    'label',
+                    null,
+                    'Residence'
+                  ),
+                  React.createElement(reactReduxForm.Control.checkbox, { model: '.residence' })
+                )
               )
             ),
             a.residence === true && React.createElement(ResidenceForm, { addressId: i })
@@ -664,7 +668,7 @@ var AddressForm = function (_Component2) {
             { className: 'row' },
             React.createElement(
               'div',
-              { className: 'field' },
+              { className: 'field col-md-6' },
               React.createElement(
                 'label',
                 null,
