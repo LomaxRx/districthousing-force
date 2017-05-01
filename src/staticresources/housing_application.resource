@@ -1,9 +1,10 @@
-var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,DayPicker,moment) {
+var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,DayPicker,moment,Jump) {
 'use strict';
 
 Thunk = 'default' in Thunk ? Thunk['default'] : Thunk;
 DayPicker = 'default' in DayPicker ? DayPicker['default'] : DayPicker;
 moment = 'default' in moment ? moment['default'] : moment;
+Jump = 'default' in Jump ? Jump['default'] : Jump;
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -288,6 +289,13 @@ var getIndex = function getIndex(list, id) {
   for (var i = 0; i < list.length; i++) {
     if (list[i].id === id) return i;
   }return false;
+};
+
+var easeInOutQuad = function easeInOutQuad(t, b, c, d) {
+  t /= d / 2;
+  if (t < 1) return c / 2 * t * t + b;
+  t--;
+  return -c / 2 * (t * (t - 2) - 1) + b;
 };
 
 var DatePicker = function (_Component) {
@@ -1622,6 +1630,97 @@ var mapStateToProps$5 = function mapStateToProps(state) {
 
 var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$5)(CriminalHistoryForm);
 
+var NavSection = function (_Component) {
+  inherits(NavSection, _Component);
+
+  function NavSection() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, NavSection);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = NavSection.__proto__ || Object.getPrototypeOf(NavSection)).call.apply(_ref, [this].concat(args))), _this), _this.click = function () {
+      var anchor = _this.props.anchor;
+
+      Jump(anchor, {
+        easing: easeInOutQuad
+      });
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(NavSection, [{
+    key: 'render',
+    value: function render$$1() {
+      var label = this.props.label;
+
+      return React.createElement(
+        'div',
+        {
+          className: 'nav-section',
+          onMouseDown: this.click },
+        label
+      );
+    }
+  }]);
+  return NavSection;
+}(react.Component);
+
+var Nav = function (_Component2) {
+  inherits(Nav, _Component2);
+
+  function Nav() {
+    classCallCheck(this, Nav);
+    return possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).apply(this, arguments));
+  }
+
+  createClass(Nav, [{
+    key: 'render',
+    value: function render$$1() {
+      return React.createElement(
+        'nav',
+        null,
+        React.createElement(
+          'div',
+          { className: 'nav-sections-wrapper' },
+          React.createElement(
+            'div',
+            { className: 'nav-sections' },
+            React.createElement(NavSection, {
+              anchor: '#contact_information',
+              label: 'Contact' }),
+            React.createElement(NavSection, {
+              anchor: '#addresses',
+              label: 'Addresses' }),
+            React.createElement(NavSection, {
+              anchor: '#household_members',
+              label: 'Household' }),
+            React.createElement(NavSection, {
+              anchor: '#incomes',
+              label: 'Income' }),
+            React.createElement(NavSection, {
+              anchor: '#employments',
+              label: 'Employment' }),
+            React.createElement(NavSection, {
+              anchor: '#criminal_histories',
+              label: 'Record' })
+          )
+        ),
+        React.createElement(
+          'button',
+          null,
+          'Submit'
+        )
+      );
+    }
+  }]);
+  return Nav;
+}(react.Component);
+
 var App = function (_Component) {
   inherits(App, _Component);
 
@@ -1637,16 +1736,21 @@ var App = function (_Component) {
         'main',
         null,
         React.createElement(
-          'h1',
+          'article',
           null,
-          'Affordable Housing FTW'
+          React.createElement(
+            'h1',
+            null,
+            'Affordable Housing FTW'
+          ),
+          React.createElement(PersonForm$1, null),
+          React.createElement(AddressForm$1, null),
+          React.createElement(HouseholdMemberForm$1, null),
+          React.createElement(IncomeForm$1, null),
+          React.createElement(EmploymentForm$1, null),
+          React.createElement(CriminalHistoryForm$1, null)
         ),
-        React.createElement(PersonForm$1, null),
-        React.createElement(AddressForm$1, null),
-        React.createElement(HouseholdMemberForm$1, null),
-        React.createElement(IncomeForm$1, null),
-        React.createElement(EmploymentForm$1, null),
-        React.createElement(CriminalHistoryForm$1, null)
+        React.createElement(Nav, null)
       );
     }
   }]);
@@ -1667,4 +1771,4 @@ var HapForm = function HapForm() {
 
 return HapForm;
 
-}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,React,ReactDOM,DayPicker,moment));
+}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,React,ReactDOM,DayPicker,moment,Jump));

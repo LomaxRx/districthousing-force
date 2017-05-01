@@ -14,18 +14,22 @@ import HouseholdMemberForm from './components/HouseholdMember';
 import IncomeForm from './components/Income';
 import EmploymentForm from './components/Employment';
 import CriminalHistoryForm from './components/CriminalHistory';
+import Nav from './components/Nav';
 
 class App extends Component {
   render(){
     return (
       <main>
-        <h1>Affordable Housing FTW</h1>
-        <PersonForm />
-        <AddressForm />
-        <HouseholdMemberForm />
-        <IncomeForm />
-        <EmploymentForm />
-        <CriminalHistoryForm />
+        <article>
+          <h1>Affordable Housing FTW</h1>
+          <PersonForm />
+          <AddressForm />
+          <HouseholdMemberForm />
+          <IncomeForm />
+          <EmploymentForm />
+          <CriminalHistoryForm />
+        </article>
+        <Nav/>
       </main>
     );
   }

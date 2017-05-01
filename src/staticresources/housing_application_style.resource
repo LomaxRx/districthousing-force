@@ -1,9 +1,9 @@
-#app section h3, #app .row {
+#app section h3, #app nav, #app .row {
   *zoom: 1; }
-  #app section h3:before, #app .row:before, #app section h3:after, #app .row:after {
+  #app section h3:before, #app nav:before, #app .row:before, #app section h3:after, #app nav:after, #app .row:after {
     content: " ";
     display: table; }
-  #app section h3:after, #app .row:after {
+  #app section h3:after, #app nav:after, #app .row:after {
     clear: both; }
 
 /* DayPicker styles */
@@ -196,17 +196,23 @@
     box-sizing: border-box; }
   #app h1, #app h2, #app h3 {
     font-weight: 900;
-    text-transform: uppercase;
     display: block;
     color: rgba(72, 72, 72, 0.6); }
   #app h1 {
-    font-size: 2rem; }
+    font-size: 2rem;
+    color: #484848;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-weight: 600; }
   #app h2 {
+    font-family: 'Fira Sans Condensed', sans-serif;
+    text-transform: uppercase;
     font-size: 1.4rem; }
-  #app main {
+  #app h3 {
+    text-transform: uppercase; }
+  #app article {
     width: 66.666%;
+    padding: 0 15px 0 40px;
     max-width: 1020px;
-    margin: 0 auto;
     display: block; }
   #app section {
     display: block;
@@ -214,6 +220,8 @@
     border-radius: 0px;
     box-shadow: 0px 0px 1px 0px #AFAFB1;
     background: #fff; }
+    #app section#contact_information {
+      margin-top: 15px; }
     #app section h2 {
       padding: 40px 0 0 40px;
       font-size: 1.2rem;
@@ -222,6 +230,64 @@
     #app section h3 {
       position: relative;
       left: -5px; }
+  #app nav {
+    width: 25%;
+    padding: 0 40px 0 15px;
+    position: fixed;
+    right: 0;
+    top: 150px; }
+    #app nav .nav-sections-wrapper {
+      position: relative; }
+    #app nav .nav-sections:before {
+      width: 0.5em;
+      background: rgba(72, 72, 72, 0.15);
+      border-radius: 0.5em;
+      position: absolute;
+      left: -1.5em;
+      top: 10px;
+      display: block;
+      content: ' ';
+      height: calc(100% - 0.6em - 20px); }
+    #app nav .nav-section {
+      position: relative;
+      top: -0.3em;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 10px 0;
+      color: rgba(72, 72, 72, 0.6);
+      -webkit-transition: all 0.1s ease-in;
+      -moz-transition: all 0.1s ease-in;
+      -ms-transition: all 0.1s ease-in;
+      -o-transition: all 0.1s ease-in;
+      transition: all 0.1s ease-in; }
+      #app nav .nav-section:before {
+        content: ' ';
+        display: block;
+        height: 0.5em;
+        width: 0.5em;
+        border-radius: 0.5em;
+        background: rgba(72, 72, 72, 0.4);
+        left: -1.5em;
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+        -o-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+        -webkit-transition: all 0.1s ease-in;
+        -moz-transition: all 0.1s ease-in;
+        -ms-transition: all 0.1s ease-in;
+        -o-transition: all 0.1s ease-in;
+        transition: all 0.1s ease-in; }
+      #app nav .nav-section:hover {
+        color: #3f92bd; }
+        #app nav .nav-section:hover:before {
+          background: #3f92bd;
+          border-radius: .75em;
+          height: .75em;
+          width: .75em;
+          left: -1.65em; }
   #app form, #app .sub-section {
     display: block;
     width: 100%;

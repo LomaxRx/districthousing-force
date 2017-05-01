@@ -1,5 +1,6 @@
 <apex:page showHeader="true" sidebar="false" controller="HousingApplicationController">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:600,700" rel="stylesheet"></link>
     <apex:stylesheet value="{!$Resource.bootstrap_grid}"/>
     <apex:stylesheet value="{!$Resource.housing_application_style}"/>
 
@@ -11,6 +12,7 @@
     <apex:includeScript value="{!$Resource.react_redux_form}"/>
     <apex:includeScript value="{!$Resource.moment}"/>
     <apex:includeScript value="{!$Resource.react_datepicker}"/>
+    <apex:includeScript value="{!$Resource.jump}"/>
     <apex:includeScript value="{!$Resource.housing_application}"/>
 
     <div id="app"></div>
