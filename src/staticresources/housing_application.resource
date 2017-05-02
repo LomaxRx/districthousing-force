@@ -1,11 +1,10 @@
-var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,DayPicker,moment,Jump,ApexActions) {
+var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,DayPicker,moment,Jump,apexActions) {
 'use strict';
 
 Thunk = 'default' in Thunk ? Thunk['default'] : Thunk;
 DayPicker = 'default' in DayPicker ? DayPicker['default'] : DayPicker;
 moment = 'default' in moment ? moment['default'] : moment;
 Jump = 'default' in Jump ? Jump['default'] : Jump;
-ApexActions = 'default' in ApexActions ? ApexActions['default'] : ApexActions;
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -98,6 +97,34 @@ var possibleConstructorReturn = function (self, call) {
   }
 
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
 };
 
 var _Address;
@@ -442,7 +469,7 @@ var ResidenceForm = function (_Component) {
 
       return React.createElement(
         reactReduxForm.Form,
-        { model: reactReduxForm.track('residences[]', { id: id }) },
+        { model: reactReduxForm.track('formData.residences[]', { id: id }) },
         React.createElement(
           'div',
           { className: 'row' },
@@ -533,7 +560,7 @@ var ResidenceForm = function (_Component) {
 
 var mapStateToResidenceProps = function mapStateToResidenceProps(state) {
   return {
-    residences: state.residences
+    residences: state.formData.residences
   };
 };
 
@@ -585,7 +612,7 @@ var AddressForm = function (_Component2) {
         addresses.map(function (a, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('addresses[]', { id: a.id }), className: 'form-item' },
+            { model: reactReduxForm.track('formData.addresses[]', { id: a.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -685,7 +712,7 @@ var AddressForm = function (_Component2) {
               ),
               React.createElement(
                 reactReduxForm.Control.select,
-                { model: 'person.mailing_address_id' },
+                { model: 'formData.person.mailing_address_id' },
                 React.createElement('option', { value: '' }),
                 addresses.map(function (a, i) {
                   return React.createElement(
@@ -706,7 +733,7 @@ var AddressForm = function (_Component2) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    addresses: state.addresses
+    addresses: state.formData.addresses
   };
 };
 
@@ -735,7 +762,7 @@ var PersonForm = function (_Component) {
         ),
         React.createElement(
           reactReduxForm.Form,
-          { model: 'person' },
+          { model: 'formData.person' },
           React.createElement(
             'div',
             { className: 'row' },
@@ -991,7 +1018,7 @@ var PersonForm = function (_Component) {
 
 var mapStateToProps$1 = function mapStateToProps(state) {
   return {
-    addresses: state.addresses
+    addresses: state.formData.addresses
   };
 };
 
@@ -1043,7 +1070,7 @@ var HouseholdMemberForm = function (_Component) {
         household_members.map(function (h, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('household_members[]', { id: h.id }), className: 'form-item' },
+            { model: reactReduxForm.track('formData.household_members[]', { id: h.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -1172,7 +1199,7 @@ var HouseholdMemberForm = function (_Component) {
 
 var mapStateToProps$2 = function mapStateToProps(state) {
   return {
-    household_members: state.household_members
+    household_members: state.formData.household_members
   };
 };
 
@@ -1224,7 +1251,7 @@ var IncomeForm = function (_Component) {
         incomes.map(function (inc, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('incomes[]', { id: inc.id }), className: 'form-item' },
+            { model: reactReduxForm.track('formData.incomes[]', { id: inc.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -1291,7 +1318,7 @@ var IncomeForm = function (_Component) {
 
 var mapStateToProps$3 = function mapStateToProps(state) {
   return {
-    incomes: state.incomes
+    incomes: state.formData.incomes
   };
 };
 
@@ -1343,7 +1370,7 @@ var EmploymentForm = function (_Component) {
         employments.map(function (e, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('employments[]', { id: e.id }), className: 'form-item' },
+            { model: reactReduxForm.track('formData.employments[]', { id: e.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -1502,7 +1529,7 @@ var EmploymentForm = function (_Component) {
 
 var mapStateToProps$4 = function mapStateToProps(state) {
   return {
-    employments: state.employments
+    employments: state.formData.employments
   };
 };
 
@@ -1554,7 +1581,7 @@ var CriminalHistoryForm = function (_Component) {
         criminal_histories.map(function (c, i) {
           return React.createElement(
             reactReduxForm.Form,
-            { model: reactReduxForm.track('criminal_histories[]', { id: c.id }), className: 'form-item' },
+            { model: reactReduxForm.track('formData.criminal_histories[]', { id: c.id }), className: 'form-item' },
             React.createElement(
               'h3',
               null,
@@ -1625,11 +1652,24 @@ var CriminalHistoryForm = function (_Component) {
 
 var mapStateToProps$5 = function mapStateToProps(state) {
   return {
-    criminal_histories: state.criminal_histories
+    criminal_histories: state.formData.criminal_histories
   };
 };
 
 var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$5)(CriminalHistoryForm);
+
+var submitFormData = function submitFormData() {
+  return function (dispatch, getState) {
+    dispatch({ type: 'SET_STATUS', status: 'LOADING' });
+
+    var _getState = getState(),
+        formData = _getState.formData;
+
+    apexActions.submit(formData, function () {
+      dispatch({ type: 'SET_STATUS', status: 'COMPLETE' });
+    });
+  };
+};
 
 var NavSection = function (_Component) {
   inherits(NavSection, _Component);
@@ -1675,16 +1715,24 @@ var Nav = function (_Component2) {
   inherits(Nav, _Component2);
 
   function Nav() {
+    var _ref2;
+
+    var _temp2, _this2, _ret2;
+
     classCallCheck(this, Nav);
-    return possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).apply(this, arguments));
+
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return _ret2 = (_temp2 = (_this2 = possibleConstructorReturn(this, (_ref2 = Nav.__proto__ || Object.getPrototypeOf(Nav)).call.apply(_ref2, [this].concat(args))), _this2), _this2.submit = function () {
+      var dispatch = _this2.props.dispatch;
+
+      dispatch(submitFormData);
+    }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
   createClass(Nav, [{
-    key: 'submit',
-    value: function submit() {
-      ApexActions.submit('{LOOK AT ALL THIS DATA!}');
-    }
-  }, {
     key: 'render',
     value: function render$$1() {
       return React.createElement(
@@ -1727,6 +1775,32 @@ var Nav = function (_Component2) {
   return Nav;
 }(react.Component);
 
+var Nav$1 = reactRedux.connect()(Nav);
+
+var status = function status() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'READY';
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SET_STATUS':
+      return action.status;
+    default:
+      return state;
+  }
+};
+
+var pdfResults = function pdfResults() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SET_PDF_RESULTS':
+      return [].concat(toConsumableArray(action.pdfResults));
+    default:
+      return state;
+  }
+};
+
 var App = function (_Component) {
   inherits(App, _Component);
 
@@ -1756,25 +1830,54 @@ var App = function (_Component) {
           React.createElement(EmploymentForm$1, null),
           React.createElement(CriminalHistoryForm$1, null)
         ),
-        React.createElement(Nav, null)
+        React.createElement(Nav$1, null)
       );
     }
   }]);
   return App;
 }(react.Component);
 
-var HapForm = function HapForm() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var idSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'app';
-  classCallCheck(this, HapForm);
+var HapForm = function () {
+  function HapForm() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+    var idSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'app';
+    classCallCheck(this, HapForm);
 
-  this.store = redux.createStore(reactReduxForm.combineForms(state), redux.applyMiddleware(Thunk));
-  reactDom.render(React.createElement(
-    reactRedux.Provider,
-    { store: this.store },
-    React.createElement(App, null)
-  ), document.getElementById(idSelector));
-};
+    this.store = redux.createStore(redux.combineReducers({
+      status: status,
+      pdfResults: pdfResults,
+      formData: reactReduxForm.combineForms(state, 'formData')
+    }), redux.applyMiddleware(Thunk));
+    reactDom.render(React.createElement(
+      reactRedux.Provider,
+      { store: this.store },
+      React.createElement(App, null)
+    ), document.getElementById(idSelector));
+  }
+
+  createClass(HapForm, [{
+    key: 'setStatus',
+    value: function setStatus(status$$1) {
+      var dispatch = this.store.dispatch;
+
+      dispatch({
+        type: 'SET_STATUS',
+        status: status$$1
+      });
+    }
+  }, {
+    key: 'setPDFResults',
+    value: function setPDFResults(pdfResults$$1) {
+      var dispatch = this.store.dispatch;
+
+      dispatch({
+        type: 'SET_PDF_RESULTS',
+        pdfResults: pdfResults$$1
+      });
+    }
+  }]);
+  return HapForm;
+}();
 
 return HapForm;
 

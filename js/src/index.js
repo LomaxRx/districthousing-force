@@ -1,6 +1,6 @@
 import './sass/index.scss';
 
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { initialState } from './initialState';
 import { combineForms } from 'react-redux-form';
@@ -15,6 +15,8 @@ import IncomeForm from './components/Income';
 import EmploymentForm from './components/Employment';
 import CriminalHistoryForm from './components/CriminalHistory';
 import Nav from './components/Nav';
+
+import { status, pdfResults } from './reducers';
 
 class App extends Component {
   render(){
@@ -37,8 +39,11 @@ class App extends Component {
 
 export default class HapForm{
     constructor(state=initialState, idSelector='app'){
-        this.store = createStore(
-          combineForms(state),
+        this.store = createStore(combineReducers({
+            status,
+            pdfResults,
+            formData: combineForms(state, 'formData')
+          }),
           applyMiddleware(Thunk)
         );
         render(
@@ -47,5 +52,21 @@ export default class HapForm{
           </Provider>,
           document.getElementById(idSelector)
         );
+    }
+
+    setStatus(status){
+      let { dispatch } = this.store;
+      dispatch({
+        type: 'SET_STATUS',
+        status
+      });
+    }
+
+    setPDFResults(pdfResults){
+      let { dispatch } = this.store;
+      dispatch({
+        type: 'SET_PDF_RESULTS',
+        pdfResults
+      });
     }
 }

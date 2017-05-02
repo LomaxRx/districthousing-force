@@ -39,7 +39,7 @@ class ResidenceForm extends Component {
   render(){
     const { id } = this.state;
     return(
-      <Form model={track('residences[]', { id })}>
+      <Form model={track('formData.residences[]', { id })}>
         <div className="row">
           <div className="field col-md-5">
             <label>Start Date</label>
@@ -80,7 +80,7 @@ class ResidenceForm extends Component {
 }
 
 const mapStateToResidenceProps = (state) => ({
-  residences: state.residences
+  residences: state.formData.residences
 });
 
 ResidenceForm = connect(mapStateToResidenceProps)(ResidenceForm);
@@ -104,7 +104,7 @@ class AddressForm extends Component {
       <section id='addresses' className='form-list'>
         <h2>Current and Previous Addresses</h2>
         {addresses.map((a, i) => (
-          <Form model={track('addresses[]', { id: a.id })} className='form-item'>
+          <Form model={track('formData.addresses[]', { id: a.id })} className='form-item'>
             <h3>
               Address {i+1}
               <button className='remove-button'onClick={()=>{this.removeAddress(i)}}>X</button>
@@ -145,7 +145,7 @@ class AddressForm extends Component {
           <div className="row">
             <div className='field col-md-6'>
               <label>Select Mailing Address</label>
-              <Control.select model='person.mailing_address_id'>
+              <Control.select model='formData.person.mailing_address_id'>
                 <option value=''></option>
                 {addresses.map((a,i)=>(
                   <option value={a.id}>{`${a.street||''} ${a.city||''}, ${a.state||''}`}</option>
@@ -160,7 +160,7 @@ class AddressForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  addresses: state.addresses
+  addresses: state.formData.addresses
 });
 
 export default connect(

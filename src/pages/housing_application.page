@@ -15,17 +15,6 @@
     <apex:includeScript value="{!$Resource.ApexActions}"/>
     <apex:includeScript value="{!$Resource.housing_application}"/>
 
-    <div id="app">
-      <div id="form"></div>
-      <apex:outputPanel id="pdf-results">
-        <apex:repeat value="{!pdfResults}" var="result">
-          <div class="pdf-result">
-            <apex:outputLink value="{!result.url}" target="_blank">{!result.building}</apex:outputLink>
-          </div>
-        </apex:repeat>
-      </apex:outputPanel>
-    </div>
-
     <apex:form>
       <!-- ApexActions is literally just `var ApexActions = {};`. Used to map actionFunctions to object -->
       <apex:actionFunction action="{!submit}" name="submitData" reRender="pdf-results">
@@ -33,9 +22,21 @@
       </apex:actionFunction>
     </apex:form>
 
-    <script type="text/javascript">
-      ApexActions.submit = submitData;
+    <div id="app">
+      <div id="form"></div>
+    </div>
 
+    <script type="text/javascript">
+      ApexActions.submit = function(formData, callback){
+        submitData(formData);
+        callBack();
+      };
       var hapForm = new HapForm({!initialState}, 'form');
     </script>
+    <apex:outputPanel id="pdf-results">
+      <script type="text/javascript">
+        hapForm.setPDFResults({!pdfJSONResults});
+      </script>
+    </apex:outputPanel>
+
 </apex:page>

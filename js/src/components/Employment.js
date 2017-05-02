@@ -24,7 +24,7 @@ class EmploymentForm extends Component {
       <section id='employments' className='form-list'>
         <h2>Employment History</h2>
         {employments.map((e,i)=>(
-          <Form model={track('employments[]', { id: e.id })} className='form-item'>
+          <Form model={track('formData.employments[]', { id: e.id })} className='form-item'>
             <h3>
               Employment {i+1}
               <button className='remove-button' onClick={()=>{this.removeEmployment(i)}}>X</button>
@@ -92,7 +92,7 @@ class EmploymentForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  employments: state.employments
+  employments: state.formData.employments
 });
 
 export default connect(mapStateToProps)(EmploymentForm);

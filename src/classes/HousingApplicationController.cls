@@ -3,6 +3,7 @@ public class HousingApplicationController {
 	public String clientId {get; set;}
 	public String initialState {get; set;}
 	public HousingApplication.PDFResult[] pdfResults {get; set;}
+	public String pdfJSONResults {get; set;}
 	public String status {get; set;}
 	/** actionFunction submitData passes formData **/
 	public String formData {get; set;}
@@ -11,12 +12,16 @@ public class HousingApplicationController {
 		clientId = ApexPages.currentPage().getParameters().get('clientId');
 		hapForm = new HousingApplication.Form(clientId);
 		initialState = hapForm.toJSON();
+
+		pdfResults = new List<HousingApplication.PDFResult>();
+		pdfJSONResults = JSON.serialize(pdfResults);
 		status = 'READY';
 	}
 
 	public void submit(){
 		status = 'FETCHING';
 		pdfResults = fetchPDFs();
+		pdfJSONResults = JSON.serialize(pdfResults);
 		status = 'GENERATED';
 		for(HousingApplication.PDFResult r :pdfResults){
 			r.status = 'DOWNLOADING';

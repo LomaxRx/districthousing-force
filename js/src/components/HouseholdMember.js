@@ -24,7 +24,7 @@ class HouseholdMemberForm extends Component {
       <section id='household_members' className='form-list'>
         <h2>Household Members</h2>
         {household_members.map((h,i)=>(
-          <Form model={track('household_members[]', { id: h.id })} className='form-item'>
+          <Form model={track('formData.household_members[]', { id: h.id })} className='form-item'>
             <h3>
               Member {i+1}
               <button className='remove-button' onClick={()=>{this.removeHouseholdMember(i)}}>X</button>
@@ -80,7 +80,7 @@ class HouseholdMemberForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  household_members: state.household_members
+  household_members: state.formData.household_members
 });
 
 export default connect(mapStateToProps)(HouseholdMemberForm);

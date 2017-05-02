@@ -1,6 +1,7 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import Jump from 'jump.js';
-import ApexActions from 'apex-actions';
+import { submitFormData } from '../actions';
 import { easeInOutQuad } from '../utils';
 
 class NavSection extends Component {
@@ -23,9 +24,10 @@ class NavSection extends Component {
   }
 }
 
-export default class Nav extends Component {
-  submit() {
-      ApexActions.submit('{LOOK AT ALL THIS DATA!}');
+class Nav extends Component {
+  submit = () => {
+      let { dispatch } = this.props;
+      dispatch(submitFormData);
   }
 
   render(){
@@ -58,3 +60,5 @@ export default class Nav extends Component {
     )
   }
 }
+
+export default connect()(Nav);

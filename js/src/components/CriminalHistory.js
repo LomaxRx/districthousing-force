@@ -23,7 +23,7 @@ class CriminalHistoryForm extends Component {
       <section id='criminal_histories' className='form-list'>
         <h2>Criminal History</h2>
         {criminal_histories.map((c,i)=>(
-          <Form model={track('criminal_histories[]', { id: c.id })} className='form-item'>
+          <Form model={track('formData.criminal_histories[]', { id: c.id })} className='form-item'>
             <h3>
               Criminal History {i+1}
               <button className='remove-button' onClick={()=>{this.removeCriminalHistory(i)}}>X</button>
@@ -55,7 +55,7 @@ class CriminalHistoryForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  criminal_histories: state.criminal_histories
+  criminal_histories: state.formData.criminal_histories
 });
 
 export default connect(mapStateToProps)(CriminalHistoryForm);

@@ -9,7 +9,7 @@ class PersonForm extends Component {
     return (
       <section id="contact_information">
         <h2>Contact Information</h2>
-        <Form model='person'>
+        <Form model='formData.person'>
           <div className='row'>
             <div className='field col-md-4'>
               <label>First Name</label>
@@ -119,7 +119,7 @@ class PersonForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  addresses: state.addresses
+  addresses: state.formData.addresses
 });
 
 export default connect(mapStateToProps)(PersonForm);
