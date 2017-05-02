@@ -173,15 +173,17 @@ public class HousingApplication {
     }
 
     private Case__c getHapCase(String clientId){
-  		Case__c[] cases = [
-  			SELECT Id, Name, RecordType.Name, HAP_Start_Date__c, HAP_End_Date__c,
-  			Age__c, Wheelchair__c, 	Disability__c, Bedrooms_Needed__c
+      Case__c[] cases = [
+        SELECT Id, Name, RecordType.Name, HAP_Start_Date__c, HAP_End_Date__c,
+        Age__c, Wheelchair__c, 	Disability__c, Bedrooms_Needed__c
         FROM Case__c
-  			WHERE Client__c=:clientId AND RecordType.Name='HAP'
-  		];
-  		if(cases.size()>0) return cases[0];
-  		return null;
-  	}
+        WHERE Client__c=:clientId AND RecordType.Name='HAP'
+      ];
+
+      if(cases.size()>0) return cases[0];
+
+      return null;
+    }
 
     private void mapPerson(Client__c c){
       data.person.first_name = c.First_Name__c;

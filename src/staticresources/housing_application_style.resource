@@ -291,7 +291,7 @@
           border-radius: .75em;
           height: .75em;
           width: .75em;
-          left: -1.65em; }
+          left: -1.6em; }
     #app nav button {
       -webkit-transform: translateX(-25%);
       -moz-transform: translateX(-25%);

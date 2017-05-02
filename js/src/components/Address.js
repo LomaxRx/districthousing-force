@@ -108,7 +108,7 @@ class AddressForm extends Component {
           <Form model={track('formData.addresses[]', { id: a.id })} className='form-item'>
             <h3>
               Address {i+1}
-              <button className='remove-button'onClick={()=>{this.removeAddress(i)}}>X</button>
+              <button className='remove-button' onClick={()=>{this.removeAddress(i)}}>X</button>
             </h3>
             <div>
               <div className="row">

@@ -1796,7 +1796,9 @@ var Nav = function (_Component2) {
           dispatch = _this2$props.dispatch;
 
       dispatch({ type: 'SET_STATUS', status: 'FETCHING' });
-      apexActions.fetchPDFs(formData);
+      setTimeout(function () {
+        apexActions.fetchPDFs(formData);
+      }, 1500);
     }, _this2.uploadToBox = function () {
       var dispatch = _this2.props.dispatch;
 

@@ -40,7 +40,7 @@ class Nav extends Component {
   submit = () => {
     let { formData, dispatch } = this.props;
     dispatch({type:'SET_STATUS', status: 'FETCHING'});
-    fetchPDFs(formData);
+    setTimeout(()=>{fetchPDFs(formData);}, 1500);
   }
 
   uploadToBox = () => {
