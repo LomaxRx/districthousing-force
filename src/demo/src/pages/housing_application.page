@@ -1,0 +1,49 @@
+<apex:page showHeader="true" sidebar="false" controller="HousingApplicationController">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:600,700" rel="stylesheet"></link>
+    <apex:stylesheet value="{!$Resource.bootstrap_grid}"/>
+    <apex:stylesheet value="{!$Resource.housing_application_style}"/>
+    <apex:includeScript value="{!$Resource.react}"/>
+    <apex:includeScript value="{!$Resource.react_dom}"/>
+    <apex:includeScript value="{!$Resource.redux}"/>
+    <apex:includeScript value="{!$Resource.react_redux}"/>
+    <apex:includeScript value="{!$Resource.redux_thunk}"/>
+    <apex:includeScript value="{!$Resource.react_redux_form}"/>
+    <apex:includeScript value="{!$Resource.moment}"/>
+    <apex:includeScript value="{!$Resource.react_datepicker}"/>
+    <apex:includeScript value="{!$Resource.jump}"/>
+    <apex:includeScript value="{!$Resource.ApexActions}"/>
+    <apex:includeScript value="{!$Resource.housing_application}"/>
+
+    <!--
+      Resource.ApexActions is literally just `var ApexActions = {};`.
+      This object is used to make actionFunctions available as a global object.
+      These actions are used as makeshift async dispatch actions in React-Redux
+    -->
+    <apex:form>
+      <apex:actionFunction action="{!fetchPDFs}" name="fetchPDFs" reRender="callback">
+          <apex:param name="formData" assignTo="{!formData}" value="{!initialState}" />
+      </apex:actionFunction>
+      <apex:actionFunction action="{!uploadPDFsToBox}" name="uploadPDFsToBox" reRender="callback" />
+    </apex:form>
+
+    <div id="app">
+      <div id="form"></div>
+    </div>
+
+    <script type="text/javascript">
+      ApexActions.fetchPDFs = fetchPDFs;
+      ApexActions.uploadPDFsToBox = uploadPDFsToBox;
+
+      var hapForm = new HapForm({!initialState}, 'form');
+    </script>
+
+    <!-- makeshift callback function after ApexActions call -->
+    <apex:outputPanel id="callback">
+      <script type="text/javascript">
+        hapForm.setPDFResults({!pdfJSONResults});
+        hapForm.setStatus('{!status}');
+      </script>
+    </apex:outputPanel>
+
+</apex:page>
