@@ -7,14 +7,14 @@ import { uniqueInteger } from '../utils';
 class CriminalHistoryForm extends Component {
   addCriminalHistory = () => {
     const { dispatch, criminal_histories } = this.props;
-    dispatch(actions.push('criminal_histories', {
+    dispatch(actions.push('formData.criminal_histories', {
       ...models.CriminalHistory, id: uniqueInteger(criminal_histories)
     }));
   }
 
   removeCriminalHistory = (index) => {
     const { dispatch } = this.props;
-    dispatch(actions.remove('criminal_histories', index));
+    dispatch(actions.remove('formData.criminal_histories', index));
   }
 
   render() {

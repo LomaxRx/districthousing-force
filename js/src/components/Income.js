@@ -7,14 +7,14 @@ import { uniqueInteger } from '../utils';
 class IncomeForm extends Component {
   addIncome = () => {
     const { dispatch, incomes } = this.props;
-    dispatch(actions.push('incomes', {
+    dispatch(actions.push('formData.incomes', {
       ...models.Income, id: uniqueInteger(incomes)
     }));
   }
 
   removeIncome = (index) => {
     const { dispatch } = this.props;
-    dispatch(actions.remove('incomes', index));
+    dispatch(actions.remove('formData.incomes', index));
   }
 
   render() {

@@ -8,14 +8,14 @@ import DatePicker from './DatePicker';
 class EmploymentForm extends Component {
   addEmployment = () => {
     const { dispatch, employments } = this.props;
-    dispatch(actions.push('employments', {
+    dispatch(actions.push('formData.employments', {
       ...models.Employment, id: uniqueInteger(employments)
     }));
   }
 
   removeEmployment = (index) => {
     const { dispatch } = this.props;
-    dispatch(actions.remove('employments', index));
+    dispatch(actions.remove('formData.employments', index));
   }
 
   render() {

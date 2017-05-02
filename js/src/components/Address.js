@@ -9,7 +9,7 @@ class ResidenceForm extends Component {
   addResidence = () => {
     const { dispatch, residences, addressId } = this.props;
     let id = addressId;
-    dispatch(actions.push('residences', {
+    dispatch(actions.push('formData.residences', {
         ...models.Residence,
         address_id: addressId,
         id
@@ -21,7 +21,7 @@ class ResidenceForm extends Component {
   removeResidence = () => {
     const { dispatch, residences } = this.props;
     const { id } = this.state;
-    dispatch(actions.remove('residences'), getIndex(residences, id));
+    dispatch(actions.remove('formData.residences'), getIndex(residences, id));
   }
 
   componentWillMount(){
@@ -88,14 +88,14 @@ ResidenceForm = connect(mapStateToResidenceProps)(ResidenceForm);
 class AddressForm extends Component {
   addAddress = () => {
       const { dispatch, addresses } = this.props;
-      dispatch(actions.push('addresses', {
+      dispatch(actions.push('formData.addresses', {
         ...models.Address, id: uniqueInteger(addresses)
       }));
   }
 
   removeAddress = (index) => {
     const { dispatch } = this.props;
-    dispatch(actions.remove('addresses', index));
+    dispatch(actions.remove('formData.addresses', index));
   }
 
   render() {

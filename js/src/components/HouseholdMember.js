@@ -8,14 +8,14 @@ import DatePicker from './DatePicker';
 class HouseholdMemberForm extends Component {
   addHouseholdMember = () => {
     const { dispatch, household_members } = this.props;
-    dispatch(actions.push('household_members', {
+    dispatch(actions.push('formData.household_members', {
       ...models.HouseholdMember, id: uniqueInteger(household_members)
     }));
   }
 
   removeHouseholdMember = (index) => {
     const { dispatch } = this.props;
-    dispatch(actions.remove('household_members', index));
+    dispatch(actions.remove('formData.household_members', index));
   }
 
   render() {

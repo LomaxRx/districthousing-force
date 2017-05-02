@@ -29,7 +29,7 @@
     <script type="text/javascript">
       ApexActions.submit = function(formData, callback){
         submitData(formData);
-        callBack();
+        if(callback) callback();
       };
       var hapForm = new HapForm({!initialState}, 'form');
     </script>

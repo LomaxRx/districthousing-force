@@ -54,19 +54,17 @@ export default class HapForm{
         );
     }
 
-    setStatus(status){
-      let { dispatch } = this.store;
-      dispatch({
-        type: 'SET_STATUS',
-        status
-      });
-    }
-
     setPDFResults(pdfResults){
       let { dispatch } = this.store;
+
       dispatch({
         type: 'SET_PDF_RESULTS',
         pdfResults
+      });
+
+      dispatch({
+        type:'SET_STATUS',
+        status: 'READY'
       });
     }
 }

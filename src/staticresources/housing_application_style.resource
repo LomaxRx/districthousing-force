@@ -1,3 +1,4 @@
+@charset "UTF-8";
 #app section h3, #app nav, #app .row {
   *zoom: 1; }
   #app section h3:before, #app nav:before, #app .row:before, #app section h3:after, #app nav:after, #app .row:after {
@@ -230,6 +231,9 @@
     #app section h3 {
       position: relative;
       left: -5px; }
+  #app a {
+    text-decoration: none;
+    padding: 0.5em; }
   #app nav {
     width: 20%;
     padding: 0 40px 0 15px;
@@ -288,6 +292,45 @@
           height: .75em;
           width: .75em;
           left: -1.65em; }
+    #app nav .results {
+      margin: 25px 0;
+      -webkit-transform: translateX(-25%);
+      -moz-transform: translateX(-25%);
+      -ms-transform: translateX(-25%);
+      -o-transform: translateX(-25%);
+      transform: translateX(-25%); }
+    #app nav .pdf-result a {
+      display: block;
+      position: relative;
+      font-weight: 600;
+      background: #fff;
+      border: 1px solid rgba(72, 72, 72, 0.25);
+      box-shadow: 0px 0px 1px 0px rgba(72, 72, 72, 0.15);
+      padding-left: 3em; }
+      #app nav .pdf-result a:before {
+        content: '⇪';
+        font-weight: 300;
+        display: block;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+        position: absolute;
+        background: #AFAFB1;
+        color: white;
+        left: 0.5em;
+        top: 0.25em;
+        width: 1.5em;
+        height: 1.5em;
+        padding: 0.15em;
+        font-size: 1em;
+        text-align: center;
+        border-radius: 3em; }
+      #app nav .pdf-result a:hover {
+        color: #484848; }
+        #app nav .pdf-result a:hover:before {
+          background: rgba(0, 110, 167, 0.65); }
   #app form, #app .sub-section {
     display: block;
     width: 100%;
@@ -448,3 +491,42 @@
     #app button:hover.remove-button {
       border: 1px solid rgba(163, 38, 69, 0);
       background: rgba(163, 38, 69, 0.95); }
+  #app .spinner {
+    width: 70px;
+    height: 40px;
+    font-size: 10px;
+    margin-left: 3px; }
+  #app .spinner > div {
+    background-color: rgba(0, 110, 167, 0.55);
+    height: 100%;
+    width: 15%;
+    display: inline-block;
+    margin: 0 1px;
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out; }
+  #app .spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s; }
+  #app .spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s; }
+  #app .spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s; }
+  #app .spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s; }
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4); }
+  20% {
+    -webkit-transform: scaleY(1); } }
+
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4); }
+  20% {
+    transform: scaleY(1);
+    -webkit-transform: scaleY(1); } }

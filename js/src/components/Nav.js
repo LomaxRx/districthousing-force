@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Jump from 'jump.js';
-import { submitFormData } from '../actions';
+import { submit } from 'apex-actions';
 import { easeInOutQuad } from '../utils';
 
 class NavSection extends Component {
@@ -24,13 +24,21 @@ class NavSection extends Component {
   }
 }
 
+const PDFResult = (props) => (
+  <div className='pdf-result'>
+    <a href={props.url} target='_blank'>{props.building}</a>
+  </div>
+);
+
 class Nav extends Component {
   submit = () => {
-      let { dispatch } = this.props;
-      dispatch(submitFormData);
+    let { formData, dispatch } = this.props;
+    dispatch({type:'SET_STATUS', status: 'FETCHING'});
+    submit(formData);
   }
 
   render(){
+    let { results, status } = this.props;
     return(
       <nav>
         <div className="nav-sections-wrapper">
@@ -55,10 +63,32 @@ class Nav extends Component {
               label='Record'/>
           </div>
         </div>
-        <button onClick={this.submit}>Submit</button>
+        {status=='READY' &&
+          <button onClick={this.submit}>Submit</button>
+        }
+        {status=='FETCHING' &&
+          <div className="spinner">
+            <div className="rect1"></div>
+            <div className="rect2"></div>
+            <div className="rect3"></div>
+            <div className="rect4"></div>
+            <div className="rect5"></div>
+          </div>
+        }
+        <div className='results'>
+          {results.map((r,i)=>(
+            <PDFResult url={r.url} building={r.building} />
+          ))}
+        </div>
       </nav>
     )
   }
 }
 
-export default connect()(Nav);
+const mapStateToProps = (state) => ({
+  status: state.status,
+  results: state.pdfResults,
+  formData: state.formData
+});
+
+export default connect(mapStateToProps)(Nav);

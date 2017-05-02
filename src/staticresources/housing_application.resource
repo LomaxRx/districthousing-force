@@ -432,7 +432,7 @@ var ResidenceForm = function (_Component) {
           addressId = _this$props.addressId;
 
       var id = addressId;
-      dispatch(reactReduxForm.actions.push('residences', _extends({}, models.Residence, {
+      dispatch(reactReduxForm.actions.push('formData.residences', _extends({}, models.Residence, {
         address_id: addressId,
         id: id
       })));
@@ -444,7 +444,7 @@ var ResidenceForm = function (_Component) {
           residences = _this$props2.residences;
       var id = _this.state.id;
 
-      dispatch(reactReduxForm.actions.remove('residences'), getIndex(residences, id));
+      dispatch(reactReduxForm.actions.remove('formData.residences'), getIndex(residences, id));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -585,12 +585,12 @@ var AddressForm = function (_Component2) {
           dispatch = _this2$props.dispatch,
           addresses = _this2$props.addresses;
 
-      dispatch(reactReduxForm.actions.push('addresses', _extends({}, models.Address, { id: uniqueInteger(addresses)
+      dispatch(reactReduxForm.actions.push('formData.addresses', _extends({}, models.Address, { id: uniqueInteger(addresses)
       })));
     }, _this2.removeAddress = function (index) {
       var dispatch = _this2.props.dispatch;
 
-      dispatch(reactReduxForm.actions.remove('addresses', index));
+      dispatch(reactReduxForm.actions.remove('formData.addresses', index));
     }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
@@ -1043,12 +1043,12 @@ var HouseholdMemberForm = function (_Component) {
           dispatch = _this$props.dispatch,
           household_members = _this$props.household_members;
 
-      dispatch(reactReduxForm.actions.push('household_members', _extends({}, models.HouseholdMember, { id: uniqueInteger(household_members)
+      dispatch(reactReduxForm.actions.push('formData.household_members', _extends({}, models.HouseholdMember, { id: uniqueInteger(household_members)
       })));
     }, _this.removeHouseholdMember = function (index) {
       var dispatch = _this.props.dispatch;
 
-      dispatch(reactReduxForm.actions.remove('household_members', index));
+      dispatch(reactReduxForm.actions.remove('formData.household_members', index));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -1224,12 +1224,12 @@ var IncomeForm = function (_Component) {
           dispatch = _this$props.dispatch,
           incomes = _this$props.incomes;
 
-      dispatch(reactReduxForm.actions.push('incomes', _extends({}, models.Income, { id: uniqueInteger(incomes)
+      dispatch(reactReduxForm.actions.push('formData.incomes', _extends({}, models.Income, { id: uniqueInteger(incomes)
       })));
     }, _this.removeIncome = function (index) {
       var dispatch = _this.props.dispatch;
 
-      dispatch(reactReduxForm.actions.remove('incomes', index));
+      dispatch(reactReduxForm.actions.remove('formData.incomes', index));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -1343,12 +1343,12 @@ var EmploymentForm = function (_Component) {
           dispatch = _this$props.dispatch,
           employments = _this$props.employments;
 
-      dispatch(reactReduxForm.actions.push('employments', _extends({}, models.Employment, { id: uniqueInteger(employments)
+      dispatch(reactReduxForm.actions.push('formData.employments', _extends({}, models.Employment, { id: uniqueInteger(employments)
       })));
     }, _this.removeEmployment = function (index) {
       var dispatch = _this.props.dispatch;
 
-      dispatch(reactReduxForm.actions.remove('employments', index));
+      dispatch(reactReduxForm.actions.remove('formData.employments', index));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -1554,12 +1554,12 @@ var CriminalHistoryForm = function (_Component) {
           dispatch = _this$props.dispatch,
           criminal_histories = _this$props.criminal_histories;
 
-      dispatch(reactReduxForm.actions.push('criminal_histories', _extends({}, models.CriminalHistory, { id: uniqueInteger(criminal_histories)
+      dispatch(reactReduxForm.actions.push('formData.criminal_histories', _extends({}, models.CriminalHistory, { id: uniqueInteger(criminal_histories)
       })));
     }, _this.removeCriminalHistory = function (index) {
       var dispatch = _this.props.dispatch;
 
-      dispatch(reactReduxForm.actions.remove('criminal_histories', index));
+      dispatch(reactReduxForm.actions.remove('formData.criminal_histories', index));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -1658,19 +1658,6 @@ var mapStateToProps$5 = function mapStateToProps(state) {
 
 var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$5)(CriminalHistoryForm);
 
-var submitFormData = function submitFormData() {
-  return function (dispatch, getState) {
-    dispatch({ type: 'SET_STATUS', status: 'LOADING' });
-
-    var _getState = getState(),
-        formData = _getState.formData;
-
-    apexActions.submit(formData, function () {
-      dispatch({ type: 'SET_STATUS', status: 'COMPLETE' });
-    });
-  };
-};
-
 var NavSection = function (_Component) {
   inherits(NavSection, _Component);
 
@@ -1711,6 +1698,18 @@ var NavSection = function (_Component) {
   return NavSection;
 }(react.Component);
 
+var PDFResult = function PDFResult(props) {
+  return React.createElement(
+    'div',
+    { className: 'pdf-result' },
+    React.createElement(
+      'a',
+      { href: props.url, target: '_blank' },
+      props.building
+    )
+  );
+};
+
 var Nav = function (_Component2) {
   inherits(Nav, _Component2);
 
@@ -1726,15 +1725,22 @@ var Nav = function (_Component2) {
     }
 
     return _ret2 = (_temp2 = (_this2 = possibleConstructorReturn(this, (_ref2 = Nav.__proto__ || Object.getPrototypeOf(Nav)).call.apply(_ref2, [this].concat(args))), _this2), _this2.submit = function () {
-      var dispatch = _this2.props.dispatch;
+      var _this2$props = _this2.props,
+          formData = _this2$props.formData,
+          dispatch = _this2$props.dispatch;
 
-      dispatch(submitFormData);
+      dispatch({ type: 'SET_STATUS', status: 'FETCHING' });
+      apexActions.submit(formData);
     }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
   createClass(Nav, [{
     key: 'render',
     value: function render$$1() {
+      var _props = this.props,
+          results = _props.results,
+          status = _props.status;
+
       return React.createElement(
         'nav',
         null,
@@ -1764,10 +1770,26 @@ var Nav = function (_Component2) {
               label: 'Record' })
           )
         ),
-        React.createElement(
+        status == 'READY' && React.createElement(
           'button',
           { onClick: this.submit },
           'Submit'
+        ),
+        status == 'FETCHING' && React.createElement(
+          'div',
+          { className: 'spinner' },
+          React.createElement('div', { className: 'rect1' }),
+          React.createElement('div', { className: 'rect2' }),
+          React.createElement('div', { className: 'rect3' }),
+          React.createElement('div', { className: 'rect4' }),
+          React.createElement('div', { className: 'rect5' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'results' },
+          results.map(function (r, i) {
+            return React.createElement(PDFResult, { url: r.url, building: r.building });
+          })
         )
       );
     }
@@ -1775,7 +1797,15 @@ var Nav = function (_Component2) {
   return Nav;
 }(react.Component);
 
-var Nav$1 = reactRedux.connect()(Nav);
+var mapStateToProps$6 = function mapStateToProps(state) {
+  return {
+    status: state.status,
+    results: state.pdfResults,
+    formData: state.formData
+  };
+};
+
+var Nav$1 = reactRedux.connect(mapStateToProps$6)(Nav);
 
 var status = function status() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'READY';
@@ -1856,23 +1886,19 @@ var HapForm = function () {
   }
 
   createClass(HapForm, [{
-    key: 'setStatus',
-    value: function setStatus(status$$1) {
-      var dispatch = this.store.dispatch;
-
-      dispatch({
-        type: 'SET_STATUS',
-        status: status$$1
-      });
-    }
-  }, {
     key: 'setPDFResults',
     value: function setPDFResults(pdfResults$$1) {
       var dispatch = this.store.dispatch;
 
+
       dispatch({
         type: 'SET_PDF_RESULTS',
         pdfResults: pdfResults$$1
+      });
+
+      dispatch({
+        type: 'SET_STATUS',
+        status: 'READY'
       });
     }
   }]);
