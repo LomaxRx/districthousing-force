@@ -30,27 +30,29 @@ public class HousingApplicationController {
 
 	public void uploadPDFsToBox(){
 		for(HousingApplication.PDFResult r :pdfResults){
-			downloadPDF(r);
-			if(r.status=='FAILED_PDF_DOWNLOAD') continue;
-			uploadPDF(r);
+			Blob pdf = downloadPDF(r);
+			if(pdf==null) continue;
+			uploadPDF(r, pdf);
 		}
 		uploader.commitChanges();
 		status = 'COMPLETE';
 	}
 
-	private void downloadPDF(HousingApplication.PDFResult r){
+	private Blob downloadPDF(HousingApplication.PDFResult r){
 		try{
-			r.pdf = HousingApplication.downloadPDF(r.url);
+			Blob pdf = HousingApplication.downloadPDF(r.url);
 			r.status = 'PDF_DOWNLOADED';
+			return pdf;
 		} catch (Exception e){
 			r.status = 'FAILED_PDF_DOWNLOAD';
+			return null;
 		}
 	}
 
-	private void uploadPDF(HousingApplication.PDFResult r){
+	private void uploadPDF(HousingApplication.PDFResult r, Blob pdf){
 		try{
 			String name = System.now().format('yyyy-mm-dd HH:mm') + ' ' + r.building + '.pdf';
-			uploader.upload(r.pdf, hapForm.client.hapCase.Id, name);
+			uploader.upload(pdf, hapForm.client.hapCase.Id, name);
 			r.status = 'PDF_UPLOADED_TO_BOX';
 		} catch (Exception e){
 			r.status = 'FAILED_PDF_UPLOAD_TO_BOX';
