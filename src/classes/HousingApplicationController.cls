@@ -1,12 +1,12 @@
 public class HousingApplicationController {
 	private HousingApplication.Form hapForm;
 	private HousingApplication.BoxPDFUploader uploader;
+	private HousingApplication.PDFResult[] pdfResults;
 
 	public String clientId {get; set;}
 	public String initialState {get; set;}
-	public HousingApplication.PDFResult[] pdfResults {get; set;}
-	public String pdfJSONResults {get; set;}
 	public String status {get; set;}
+	public String pdfJSONResults {get; set;}
 	/** actionFunction fetchPDFs passes formData **/
 	public String formData {get; set;}
 
