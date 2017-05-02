@@ -1989,11 +1989,10 @@ var HapForm = function () {
     var idSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'app';
     classCallCheck(this, HapForm);
 
-    var _reducers = redux.combineReducers(_extends({}, reducers, {
-      formData: reactReduxForm.combineForms(state, 'formData')
-    }));
 
-    this.store = redux.createStore(_reducers, redux.applyMiddleware(Thunk));
+    this.store = redux.createStore(redux.combineReducers(_extends({}, reducers, {
+      formData: reactReduxForm.combineForms(state, 'formData')
+    })), redux.applyMiddleware(Thunk));
 
     reactDom.render(React.createElement(
       reactRedux.Provider,
@@ -2008,6 +2007,7 @@ var HapForm = function () {
     key: 'addScrollListener',
     value: function addScrollListener() {
       var dispatch = this.store.dispatch;
+
 
       window.addEventListener('scroll', function (e) {
         dispatch({

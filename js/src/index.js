@@ -39,16 +39,16 @@ class App extends Component {
 
 export default class HapForm{
     constructor(state=initialState, idSelector='app'){
-      let _reducers = combineReducers({
-        ...reducers,
-        formData: combineForms(state, 'formData')
-      });
 
-      this.store = createStore(_reducers, applyMiddleware(Thunk));
+      this.store = createStore(combineReducers({
+          ...reducers,
+          formData: combineForms(state, 'formData')
+        }), applyMiddleware(Thunk)
+      );
 
       render(
         <Provider store={this.store}>
-          <App />
+          <App/>
         </Provider>,
         document.getElementById(idSelector)
       );
@@ -58,6 +58,7 @@ export default class HapForm{
 
     addScrollListener(){
       let { dispatch } = this.store;
+
       window.addEventListener('scroll', function(e){
         dispatch({
           type: 'SET_SCROLL_POSITION',
