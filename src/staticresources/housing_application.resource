@@ -427,20 +427,18 @@ var FormSection = function (_Component) {
 
     return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = FormSection.__proto__ || Object.getPrototypeOf(FormSection)).call.apply(_ref, [this].concat(args))), _this), _this.el = null, _this.inView = function () {
       if (!_this.el) return;
-      var el = _this.el;
+
       var _this$props = _this.props,
           dispatch = _this$props.dispatch,
-          id = _this$props.id;
+          id = _this$props.id,
+          inViewSection = _this$props.inViewSection;
 
-      var top = el.getBoundingClientRect().top - 10;
+      id = '#' + id;
+
+      var top = _this.el.getBoundingClientRect().top - 10;
       var bottom = _this.el.offsetHeight + 20;
 
-      if (top < 0 && top > -bottom) {
-        dispatch({
-          type: 'SET_IN_VIEW_SECTION',
-          id: '#' + id
-        });
-      }
+      if (top < 0 && top > -bottom && id != inViewSection) dispatch({ type: 'SET_IN_VIEW_SECTION', id: id });
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -460,7 +458,8 @@ var FormSection = function (_Component) {
 
 var mapStateToProps$1 = function mapStateToProps(state) {
   return {
-    scrollPosition: state.scrollPosition
+    scrollPosition: state.scrollPosition,
+    inViewSection: state.inViewSection
   };
 };
 
