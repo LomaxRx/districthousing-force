@@ -433,9 +433,9 @@ var FormSection = function (_Component) {
           id = _this$props.id;
 
       var top = el.getBoundingClientRect().top - 10;
-      var bottom = _this.el.offsetHeight;
+      var bottom = _this.el.offsetHeight + 20;
 
-      if (top < 0 && top > -(bottom + 20)) {
+      if (top < 0 && top > -bottom) {
         dispatch({
           type: 'SET_IN_VIEW_SECTION',
           id: '#' + id
