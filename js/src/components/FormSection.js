@@ -3,19 +3,18 @@ import { connect } from 'react-redux';
 
 class FormSection extends Component {
   el = null;
+
   inView = () => {
     if(!this.el) return;
-    let el = this.el;
-    let { dispatch, id } = this.props;
-    let top = el.getBoundingClientRect().top - 10;
+
+    let { dispatch, id, inViewSection } = this.props;
+    id = '#' + id;
+
+    let top = this.el.getBoundingClientRect().top - 10;
     let bottom = this.el.offsetHeight + 20;
 
-    if(top < 0 && top > -bottom){
-      dispatch({
-        type: 'SET_IN_VIEW_SECTION',
-        id: '#'+id
-      });
-    }
+    if(top < 0 && top > -bottom && id != inViewSection )
+      dispatch({ type: 'SET_IN_VIEW_SECTION', id });
   }
 
   render() {
@@ -27,7 +26,8 @@ class FormSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  scrollPosition: state.scrollPosition
+  scrollPosition: state.scrollPosition,
+  inViewSection: state.inViewSection
 });
 
 export default connect(mapStateToProps)(FormSection);

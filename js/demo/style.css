@@ -192,12 +192,12 @@
   font-size: 16px;
   color: #484848;
   margin-top: 75px;
-  margin-bottom: 25vh; }
+  margin-bottom: 50vh; }
   #app * {
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
   #app h1, #app h2, #app h3 {
-    font-weight: 900;
+    font-weight: 700;
     display: block;
     color: rgba(72, 72, 72, 0.6); }
   #app h1 {
@@ -233,6 +233,7 @@
       position: relative;
       left: -5px; }
   #app a {
+    color: #666;
     text-decoration: none;
     padding: 0.5em; }
   #app nav {
