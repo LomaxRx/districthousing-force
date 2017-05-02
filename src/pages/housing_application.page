@@ -27,10 +27,7 @@
     </div>
 
     <script type="text/javascript">
-      ApexActions.submit = function(formData, callback){
-        submitData(formData);
-        if(callback) callback();
-      };
+      ApexActions.submit = submitData;
       var hapForm = new HapForm({!initialState}, 'form');
     </script>
     <apex:outputPanel id="pdf-results">
