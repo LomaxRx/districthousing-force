@@ -135,14 +135,14 @@ public class HousingApplication {
   }
 
   public class PDFResult {
-    public String url {get; set;}
-    public String status {get; set;}
-    public String building {get; set;}
+    public String url;
+    public String status;
+    public String building;
     public Blob pdf;
   }
 
   public class Form {
-    public String endpoint {get; set;}
+    public String endpoint;
     public FormData data;
     public ClientData client;
 

@@ -15,12 +15,16 @@
     <apex:includeScript value="{!$Resource.ApexActions}"/>
     <apex:includeScript value="{!$Resource.housing_application}"/>
 
+    <!--
+      Resource.ApexActions is literally just `var ApexActions = {};`.
+      This object is used to make actionFunctions available as a global object.
+      These actions are used as makeshift async dispatch actions in React-Redux
+    -->
     <apex:form>
-      <!-- ApexActions is literally just `var ApexActions = {};`. Used to map actionFunctions to object -->
-      <apex:actionFunction action="{!fetchPDFs}" name="fetchPDFs" reRender="pdf-results,status">
+      <apex:actionFunction action="{!fetchPDFs}" name="fetchPDFs" reRender="callback">
           <apex:param name="formData" assignTo="{!formData}" value="{!initialState}" />
       </apex:actionFunction>
-      <apex:actionFunction action="{!uploadPDFsToBox}" name="uploadPDFsToBox" reRender="status"></apex:actionFunction>
+      <apex:actionFunction action="{!uploadPDFsToBox}" name="uploadPDFsToBox" reRender="callback" />
     </apex:form>
 
     <div id="app">
@@ -34,13 +38,10 @@
       var hapForm = new HapForm({!initialState}, 'form');
     </script>
 
-    <apex:outputPanel id="pdf-results">
+    <!-- makeshift callback function after ApexActions call -->
+    <apex:outputPanel id="callback">
       <script type="text/javascript">
         hapForm.setPDFResults({!pdfJSONResults});
-      </script>
-    </apex:outputPanel>
-    <apex:outputPanel id="status">
-      <script type="text/javascript">
         hapForm.setStatus('{!status}');
       </script>
     </apex:outputPanel>
