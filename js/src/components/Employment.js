@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger } from '../utils';
 import DatePicker from './DatePicker';
+import FormSection from './FormSection';
 
 class EmploymentForm extends Component {
   addEmployment = () => {
@@ -21,7 +22,7 @@ class EmploymentForm extends Component {
   render() {
     const { employments } = this.props;
     return (
-      <section id='employments' className='form-list'>
+      <FormSection id='employments' className='form-list'>
         <h2>Employment History</h2>
         {employments.map((e,i)=>(
           <Form model={track('formData.employments[]', { id: e.id })} className='form-item'>
@@ -86,7 +87,7 @@ class EmploymentForm extends Component {
         <div className='sub-section'>
           <button onClick={this.addEmployment}>Add Employment</button>
         </div>
-      </section>
+      </FormSection>
     );
   }
 }

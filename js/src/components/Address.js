@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger, getIndex } from '../utils';
 import DatePicker from './DatePicker';
+import FormSection from './FormSection';
 
 class ResidenceForm extends Component {
   addResidence = () => {
@@ -101,7 +102,7 @@ class AddressForm extends Component {
   render() {
     const { addresses } = this.props;
     return (
-      <section id='addresses' className='form-list'>
+      <FormSection id='addresses' className='form-list'>
         <h2>Current and Previous Addresses</h2>
         {addresses.map((a, i) => (
           <Form model={track('formData.addresses[]', { id: a.id })} className='form-item'>
@@ -154,7 +155,7 @@ class AddressForm extends Component {
             </div>
           </div>
         </div>
-      </section>
+      </FormSection>
     );
   }
 }

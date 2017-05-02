@@ -16,7 +16,7 @@ import EmploymentForm from './components/Employment';
 import CriminalHistoryForm from './components/CriminalHistory';
 import Nav from './components/Nav';
 
-import { status, pdfResults } from './reducers';
+import { status, pdfResults, scrollPosition, inViewSection } from './reducers';
 
 class App extends Component {
   render(){
@@ -42,6 +42,8 @@ export default class HapForm{
         this.store = createStore(combineReducers({
             status,
             pdfResults,
+            scrollPosition,
+            inViewSection,
             formData: combineForms(state, 'formData')
           }),
           applyMiddleware(Thunk)
@@ -52,6 +54,18 @@ export default class HapForm{
           </Provider>,
           document.getElementById(idSelector)
         );
+
+        this.addScrollListener();
+    }
+
+    addScrollListener(){
+      let { dispatch } = this.store;
+      window.addEventListener('scroll', function(e){
+        dispatch({
+          type: 'SET_SCROLL_POSITION',
+          scrollPosition: window.scrollTop || window.pageYOffset
+        });
+      });
     }
 
     setPDFResults(pdfResults){
@@ -65,7 +79,7 @@ export default class HapForm{
 
     setStatus(status){
       let { dispatch } = this.store;
-      
+
       dispatch({
         type: 'SET_STATUS',
         status

@@ -3,6 +3,7 @@ import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger } from '../utils';
+import FormSection from './FormSection';
 
 class CriminalHistoryForm extends Component {
   addCriminalHistory = () => {
@@ -20,7 +21,7 @@ class CriminalHistoryForm extends Component {
   render() {
     const { criminal_histories } = this.props;
     return (
-      <section id='criminal_histories' className='form-list'>
+      <FormSection id='criminal_histories' className='form-list'>
         <h2>Criminal History</h2>
         {criminal_histories.map((c,i)=>(
           <Form model={track('formData.criminal_histories[]', { id: c.id })} className='form-item'>
@@ -49,7 +50,7 @@ class CriminalHistoryForm extends Component {
         <div className="sub-section">
           <button onClick={this.addCriminalHistory}>Add Criminal History</button>
         </div>
-      </section>
+      </FormSection>
     )
   }
 }

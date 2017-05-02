@@ -284,9 +284,9 @@
         -ms-transition: all 0.1s ease-in;
         -o-transition: all 0.1s ease-in;
         transition: all 0.1s ease-in; }
-      #app nav .nav-section:hover {
+      #app nav .nav-section:hover, #app nav .nav-section.in-view {
         color: #3f92bd; }
-        #app nav .nav-section:hover:before {
+        #app nav .nav-section:hover:before, #app nav .nav-section.in-view:before {
           background: #3f92bd;
           border-radius: .75em;
           height: .75em;

@@ -47,7 +47,7 @@ nav {
       @include transition(all 0.1s ease-in);
     }
 
-    &:hover{
+    &:hover, &.in-view{
       color: #3f92bd;
       &:before{
         background: #3f92bd;

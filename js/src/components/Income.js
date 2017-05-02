@@ -3,6 +3,7 @@ import { Form, Control, track, actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger } from '../utils';
+import FormSection from './FormSection';
 
 class IncomeForm extends Component {
   addIncome = () => {
@@ -20,7 +21,7 @@ class IncomeForm extends Component {
   render() {
     const { incomes } = this.props;
     return (
-      <section id="incomes" className='form-list'>
+      <FormSection id="incomes" className='form-list'>
         <h2>Income</h2>
         {incomes.map((inc,i)=>(
           <Form model={track('formData.incomes[]', { id: inc.id })} className='form-item'>
@@ -47,7 +48,7 @@ class IncomeForm extends Component {
         <div className='sub-section'>
           <button onClick={this.addIncome}>Add Income</button>
         </div>
-      </section>
+      </FormSection>
     );
   }
 }

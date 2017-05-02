@@ -2,12 +2,13 @@ import { Component } from 'react';
 import { Form, Control } from 'react-redux-form';
 import { connect } from 'react-redux';
 import DatePicker from './DatePicker';
+import FormSection from './FormSection';
 
 class PersonForm extends Component {
   render() {
     const { addresses } = this.props;
     return (
-      <section id="contact_information">
+      <FormSection id="contact_information">
         <h2>Contact Information</h2>
         <Form model='formData.person'>
           <div className='row'>
@@ -113,7 +114,7 @@ class PersonForm extends Component {
           </div>
         </div>
         </Form>
-      </section>
+      </FormSection>
     );
   }
 }

@@ -16,4 +16,22 @@ const pdfResults = function(state=[], action){
   }
 }
 
-export { status, pdfResults };
+const scrollPosition = function(state=0, action){
+  switch(action.type){
+    case 'SET_SCROLL_POSITION':
+      return action.scrollPosition;
+    default:
+      return state;
+  }
+}
+
+const inViewSection = function(state='', action){
+  switch(action.type){
+    case 'SET_IN_VIEW_SECTION':
+      return action.id;
+    default:
+      return state;
+  }
+}
+
+export { status, pdfResults, scrollPosition, inViewSection };

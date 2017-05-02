@@ -13,16 +13,22 @@ class NavSection extends Component {
   }
 
   render() {
-    const { label } = this.props;
+    const { label, inViewSection, anchor } = this.props;
     return (
       <div
-        className="nav-section"
+        className={`nav-section ${(inViewSection==anchor ? 'in-view' : '')}`}
         onMouseDown={this.click}>
         {label}
       </div>
     )
   }
 }
+
+const mapStateToNavProps = (state) => ({
+  inViewSection: state.inViewSection
+});
+
+NavSection = connect(mapStateToNavProps)(NavSection);
 
 const PDFResult = (props) => (
   <div className='pdf-result'>

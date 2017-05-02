@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { models } from '../initialState';
 import { uniqueInteger } from '../utils';
 import DatePicker from './DatePicker';
+import FormSection from './FormSection';
 
 class HouseholdMemberForm extends Component {
   addHouseholdMember = () => {
@@ -21,7 +22,7 @@ class HouseholdMemberForm extends Component {
   render() {
     const { household_members } = this.props;
     return (
-      <section id='household_members' className='form-list'>
+      <FormSection id='household_members' className='form-list'>
         <h2>Household Members</h2>
         {household_members.map((h,i)=>(
           <Form model={track('formData.household_members[]', { id: h.id })} className='form-item'>
@@ -74,7 +75,7 @@ class HouseholdMemberForm extends Component {
         <div className='sub-section'>
           <button onClick={this.addHouseholdMember}>Add Household Member</button>
         </div>
-      </section>
+      </FormSection>
     );
   }
 }

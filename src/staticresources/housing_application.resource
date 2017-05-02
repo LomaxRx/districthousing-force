@@ -411,6 +411,61 @@ var CustomControl = function CustomControl(props) {
   }, props));
 };
 
+var FormSection = function (_Component) {
+  inherits(FormSection, _Component);
+
+  function FormSection() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, FormSection);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = FormSection.__proto__ || Object.getPrototypeOf(FormSection)).call.apply(_ref, [this].concat(args))), _this), _this.el = null, _this.inView = function () {
+      if (!_this.el) return;
+      var el = _this.el;
+      var _this$props = _this.props,
+          dispatch = _this$props.dispatch,
+          id = _this$props.id;
+
+      var top = el.getBoundingClientRect().top - 10;
+      var bottom = _this.el.offsetHeight;
+
+      if (top < 0 && top > -(bottom + 20)) {
+        dispatch({
+          type: 'SET_IN_VIEW_SECTION',
+          id: '#' + id
+        });
+      }
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(FormSection, [{
+    key: 'render',
+    value: function render$$1() {
+      var _this2 = this;
+
+      this.inView();
+      return React.createElement('section', _extends({}, this.props, { ref: function ref(el) {
+          _this2.el = el;
+        } }));
+    }
+  }]);
+  return FormSection;
+}(react.Component);
+
+var mapStateToProps$1 = function mapStateToProps(state) {
+  return {
+    scrollPosition: state.scrollPosition
+  };
+};
+
+var FormSection$1 = reactRedux.connect(mapStateToProps$1)(FormSection);
+
 var ResidenceForm = function (_Component) {
   inherits(ResidenceForm, _Component);
 
@@ -602,7 +657,7 @@ var AddressForm = function (_Component2) {
       var addresses = this.props.addresses;
 
       return React.createElement(
-        'section',
+        FormSection$1,
         { id: 'addresses', className: 'form-list' },
         React.createElement(
           'h2',
@@ -753,7 +808,7 @@ var PersonForm = function (_Component) {
       var addresses = this.props.addresses;
 
       return React.createElement(
-        'section',
+        FormSection$1,
         { id: 'contact_information' },
         React.createElement(
           'h2',
@@ -1016,13 +1071,13 @@ var PersonForm = function (_Component) {
   return PersonForm;
 }(react.Component);
 
-var mapStateToProps$1 = function mapStateToProps(state) {
+var mapStateToProps$2 = function mapStateToProps(state) {
   return {
     addresses: state.formData.addresses
   };
 };
 
-var PersonForm$1 = reactRedux.connect(mapStateToProps$1)(PersonForm);
+var PersonForm$1 = reactRedux.connect(mapStateToProps$2)(PersonForm);
 
 var HouseholdMemberForm = function (_Component) {
   inherits(HouseholdMemberForm, _Component);
@@ -1060,7 +1115,7 @@ var HouseholdMemberForm = function (_Component) {
       var household_members = this.props.household_members;
 
       return React.createElement(
-        'section',
+        FormSection$1,
         { id: 'household_members', className: 'form-list' },
         React.createElement(
           'h2',
@@ -1197,13 +1252,13 @@ var HouseholdMemberForm = function (_Component) {
   return HouseholdMemberForm;
 }(react.Component);
 
-var mapStateToProps$2 = function mapStateToProps(state) {
+var mapStateToProps$3 = function mapStateToProps(state) {
   return {
     household_members: state.formData.household_members
   };
 };
 
-var HouseholdMemberForm$1 = reactRedux.connect(mapStateToProps$2)(HouseholdMemberForm);
+var HouseholdMemberForm$1 = reactRedux.connect(mapStateToProps$3)(HouseholdMemberForm);
 
 var IncomeForm = function (_Component) {
   inherits(IncomeForm, _Component);
@@ -1241,7 +1296,7 @@ var IncomeForm = function (_Component) {
       var incomes = this.props.incomes;
 
       return React.createElement(
-        'section',
+        FormSection$1,
         { id: 'incomes', className: 'form-list' },
         React.createElement(
           'h2',
@@ -1316,13 +1371,13 @@ var IncomeForm = function (_Component) {
   return IncomeForm;
 }(react.Component);
 
-var mapStateToProps$3 = function mapStateToProps(state) {
+var mapStateToProps$4 = function mapStateToProps(state) {
   return {
     incomes: state.formData.incomes
   };
 };
 
-var IncomeForm$1 = reactRedux.connect(mapStateToProps$3)(IncomeForm);
+var IncomeForm$1 = reactRedux.connect(mapStateToProps$4)(IncomeForm);
 
 var EmploymentForm = function (_Component) {
   inherits(EmploymentForm, _Component);
@@ -1360,7 +1415,7 @@ var EmploymentForm = function (_Component) {
       var employments = this.props.employments;
 
       return React.createElement(
-        'section',
+        FormSection$1,
         { id: 'employments', className: 'form-list' },
         React.createElement(
           'h2',
@@ -1527,13 +1582,13 @@ var EmploymentForm = function (_Component) {
   return EmploymentForm;
 }(react.Component);
 
-var mapStateToProps$4 = function mapStateToProps(state) {
+var mapStateToProps$5 = function mapStateToProps(state) {
   return {
     employments: state.formData.employments
   };
 };
 
-var EmploymentForm$1 = reactRedux.connect(mapStateToProps$4)(EmploymentForm);
+var EmploymentForm$1 = reactRedux.connect(mapStateToProps$5)(EmploymentForm);
 
 var CriminalHistoryForm = function (_Component) {
   inherits(CriminalHistoryForm, _Component);
@@ -1571,7 +1626,7 @@ var CriminalHistoryForm = function (_Component) {
       var criminal_histories = this.props.criminal_histories;
 
       return React.createElement(
-        'section',
+        FormSection$1,
         { id: 'criminal_histories', className: 'form-list' },
         React.createElement(
           'h2',
@@ -1650,13 +1705,13 @@ var CriminalHistoryForm = function (_Component) {
   return CriminalHistoryForm;
 }(react.Component);
 
-var mapStateToProps$5 = function mapStateToProps(state) {
+var mapStateToProps$6 = function mapStateToProps(state) {
   return {
     criminal_histories: state.formData.criminal_histories
   };
 };
 
-var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$5)(CriminalHistoryForm);
+var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$6)(CriminalHistoryForm);
 
 var NavSection = function (_Component) {
   inherits(NavSection, _Component);
@@ -1684,12 +1739,15 @@ var NavSection = function (_Component) {
   createClass(NavSection, [{
     key: 'render',
     value: function render$$1() {
-      var label = this.props.label;
+      var _props = this.props,
+          label = _props.label,
+          inViewSection = _props.inViewSection,
+          anchor = _props.anchor;
 
       return React.createElement(
         'div',
         {
-          className: 'nav-section',
+          className: 'nav-section ' + (inViewSection == anchor ? 'in-view' : ''),
           onMouseDown: this.click },
         label
       );
@@ -1697,6 +1755,14 @@ var NavSection = function (_Component) {
   }]);
   return NavSection;
 }(react.Component);
+
+var mapStateToNavProps = function mapStateToNavProps(state) {
+  return {
+    inViewSection: state.inViewSection
+  };
+};
+
+NavSection = reactRedux.connect(mapStateToNavProps)(NavSection);
 
 var PDFResult = function PDFResult(props) {
   return React.createElement(
@@ -1742,9 +1808,9 @@ var Nav = function (_Component2) {
   createClass(Nav, [{
     key: 'render',
     value: function render$$1() {
-      var _props = this.props,
-          results = _props.results,
-          status = _props.status;
+      var _props2 = this.props,
+          results = _props2.results,
+          status = _props2.status;
 
       return React.createElement(
         'nav',
@@ -1812,7 +1878,7 @@ var Nav = function (_Component2) {
   return Nav;
 }(react.Component);
 
-var mapStateToProps$6 = function mapStateToProps(state) {
+var mapStateToProps$7 = function mapStateToProps(state) {
   return {
     status: state.status,
     results: state.pdfResults,
@@ -1820,7 +1886,7 @@ var mapStateToProps$6 = function mapStateToProps(state) {
   };
 };
 
-var Nav$1 = reactRedux.connect(mapStateToProps$6)(Nav);
+var Nav$1 = reactRedux.connect(mapStateToProps$7)(Nav);
 
 var status = function status() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'READY';
@@ -1841,6 +1907,30 @@ var pdfResults = function pdfResults() {
   switch (action.type) {
     case 'SET_PDF_RESULTS':
       return [].concat(toConsumableArray(action.pdfResults));
+    default:
+      return state;
+  }
+};
+
+var scrollPosition = function scrollPosition() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SET_SCROLL_POSITION':
+      return action.scrollPosition;
+    default:
+      return state;
+  }
+};
+
+var inViewSection = function inViewSection() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SET_IN_VIEW_SECTION':
+      return action.id;
     default:
       return state;
   }
@@ -1891,6 +1981,8 @@ var HapForm = function () {
     this.store = redux.createStore(redux.combineReducers({
       status: status,
       pdfResults: pdfResults,
+      scrollPosition: scrollPosition,
+      inViewSection: inViewSection,
       formData: reactReduxForm.combineForms(state, 'formData')
     }), redux.applyMiddleware(Thunk));
     reactDom.render(React.createElement(
@@ -1898,9 +1990,23 @@ var HapForm = function () {
       { store: this.store },
       React.createElement(App, null)
     ), document.getElementById(idSelector));
+
+    this.addScrollListener();
   }
 
   createClass(HapForm, [{
+    key: 'addScrollListener',
+    value: function addScrollListener() {
+      var dispatch = this.store.dispatch;
+
+      window.addEventListener('scroll', function (e) {
+        dispatch({
+          type: 'SET_SCROLL_POSITION',
+          scrollPosition: window.scrollTop || window.pageYOffset
+        });
+      });
+    }
+  }, {
     key: 'setPDFResults',
     value: function setPDFResults(pdfResults$$1) {
       var dispatch = this.store.dispatch;
