@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Jump from 'jump.js';
-import { submit } from 'apex-actions';
+import { fetchPDFs, uploadPDFsToBox } from 'apex-actions';
 import { easeInOutQuad } from '../utils';
 
 class NavSection extends Component {
@@ -34,7 +34,13 @@ class Nav extends Component {
   submit = () => {
     let { formData, dispatch } = this.props;
     dispatch({type:'SET_STATUS', status: 'FETCHING'});
-    submit(formData);
+    fetchPDFs(formData);
+  }
+
+  uploadToBox = () => {
+    let { dispatch } = this.props;
+    dispatch({type:'SET_STATUS', status: 'FETCHING'});
+    uploadPDFsToBox();
   }
 
   render(){
@@ -74,6 +80,12 @@ class Nav extends Component {
             <div className="rect4"></div>
             <div className="rect5"></div>
           </div>
+        }
+        {status=='PDFS_READY' &&
+          <button onClick={this.uploadToBox}>Upload to Box</button>
+        }
+        {status=='COMPLETE' &&
+          <h3>Success!</h3>
         }
         <div className='results'>
           {results.map((r,i)=>(

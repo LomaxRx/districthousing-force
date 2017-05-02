@@ -59,9 +59,21 @@ nav {
     }
   }
 
+  button{
+    @include transform(translateX(-25%));
+  }
+
   .results{
     margin: 25px 0;
     @include transform(translateX(-25%));
+  }
+
+  h3{
+    @include transform(translateX(-25%));
+    background: rgba($blue, 0.65);
+    color: $white;
+    padding: 0.25em;
+    display: inline-block;
   }
 
   .pdf-result {

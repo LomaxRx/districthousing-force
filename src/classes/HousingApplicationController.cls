@@ -1,11 +1,13 @@
 public class HousingApplicationController {
 	private HousingApplication.Form hapForm;
+	private HousingApplication.BoxPDFUploader uploader;
+
 	public String clientId {get; set;}
 	public String initialState {get; set;}
 	public HousingApplication.PDFResult[] pdfResults {get; set;}
 	public String pdfJSONResults {get; set;}
 	public String status {get; set;}
-	/** actionFunction submitData passes formData **/
+	/** actionFunction fetchPDFs passes formData **/
 	public String formData {get; set;}
 
 	public HousingApplicationController() {
@@ -15,32 +17,43 @@ public class HousingApplicationController {
 
 		pdfResults = new List<HousingApplication.PDFResult>();
 		pdfJSONResults = JSON.serialize(pdfResults);
+
+		uploader = new HousingApplication.BoxPDFUploader();
 		status = 'READY';
 	}
 
-	public void submit(){
-		status = 'FETCHING';
-		pdfResults = fetchPDFs();
+	public void fetchPDFs(){
+		pdfResults = hapForm.fetchPDFs(formData);
 		pdfJSONResults = JSON.serialize(pdfResults);
-		status = 'GENERATED';
+		status = 'PDFS_READY';
+	}
+
+	public void uploadPDFsToBox(){
 		for(HousingApplication.PDFResult r :pdfResults){
-			r.status = 'DOWNLOADING';
-			Blob pdf = downloadPDF(r.url);
-			r.status = 'UPLOADING';
-			r.status = uploadToBox(pdf);
+			downloadPDF(r);
+			if(r.status=='FAILED_PDF_DOWNLOAD') continue;
+			uploadPDF(r);
 		}
+		uploader.commitChanges();
 		status = 'COMPLETE';
 	}
 
-	public HousingApplication.PDFResult[] fetchPDFs(){
-		return hapForm.fetchPDFs(formData);
+	private void downloadPDF(HousingApplication.PDFResult r){
+		try{
+			r.pdf = HousingApplication.downloadPDF(r.url);
+			r.status = 'PDF_DOWNLOADED';
+		} catch (Exception e){
+			r.status = 'FAILED_PDF_DOWNLOAD';
+		}
 	}
 
-	public Blob downloadPDF(String url){
-		return HousingApplication.downloadPDF(url);
-	}
-
-	public String uploadToBox(Blob pdf){
-		return 'SUCCESS';
+	private void uploadPDF(HousingApplication.PDFResult r){
+		try{
+			String name = System.now().format('yyyy-mm-dd HH:mm') + ' ' + r.building + '.pdf';
+			uploader.upload(r.pdf, hapForm.client.hapCase.Id, name);
+			r.status = 'PDF_UPLOADED_TO_BOX';
+		} catch (Exception e){
+			r.status = 'FAILED_PDF_UPLOAD_TO_BOX';
+		}
 	}
 }

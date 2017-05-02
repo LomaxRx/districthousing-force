@@ -1730,7 +1730,12 @@ var Nav = function (_Component2) {
           dispatch = _this2$props.dispatch;
 
       dispatch({ type: 'SET_STATUS', status: 'FETCHING' });
-      apexActions.submit(formData);
+      apexActions.fetchPDFs(formData);
+    }, _this2.uploadToBox = function () {
+      var dispatch = _this2.props.dispatch;
+
+      dispatch({ type: 'SET_STATUS', status: 'FETCHING' });
+      apexActions.uploadPDFsToBox();
     }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
@@ -1783,6 +1788,16 @@ var Nav = function (_Component2) {
           React.createElement('div', { className: 'rect3' }),
           React.createElement('div', { className: 'rect4' }),
           React.createElement('div', { className: 'rect5' })
+        ),
+        status == 'PDFS_READY' && React.createElement(
+          'button',
+          { onClick: this.uploadToBox },
+          'Upload to Box'
+        ),
+        status == 'COMPLETE' && React.createElement(
+          'h3',
+          null,
+          'Success!'
         ),
         React.createElement(
           'div',
@@ -1895,10 +1910,16 @@ var HapForm = function () {
         type: 'SET_PDF_RESULTS',
         pdfResults: pdfResults$$1
       });
+    }
+  }, {
+    key: 'setStatus',
+    value: function setStatus(status$$1) {
+      var dispatch = this.store.dispatch;
+
 
       dispatch({
         type: 'SET_STATUS',
-        status: 'READY'
+        status: status$$1
       });
     }
   }]);

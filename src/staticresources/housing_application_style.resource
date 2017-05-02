@@ -292,6 +292,12 @@
           height: .75em;
           width: .75em;
           left: -1.65em; }
+    #app nav button {
+      -webkit-transform: translateX(-25%);
+      -moz-transform: translateX(-25%);
+      -ms-transform: translateX(-25%);
+      -o-transform: translateX(-25%);
+      transform: translateX(-25%); }
     #app nav .results {
       margin: 25px 0;
       -webkit-transform: translateX(-25%);
@@ -299,6 +305,16 @@
       -ms-transform: translateX(-25%);
       -o-transform: translateX(-25%);
       transform: translateX(-25%); }
+    #app nav h3 {
+      -webkit-transform: translateX(-25%);
+      -moz-transform: translateX(-25%);
+      -ms-transform: translateX(-25%);
+      -o-transform: translateX(-25%);
+      transform: translateX(-25%);
+      background: rgba(0, 110, 167, 0.65);
+      color: #fff;
+      padding: 0.25em;
+      display: inline-block; }
     #app nav .pdf-result a {
       display: block;
       position: relative;
@@ -495,7 +511,12 @@
     width: 70px;
     height: 40px;
     font-size: 10px;
-    margin-left: 3px; }
+    margin-left: 3px;
+    -webkit-transform: translateX(-25%);
+    -moz-transform: translateX(-25%);
+    -ms-transform: translateX(-25%);
+    -o-transform: translateX(-25%);
+    transform: translateX(-25%); }
   #app .spinner > div {
     background-color: rgba(0, 110, 167, 0.55);
     height: 100%;

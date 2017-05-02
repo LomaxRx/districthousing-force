@@ -17,9 +17,10 @@
 
     <apex:form>
       <!-- ApexActions is literally just `var ApexActions = {};`. Used to map actionFunctions to object -->
-      <apex:actionFunction action="{!submit}" name="submitData" reRender="pdf-results">
+      <apex:actionFunction action="{!fetchPDFs}" name="fetchPDFs" reRender="pdf-results,status">
           <apex:param name="formData" assignTo="{!formData}" value="{!initialState}" />
       </apex:actionFunction>
+      <apex:actionFunction action="{!uploadPDFsToBox}" name="uploadPDFsToBox" reRender="status"></apex:actionFunction>
     </apex:form>
 
     <div id="app">
@@ -27,12 +28,20 @@
     </div>
 
     <script type="text/javascript">
-      ApexActions.submit = submitData;
+      ApexActions.fetchPDFs = fetchPDFs;
+      ApexActions.uploadPDFsToBox = uploadPDFsToBox;
+
       var hapForm = new HapForm({!initialState}, 'form');
     </script>
+
     <apex:outputPanel id="pdf-results">
       <script type="text/javascript">
         hapForm.setPDFResults({!pdfJSONResults});
+      </script>
+    </apex:outputPanel>
+    <apex:outputPanel id="status">
+      <script type="text/javascript">
+        hapForm.setStatus('{!status}');
       </script>
     </apex:outputPanel>
 
