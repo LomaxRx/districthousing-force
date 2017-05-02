@@ -10,7 +10,7 @@ Integration between [District Housing App](https://github.com/codefordc/district
 3. From the form, a staff member selects the buildings the client is applying to and edits or adds client information to form
 4. This data is used to update client records in Salesforce and create a new Application record for each building
 5. The data is sent to DistrictHousing endpoint which returns, for each building, a list of objects that include the url of the filled in PDF, the building id, and the building name
-6. Social service staff is shown links to all PDFs to preview or download and prompted to upload all PDFs to Box
+6. Social service staff is shown links to all PDFs to preview or download and prompted to upload all PDFs to Box. If it doesn't look right, they can change the data and re-submit.
 7. PDFs are downloaded from the urls and uploaded to the Box folder associated with the Social Services Case record
 
 ## Maintaining
