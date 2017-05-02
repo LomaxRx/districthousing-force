@@ -16,7 +16,7 @@ import EmploymentForm from './components/Employment';
 import CriminalHistoryForm from './components/CriminalHistory';
 import Nav from './components/Nav';
 
-import { status, pdfResults, scrollPosition, inViewSection } from './reducers';
+import * as reducers from './reducers';
 
 class App extends Component {
   render(){
@@ -39,23 +39,21 @@ class App extends Component {
 
 export default class HapForm{
     constructor(state=initialState, idSelector='app'){
-        this.store = createStore(combineReducers({
-            status,
-            pdfResults,
-            scrollPosition,
-            inViewSection,
-            formData: combineForms(state, 'formData')
-          }),
-          applyMiddleware(Thunk)
-        );
-        render(
-          <Provider store={this.store}>
-            <App />
-          </Provider>,
-          document.getElementById(idSelector)
-        );
+      let _reducers = combineReducers({
+        ...reducers,
+        formData: combineForms(state, 'formData')
+      });
 
-        this.addScrollListener();
+      this.store = createStore(_reducers, applyMiddleware(Thunk));
+
+      render(
+        <Provider store={this.store}>
+          <App />
+        </Provider>,
+        document.getElementById(idSelector)
+      );
+
+      this.addScrollListener();
     }
 
     addScrollListener(){
@@ -70,19 +68,11 @@ export default class HapForm{
 
     setPDFResults(pdfResults){
       let { dispatch } = this.store;
-
-      dispatch({
-        type: 'SET_PDF_RESULTS',
-        pdfResults
-      });
+      dispatch({type: 'SET_PDF_RESULTS', pdfResults});
     }
 
     setStatus(status){
       let { dispatch } = this.store;
-
-      dispatch({
-        type: 'SET_STATUS',
-        status
-      });
+      dispatch({type: 'SET_STATUS', status});
     }
 }

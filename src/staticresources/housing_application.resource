@@ -1938,6 +1938,15 @@ var inViewSection = function inViewSection() {
   }
 };
 
+
+
+var reducers = Object.freeze({
+	status: status,
+	pdfResults: pdfResults,
+	scrollPosition: scrollPosition,
+	inViewSection: inViewSection
+});
+
 var App = function (_Component) {
   inherits(App, _Component);
 
@@ -1980,13 +1989,12 @@ var HapForm = function () {
     var idSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'app';
     classCallCheck(this, HapForm);
 
-    this.store = redux.createStore(redux.combineReducers({
-      status: status,
-      pdfResults: pdfResults,
-      scrollPosition: scrollPosition,
-      inViewSection: inViewSection,
+    var _reducers = redux.combineReducers(_extends({}, reducers, {
       formData: reactReduxForm.combineForms(state, 'formData')
-    }), redux.applyMiddleware(Thunk));
+    }));
+
+    this.store = redux.createStore(_reducers, redux.applyMiddleware(Thunk));
+
     reactDom.render(React.createElement(
       reactRedux.Provider,
       { store: this.store },
@@ -2013,22 +2021,14 @@ var HapForm = function () {
     value: function setPDFResults(pdfResults$$1) {
       var dispatch = this.store.dispatch;
 
-
-      dispatch({
-        type: 'SET_PDF_RESULTS',
-        pdfResults: pdfResults$$1
-      });
+      dispatch({ type: 'SET_PDF_RESULTS', pdfResults: pdfResults$$1 });
     }
   }, {
     key: 'setStatus',
     value: function setStatus(status$$1) {
       var dispatch = this.store.dispatch;
 
-
-      dispatch({
-        type: 'SET_STATUS',
-        status: status$$1
-      });
+      dispatch({ type: 'SET_STATUS', status: status$$1 });
     }
   }]);
   return HapForm;
