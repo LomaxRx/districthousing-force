@@ -130,40 +130,43 @@ var toConsumableArray = function (arr) {
 var _Address;
 
 var initialState = {
-	"residences": [],
-	"previous_ssns": [],
-	"person": {
-		"work_phone": '',
-		"student_status": '',
-		"state_of_birth": '',
-		"ssn": '',
-		"race": '',
-		"occupation": '',
-		"middle_name": '',
-		"marital_status": '',
-		"mailing_address_id": '',
-		"last_name": '',
-		"home_phone": '',
-		"gender": '',
-		"first_name": '',
-		"ethnicity": '',
-		"email": '',
-		"driver_license_state": '',
-		"driver_license_number": '',
-		"driver_license_exp_date": '',
-		"dob": '',
-		"country_of_birth": '',
-		"city_of_birth": '',
-		"citizenship": '',
-		"cell_phone": ''
+	"form": {
+		"residences": [],
+		"previous_ssns": [],
+		"person": {
+			"work_phone": '',
+			"student_status": '',
+			"state_of_birth": '',
+			"ssn": '',
+			"race": '',
+			"occupation": '',
+			"middle_name": '',
+			"marital_status": '',
+			"mailing_address_id": '',
+			"last_name": '',
+			"home_phone": '',
+			"gender": '',
+			"first_name": '',
+			"ethnicity": '',
+			"email": '',
+			"driver_license_state": '',
+			"driver_license_number": '',
+			"driver_license_exp_date": '',
+			"dob": '',
+			"country_of_birth": '',
+			"city_of_birth": '',
+			"citizenship": '',
+			"cell_phone": ''
+		},
+		"incomes": [],
+		"housing_forms": [],
+		"household_members": [],
+		"employments": [],
+		"criminal_histories": [],
+		"aliases": [],
+		"addresses": []
 	},
-	"incomes": [],
-	"housing_forms": [],
-	"household_members": [],
-	"employments": [],
-	"criminal_histories": [],
-	"aliases": [],
-	"addresses": []
+	"buildings": []
 };
 
 var models = {
@@ -235,7 +238,50 @@ var models = {
 		"income_type": '',
 		"amount": ''
 	},
-	"HousingForm": "",
+	"HousingForm": {
+		"waitlist_open": null,
+		"waitlist_closed_until": null,
+		"wait_length": null,
+		"utilities_included": "",
+		"required_proofs": {
+			"social_security_card": null,
+			"rental_history": null,
+			"other": null,
+			"none": null,
+			"income": null,
+			"identification": null,
+			"employment_history": null,
+			"disability": null,
+			"dc_residency": null,
+			"citizenship": null,
+			"birth_certificate": null,
+			"bank_statement": null
+		},
+		"pets_allowed": "",
+		"notes": "",
+		"name": "",
+		"longitude": null,
+		"latitude": null,
+		"id": null,
+		"eligibility": {
+			"mobility_impairment": null,
+			"minimum_age_without_disability": null,
+			"minimum_age_with_disability": null,
+			"income": null,
+			"elderly": null,
+			"disability": null
+		},
+		"company_phone": "",
+		"company_name": "",
+		"bus_routes": "",
+		"building_phone": "",
+		"bedrooms_open": "",
+		"bedrooms_offered": "",
+		"application_on_file": null,
+		"application_info": "",
+		"application_fee": null,
+		"address": ""
+	},
 	"HouseholdMember": {
 		"id": '',
 		"relationship": '',
@@ -299,6 +345,49 @@ var models = {
 		"state": ''
 	}, defineProperty(_Address, "id", ''), defineProperty(_Address, "city", ''), defineProperty(_Address, "apt", ''), defineProperty(_Address, "residence", false), _Address)
 };
+
+var Main = function (_Component) {
+  inherits(Main, _Component);
+
+  function Main() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, Main);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = Main.__proto__ || Object.getPrototypeOf(Main)).call.apply(_ref, [this].concat(args))), _this), _this.html = document.getElementsByTagName('html')[0], _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(Main, [{
+    key: 'render',
+    value: function render$$1() {
+      var buildingListActive = this.props.buildingListActive;
+
+
+      if (buildingListActive) this.html.classList.add('hidden-overflow');else this.html.classList.remove('hidden-overflow');
+
+      return React.createElement(
+        'main',
+        { id: 'main-app', className: buildingListActive ? 'hidden-overflow' : '' },
+        this.props.children
+      );
+    }
+  }]);
+  return Main;
+}(react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    buildingListActive: state.buildingListActive
+  };
+};
+
+var Main$1 = reactRedux.connect(mapStateToProps)(Main);
 
 var uniqueInteger = function uniqueInteger(list) {
   var accessor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
@@ -456,14 +545,14 @@ var FormSection = function (_Component) {
   return FormSection;
 }(react.Component);
 
-var mapStateToProps$1 = function mapStateToProps(state) {
+var mapStateToProps$2 = function mapStateToProps(state) {
   return {
     scrollPosition: state.scrollPosition,
     inViewSection: state.inViewSection
   };
 };
 
-var FormSection$1 = reactRedux.connect(mapStateToProps$1)(FormSection);
+var FormSection$1 = reactRedux.connect(mapStateToProps$2)(FormSection);
 
 var ResidenceForm = function (_Component) {
   inherits(ResidenceForm, _Component);
@@ -785,13 +874,13 @@ var AddressForm = function (_Component2) {
   return AddressForm;
 }(react.Component);
 
-var mapStateToProps = function mapStateToProps(state) {
+var mapStateToProps$1 = function mapStateToProps(state) {
   return {
     addresses: state.formData.addresses
   };
 };
 
-var AddressForm$1 = reactRedux.connect(mapStateToProps)(AddressForm);
+var AddressForm$1 = reactRedux.connect(mapStateToProps$1)(AddressForm);
 
 var PersonForm = function (_Component) {
   inherits(PersonForm, _Component);
@@ -1070,13 +1159,13 @@ var PersonForm = function (_Component) {
   return PersonForm;
 }(react.Component);
 
-var mapStateToProps$2 = function mapStateToProps(state) {
+var mapStateToProps$3 = function mapStateToProps(state) {
   return {
     addresses: state.formData.addresses
   };
 };
 
-var PersonForm$1 = reactRedux.connect(mapStateToProps$2)(PersonForm);
+var PersonForm$1 = reactRedux.connect(mapStateToProps$3)(PersonForm);
 
 var HouseholdMemberForm = function (_Component) {
   inherits(HouseholdMemberForm, _Component);
@@ -1251,13 +1340,13 @@ var HouseholdMemberForm = function (_Component) {
   return HouseholdMemberForm;
 }(react.Component);
 
-var mapStateToProps$3 = function mapStateToProps(state) {
+var mapStateToProps$4 = function mapStateToProps(state) {
   return {
     household_members: state.formData.household_members
   };
 };
 
-var HouseholdMemberForm$1 = reactRedux.connect(mapStateToProps$3)(HouseholdMemberForm);
+var HouseholdMemberForm$1 = reactRedux.connect(mapStateToProps$4)(HouseholdMemberForm);
 
 var IncomeForm = function (_Component) {
   inherits(IncomeForm, _Component);
@@ -1370,13 +1459,13 @@ var IncomeForm = function (_Component) {
   return IncomeForm;
 }(react.Component);
 
-var mapStateToProps$4 = function mapStateToProps(state) {
+var mapStateToProps$5 = function mapStateToProps(state) {
   return {
     incomes: state.formData.incomes
   };
 };
 
-var IncomeForm$1 = reactRedux.connect(mapStateToProps$4)(IncomeForm);
+var IncomeForm$1 = reactRedux.connect(mapStateToProps$5)(IncomeForm);
 
 var EmploymentForm = function (_Component) {
   inherits(EmploymentForm, _Component);
@@ -1581,13 +1670,13 @@ var EmploymentForm = function (_Component) {
   return EmploymentForm;
 }(react.Component);
 
-var mapStateToProps$5 = function mapStateToProps(state) {
+var mapStateToProps$6 = function mapStateToProps(state) {
   return {
     employments: state.formData.employments
   };
 };
 
-var EmploymentForm$1 = reactRedux.connect(mapStateToProps$5)(EmploymentForm);
+var EmploymentForm$1 = reactRedux.connect(mapStateToProps$6)(EmploymentForm);
 
 var CriminalHistoryForm = function (_Component) {
   inherits(CriminalHistoryForm, _Component);
@@ -1704,13 +1793,13 @@ var CriminalHistoryForm = function (_Component) {
   return CriminalHistoryForm;
 }(react.Component);
 
-var mapStateToProps$6 = function mapStateToProps(state) {
+var mapStateToProps$7 = function mapStateToProps(state) {
   return {
     criminal_histories: state.formData.criminal_histories
   };
 };
 
-var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$6)(CriminalHistoryForm);
+var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$7)(CriminalHistoryForm);
 
 var NavSection = function (_Component) {
   inherits(NavSection, _Component);
@@ -1789,7 +1878,11 @@ var Nav = function (_Component2) {
       args[_key2] = arguments[_key2];
     }
 
-    return _ret2 = (_temp2 = (_this2 = possibleConstructorReturn(this, (_ref2 = Nav.__proto__ || Object.getPrototypeOf(Nav)).call.apply(_ref2, [this].concat(args))), _this2), _this2.submit = function () {
+    return _ret2 = (_temp2 = (_this2 = possibleConstructorReturn(this, (_ref2 = Nav.__proto__ || Object.getPrototypeOf(Nav)).call.apply(_ref2, [this].concat(args))), _this2), _this2.openBuildingList = function () {
+      var dispatch = _this2.props.dispatch;
+
+      dispatch({ type: 'ACTIVATE_BUILDING_LIST' });
+    }, _this2.submit = function () {
       var _this2$props = _this2.props,
           formData = _this2$props.formData,
           dispatch = _this2$props.dispatch;
@@ -1844,6 +1937,11 @@ var Nav = function (_Component2) {
         ),
         status == 'READY' && React.createElement(
           'button',
+          { onClick: this.openBuildingList },
+          'Add Buildings'
+        ),
+        status == 'READY' && React.createElement(
+          'button',
           { onClick: this.submit },
           'Submit'
         ),
@@ -1879,7 +1977,7 @@ var Nav = function (_Component2) {
   return Nav;
 }(react.Component);
 
-var mapStateToProps$7 = function mapStateToProps(state) {
+var mapStateToProps$8 = function mapStateToProps(state) {
   return {
     status: state.status,
     results: state.pdfResults,
@@ -1887,7 +1985,371 @@ var mapStateToProps$7 = function mapStateToProps(state) {
   };
 };
 
-var Nav$1 = reactRedux.connect(mapStateToProps$7)(Nav);
+var Nav$1 = reactRedux.connect(mapStateToProps$8)(Nav);
+
+var SelectedBuilding = function (_Component) {
+  inherits(SelectedBuilding, _Component);
+
+  function SelectedBuilding() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, SelectedBuilding);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = SelectedBuilding.__proto__ || Object.getPrototypeOf(SelectedBuilding)).call.apply(_ref, [this].concat(args))), _this), _this.removeBuildingFromForm = function () {
+      var _this$props = _this.props,
+          dispatch = _this$props.dispatch,
+          index = _this$props.index;
+
+      dispatch(reactReduxForm.actions.remove('formData.housing_forms', index));
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(SelectedBuilding, [{
+    key: 'render',
+    value: function render$$1() {
+      var _props$building = this.props.building,
+          name = _props$building.name,
+          index = _props$building.index;
+
+      return React.createElement(
+        'div',
+        { className: 'selected-building-wrapper' },
+        React.createElement(
+          'div',
+          { className: 'selected-building' },
+          React.createElement(
+            'h4',
+            null,
+            name
+          ),
+          React.createElement(
+            'button',
+            { className: 'remove-selected-building remove-button', onClick: this.removeBuildingFromForm },
+            'X'
+          )
+        )
+      );
+    }
+  }]);
+  return SelectedBuilding;
+}(react.Component);
+
+SelectedBuilding = reactRedux.connect()(SelectedBuilding);
+
+var Building = function (_Component2) {
+  inherits(Building, _Component2);
+
+  function Building() {
+    var _ref2;
+
+    var _temp2, _this2, _ret2;
+
+    classCallCheck(this, Building);
+
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return _ret2 = (_temp2 = (_this2 = possibleConstructorReturn(this, (_ref2 = Building.__proto__ || Object.getPrototypeOf(Building)).call.apply(_ref2, [this].concat(args))), _this2), _this2.addBuildingToForm = function () {
+      var _this2$props = _this2.props,
+          dispatch = _this2$props.dispatch,
+          building = _this2$props.building;
+
+      dispatch(reactReduxForm.actions.push('formData.housing_forms', building));
+    }, _temp2), possibleConstructorReturn(_this2, _ret2);
+  }
+
+  createClass(Building, [{
+    key: 'render',
+    value: function render$$1() {
+      var _props$building2 = this.props.building,
+          name = _props$building2.name,
+          application_fee = _props$building2.application_fee,
+          application_info = _props$building2.application_info,
+          bedrooms_open = _props$building2.bedrooms_open,
+          bedrooms_offered = _props$building2.bedrooms_offered,
+          address = _props$building2.address,
+          building_phone = _props$building2.building_phone,
+          company_phone = _props$building2.company_phone,
+          wait_length = _props$building2.wait_length,
+          waitlist_open = _props$building2.waitlist_open,
+          waitlist_closed_until = _props$building2.waitlist_closed_until,
+          eligibility = _props$building2.eligibility,
+          required_proofs = _props$building2.required_proofs,
+          id = _props$building2.id;
+      var housing_forms = this.props.housing_forms;
+
+
+      if (getIndex(housing_forms, id) !== false) return null;
+
+      return React.createElement(
+        'div',
+        { className: 'building col-md-4', onClick: this.addBuildingToForm },
+        React.createElement(
+          'div',
+          { className: 'building-details' },
+          React.createElement(
+            'h3',
+            null,
+            name
+          ),
+          React.createElement(
+            'div',
+            { className: 'building-detail' },
+            React.createElement(
+              'label',
+              null,
+              'Address'
+            ),
+            React.createElement(
+              'p',
+              null,
+              address
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'building-detail' },
+            React.createElement(
+              'label',
+              null,
+              'Building Phone'
+            ),
+            React.createElement(
+              'p',
+              null,
+              building_phone
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'more-details' },
+            React.createElement(
+              'div',
+              { className: 'building-detail' },
+              React.createElement(
+                'label',
+                null,
+                'Bedrooms Open'
+              ),
+              React.createElement(
+                'p',
+                null,
+                bedrooms_open
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'building-detail' },
+              React.createElement(
+                'label',
+                null,
+                'Waitlist Open'
+              ),
+              React.createElement(
+                'p',
+                null,
+                waitlist_open
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'building-detail' },
+              React.createElement(
+                'label',
+                null,
+                'Waitlist Closed Until'
+              ),
+              React.createElement(
+                'p',
+                null,
+                waitlist_closed_until
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'building-detail' },
+              React.createElement(
+                'label',
+                null,
+                'Wait Length'
+              ),
+              React.createElement(
+                'p',
+                null,
+                wait_length
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'building-detail' },
+              React.createElement(
+                'label',
+                null,
+                'Details'
+              ),
+              React.createElement('p', { dangerouslySetInnerHTML: { __html: application_info } })
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return Building;
+}(react.Component);
+
+var mapStateToBuildingProps = function mapStateToBuildingProps(state) {
+  return {
+    housing_forms: state.formData.housing_forms
+  };
+};
+
+Building = reactRedux.connect(mapStateToBuildingProps)(Building);
+
+var BuildingList = function (_Component3) {
+  inherits(BuildingList, _Component3);
+
+  function BuildingList() {
+    var _ref3;
+
+    var _temp3, _this3, _ret3;
+
+    classCallCheck(this, BuildingList);
+
+    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+
+    return _ret3 = (_temp3 = (_this3 = possibleConstructorReturn(this, (_ref3 = BuildingList.__proto__ || Object.getPrototypeOf(BuildingList)).call.apply(_ref3, [this].concat(args))), _this3), _this3.splitList = function () {
+      var buildings = _this3.props.buildings;
+
+      var list = [];
+      for (var i = 0, j = buildings.length; i < j; i += 3) {
+        list.push(buildings.slice(i, i + 3));
+      }
+
+      return list;
+    }, _this3.closeBuildingList = function () {
+      var dispatch = _this3.props.dispatch;
+
+      dispatch({ type: 'DEACTIVATE_BUILDING_LIST' });
+    }, _temp3), possibleConstructorReturn(_this3, _ret3);
+  }
+
+  createClass(BuildingList, [{
+    key: 'render',
+    value: function render$$1() {
+      var _props = this.props,
+          buildingListActive = _props.buildingListActive,
+          housing_forms = _props.housing_forms,
+          buildings = _props.buildings;
+
+      var list = this.splitList();
+      return React.createElement(
+        'div',
+        { id: 'building-list', className: buildingListActive ? 'container active' : 'container' },
+        React.createElement(
+          'button',
+          { onClick: this.closeBuildingList, className: 'close-button' },
+          'X'
+        ),
+        React.createElement(
+          'div',
+          { className: 'row column-wrapper' },
+          React.createElement(
+            'div',
+            { className: 'col-md-9 building-options' },
+            React.createElement(
+              'div',
+              { className: 'row' },
+              buildings.map(function (b, j) {
+                return React.createElement(Building, { building: b });
+              })
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'col-md-3 selected-buildings' },
+            React.createElement(
+              'div',
+              { className: 'row' },
+              housing_forms.map(function (h, i) {
+                return React.createElement(SelectedBuilding, { index: i, building: h });
+              })
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return BuildingList;
+}(react.Component);
+
+// {list.map((buildings,i)=>(
+//   <div className="row">
+//     {buildings.map((b,j)=>(
+//       <Building building={b} id={j}/>
+//     ))}
+//   </div>
+// ))}
+
+var mapStateToProps$9 = function mapStateToProps(state) {
+  return {
+    buildings: state.buildings,
+    buildingListActive: state.buildingListActive,
+    housing_forms: state.formData.housing_forms
+  };
+};
+
+var BuildingList$1 = reactRedux.connect(mapStateToProps$9)(BuildingList);
+
+var Overlay = function (_Component) {
+  inherits(Overlay, _Component);
+
+  function Overlay() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, Overlay);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = Overlay.__proto__ || Object.getPrototypeOf(Overlay)).call.apply(_ref, [this].concat(args))), _this), _this.closeBuildingList = function () {
+      var dispatch = _this.props.dispatch;
+
+      dispatch({ type: 'DEACTIVATE_BUILDING_LIST' });
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(Overlay, [{
+    key: 'render',
+    value: function render$$1() {
+      var active = this.props.active;
+
+      return React.createElement('div', { id: 'overlay',
+        className: active ? 'active' : '',
+        onClick: this.closeBuildingList });
+    }
+  }]);
+  return Overlay;
+}(react.Component);
+
+var mapStateToProps$10 = function mapStateToProps(state) {
+  return {
+    active: state.buildingListActive
+  };
+};
+
+var Overlay$1 = reactRedux.connect(mapStateToProps$10)(Overlay);
 
 var status = function status() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'READY';
@@ -1937,13 +2399,43 @@ var inViewSection = function inViewSection() {
   }
 };
 
+var buildings = function buildings() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SET_BUILDING_DATA':
+      return action.buildings;
+    default:
+      return state;
+  }
+};
+
+var buildingListActive = function buildingListActive() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'DEACTIVATE_BUILDING_LIST':
+      return false;
+    case 'ACTIVATE_BUILDING_LIST':
+      return true;
+    case 'TOGGLE_BUILDING_LIST':
+      return !state;
+    default:
+      return state;
+  }
+};
+
 
 
 var reducers = Object.freeze({
 	status: status,
 	pdfResults: pdfResults,
 	scrollPosition: scrollPosition,
-	inViewSection: inViewSection
+	inViewSection: inViewSection,
+	buildings: buildings,
+	buildingListActive: buildingListActive
 });
 
 var App = function (_Component) {
@@ -1958,8 +2450,10 @@ var App = function (_Component) {
     key: 'render',
     value: function render$$1() {
       return React.createElement(
-        'main',
+        Main$1,
         null,
+        React.createElement(BuildingList$1, null),
+        React.createElement(Overlay$1, null),
         React.createElement(
           'article',
           null,
@@ -1990,7 +2484,7 @@ var HapForm = function () {
 
 
     this.store = redux.createStore(redux.combineReducers(_extends({}, reducers, {
-      formData: reactReduxForm.combineForms(state, 'formData')
+      formData: reactReduxForm.combineForms(state.form, 'formData')
     })), redux.applyMiddleware(Thunk));
 
     reactDom.render(React.createElement(
@@ -1999,6 +2493,7 @@ var HapForm = function () {
       React.createElement(App, null)
     ), document.getElementById(idSelector));
 
+    this.setBuildings(state.buildings);
     this.addScrollListener();
   }
 
@@ -2028,6 +2523,13 @@ var HapForm = function () {
       var dispatch = this.store.dispatch;
 
       dispatch({ type: 'SET_STATUS', status: status$$1 });
+    }
+  }, {
+    key: 'setBuildings',
+    value: function setBuildings(buildings$$1) {
+      var dispatch = this.store.dispatch;
+
+      dispatch({ type: 'SET_BUILDING_DATA', buildings: buildings$$1 });
     }
   }]);
   return HapForm;

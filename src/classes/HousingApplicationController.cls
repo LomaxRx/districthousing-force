@@ -3,6 +3,7 @@ public class HousingApplicationController {
 	private HousingApplication.BoxPDFUploader uploader;
 	private HousingApplication.PDFResult[] pdfResults;
 
+	public HousingApplication.Building[] buildings {get; set;}
 	public String clientId {get; set;}
 	public String initialState {get; set;}
 	public String status {get; set;}
@@ -13,7 +14,14 @@ public class HousingApplicationController {
 	public HousingApplicationController() {
 		clientId = ApexPages.currentPage().getParameters().get('clientId');
 		hapForm = new HousingApplication.Form(clientId);
-		initialState = hapForm.toJSON();
+		buildings = HousingApplication.getBuildingData();
+
+		JSONGenerator gen = JSON.createGenerator(false);
+		gen.writeStartObject();
+		gen.writeObjectField('form', hapForm.data);
+		gen.writeObjectField('buildings', buildings);
+		gen.writeEndObject();
+		initialState = gen.getAsString();
 
 		pdfResults = new List<HousingApplication.PDFResult>();
 		pdfJSONResults = JSON.serialize(pdfResults);
@@ -52,10 +60,12 @@ public class HousingApplicationController {
 	private void uploadPDF(HousingApplication.PDFResult r, Blob pdf){
 		try{
 			String name = System.now().format('yyyy-mm-dd HH:mm') + ' ' + r.building + '.pdf';
-			uploader.upload(pdf, hapForm.client.hapCase.Id, name);
+			BoxFile.Info fileInfo = uploader.upload(pdf, hapForm.client.hapCase.Id, name);
+			System.debug(fileInfo);
 			r.status = 'PDF_UPLOADED_TO_BOX';
 		} catch (Exception e){
 			r.status = 'FAILED_PDF_UPLOAD_TO_BOX';
+			System.debug(e);
 		}
 	}
 }

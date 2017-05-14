@@ -34,4 +34,26 @@ const inViewSection = function(state='', action){
   }
 }
 
-export { status, pdfResults, scrollPosition, inViewSection };
+const buildings = function(state=[], action){
+  switch(action.type){
+    case 'SET_BUILDING_DATA':
+      return action.buildings;
+    default:
+      return state;
+  }
+}
+
+const buildingListActive = function(state=false, action){
+  switch(action.type){
+    case 'DEACTIVATE_BUILDING_LIST':
+      return false;
+    case 'ACTIVATE_BUILDING_LIST':
+      return true;
+    case 'TOGGLE_BUILDING_LIST':
+      return !state;
+    default:
+      return state;
+  }
+}
+
+export { status, pdfResults, scrollPosition, inViewSection, buildings, buildingListActive };

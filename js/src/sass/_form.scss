@@ -63,7 +63,7 @@ input[type=checkbox]{
   outline: none;
   position: relative;
   background: #fff;
-  z-index: 100;
+  z-index: 50;
   border: 1px solid rgba($gray,0.6);
   cursor: pointer;
   @include transition(background 0.15s ease-in);

@@ -91,6 +91,58 @@ public class HousingApplication {
     String previous_number;
   }
 
+  public class BuildingRequiredProofs{
+    Boolean none;
+    Boolean identification;
+    Boolean bank_statement;
+    Boolean birth_certificate;
+    Boolean employment_history;
+    Boolean citizenship;
+    Boolean dc_residency;
+    Boolean disability;
+    Boolean income;
+    Boolean rental_history;
+    Boolean social_security_card;
+    String other;
+
+  }
+
+  public class BuildingEligibility{
+    Boolean income;
+    Boolean disability;
+    Boolean mobility_impairment;
+    Boolean elderly;
+    Decimal minimum_age_with_disability;
+    Decimal minimum_age_without_disability;
+  }
+
+  public class Building{
+    Integer id;
+    String name;
+    String company_name;
+    String address;
+    Decimal longitude;
+    Decimal latitude;
+    String application_info;
+    Boolean application_on_file;
+    Boolean application_fee;
+    String bedrooms_offered;
+    String bedrooms_open;
+    String building_phone;
+    String company_phone;
+    String utilities_included;
+    String wait_length;
+    Boolean waitlist_open;
+    String waitlist_closed_until;
+    String pets_allowed;
+    String bus_routes;
+    String notes;
+
+    BuildingRequiredProofs required_proofs = new BuildingRequiredProofs();
+    BuildingEligibility eligibility = new BuildingEligibility();
+
+  }
+
   public class Model {
     /**
       Convenience class for getting JSON version of entire app model
@@ -355,26 +407,88 @@ public class HousingApplication {
 
   public class BoxPDFUploader {
     public box.Toolkit boxToolkit;
+    public BoxPlatformApiConnection api;
     public BoxPDFUploader(){
       boxToolkit = new box.Toolkit();
     }
 
-    public String upload(Blob pdf, Id recordId, String fileName){
+    public BoxFile.Info upload(Blob pdf, Id recordId, String fileName){
       String folderId = boxToolkit.createFolderForRecordId(recordId, null, true);
+      //BoxFolder folder = new BoxFolder(api, folderId);
+      // BoxFile.Info fileInfo = folder.uploadFile(pdf, fileName);
 
-      Attachment attn = new Attachment();
-      attn.Name = fileName;
-      attn.Body = pdf;
-      attn.contentType = 'pdf';
-
-      boxToolkit.createFileFromAttachment(attn, fileName, folderId, null);
-
-      return folderId;
+    //  return fileInfo;
+      return null;
     }
 
     public void commitChanges(){
       boxToolkit.commitChanges();
     }
 
+  }
+
+  public static Building[] getBuildingData(){
+    Building_Detail__c[] building_details = [
+      SELECT Id, Name, App_Fee__c, Application_Info__c, Application_On_File__c, Building__r.Name,
+      Bank_Statement__c, Bedrooms_Offered__C, BedroomsOpen__c, Birth_Certificate__c,
+      Building_Address__c, Building__c, Building_Name__c, Building_Phone__c, Bus__c,
+      Company_Phone__c, Disability_Required__c, Elderly__c, Employment_History__c, General_Notes__c,
+      GeoLocation__longitude__s, GeoLocation__latitude__s, Income_Required__c, Minimum_Age_with_Disability__c, Minimum_Age_Without_Disability__c,
+      No_Proofs__c, Pets__c, Proof_of_Citizenship__c, Proof_of_DC_Residency__c, Proof_of_Disability__c, Proof_of_Income__c,
+      Rental_History__c, Require_Id__c, Require_Other__c, Social_Security_Card__c, Utilities__c,
+      Wait_Length__c, Waitlist_Closed_Until__c, Waitlist_Open__c, Ward__c, Mobility_Impairment_Required__c
+      FROM Building_Detail__c
+      ORDER BY Name
+    ];
+
+    Building[] buildings = new List<Building>();
+    Integer i = 0;
+    for(Building_Detail__c d : building_details){
+      Building b = new Building();
+
+      b.id = i;
+      b.name = d.Name;
+      b.company_name = d.Building__r.Name;
+      b.application_fee = d.App_Fee__c;
+      b.application_info = d.Application_Info__c;
+      b.application_on_file = d.Application_On_File__c;
+      b.bedrooms_offered = d.Bedrooms_Offered__c;
+      b.bedrooms_open = d.BedroomsOpen__c;
+      b.address = d.Building_Address__c;
+      b.building_phone = d.Building_Phone__c;
+      b.company_phone = d.Company_phone__c;
+      b.bus_routes = d.Bus__c;
+      b.longitude = d.GeoLocation__longitude__s;
+      b.latitude = d.GeoLocation__latitude__s;
+      b.pets_allowed = d.Pets__c;
+      b.utilities_included = d.Utilities__c;
+      b.wait_length = d.Wait_Length__c;
+      b.waitlist_closed_until = d.Waitlist_Closed_Until__c;
+      b.waitlist_open = d.Waitlist_Open__c;
+      b.notes = d.General_Notes__c;
+
+      b.eligibility.mobility_impairment = d.Mobility_Impairment_Required__c;
+      b.eligibility.disability = d.Disability_Required__c;
+      b.eligibility.elderly = d.Elderly__c;
+      b.eligibility.income = d.Income_Required__c;
+      b.eligibility.minimum_age_with_disability = d.Minimum_Age_with_Disability__c;
+      b.eligibility.minimum_age_without_disability = d.Minimum_Age_Without_Disability__c;
+
+      b.required_proofs.none = d.No_Proofs__c;
+      b.required_proofs.birth_certificate = d.Birth_Certificate__c;
+      b.required_proofs.employment_history = d.Employment_History__c;
+      b.required_proofs.citizenship = d.Proof_of_Citizenship__c;
+      b.required_proofs.dc_residency = d.Proof_of_DC_Residency__c;
+      b.required_proofs.disability = d.Proof_of_Disability__c;
+      b.required_proofs.income = d.Proof_of_Income__c;
+      b.required_proofs.rental_history = d.Rental_History__c;
+      b.required_proofs.identification = d.Require_Id__c;
+      b.required_proofs.social_security_card = d.Social_Security_Card__c;
+      b.required_proofs.other = d.Require_Other__c;
+
+      buildings.add(b);
+      i+=1;
+    }
+    return buildings;
   }
 }

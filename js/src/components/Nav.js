@@ -37,6 +37,11 @@ const PDFResult = (props) => (
 );
 
 class Nav extends Component {
+  openBuildingList = () => {
+      let { dispatch } = this.props;
+      dispatch({type: 'ACTIVATE_BUILDING_LIST'});
+  }
+
   submit = () => {
     let { formData, dispatch } = this.props;
     dispatch({type:'SET_STATUS', status: 'FETCHING'});
@@ -75,6 +80,9 @@ class Nav extends Component {
               label='Record'/>
           </div>
         </div>
+        {status=='READY' &&
+          <button onClick={this.openBuildingList}>Add Buildings</button>
+        }
         {status=='READY' &&
           <button onClick={this.submit}>Submit</button>
         }

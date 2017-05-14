@@ -22,6 +22,15 @@ button {
     border: 1px solid $red;
     background: rgba($red,0.75);
   }
+
+  &.close-button{
+    border-radius: 1000px;
+    padding: 0.75em;
+    background: rgba($gray,0.75);
+    border: 1px solid $gray;
+    width: 36px;
+    height: 36px;
+  }
 }
 
 
@@ -34,5 +43,10 @@ button:hover{
   &.remove-button{
     border: 1px solid rgba($red, 0);
     background: rgba($red,0.95);
+  }
+
+  &.close-button{
+    border: 1px solid rgba($gray, 0);
+    background: rgba($gray,0.95);
   }
 }

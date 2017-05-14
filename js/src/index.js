@@ -8,6 +8,7 @@ import Thunk from 'redux-thunk';
 import { Component } from 'react';
 import { render } from 'react-dom';
 
+import Main from './components/Main';
 import AddressForm from './components/Address';
 import PersonForm from './components/Person';
 import HouseholdMemberForm from './components/HouseholdMember';
@@ -15,13 +16,17 @@ import IncomeForm from './components/Income';
 import EmploymentForm from './components/Employment';
 import CriminalHistoryForm from './components/CriminalHistory';
 import Nav from './components/Nav';
+import BuildingList from './components/BuildingList';
+import Overlay from './components/Overlay';
 
 import * as reducers from './reducers';
 
 class App extends Component {
   render(){
     return (
-      <main>
+      <Main>
+        <BuildingList />
+        <Overlay />
         <article>
           <h1>Affordable Housing FTW</h1>
           <PersonForm />
@@ -32,7 +37,7 @@ class App extends Component {
           <CriminalHistoryForm />
         </article>
         <Nav/>
-      </main>
+      </Main>
     );
   }
 }
@@ -42,7 +47,7 @@ export default class HapForm{
 
       this.store = createStore(combineReducers({
           ...reducers,
-          formData: combineForms(state, 'formData')
+          formData: combineForms(state.form, 'formData')
         }), applyMiddleware(Thunk)
       );
 
@@ -53,6 +58,7 @@ export default class HapForm{
         document.getElementById(idSelector)
       );
 
+      this.setBuildings(state.buildings);
       this.addScrollListener();
     }
 
@@ -75,5 +81,10 @@ export default class HapForm{
     setStatus(status){
       let { dispatch } = this.store;
       dispatch({type: 'SET_STATUS', status});
+    }
+
+    setBuildings(buildings){
+      let { dispatch } = this.store;
+      dispatch({type: 'SET_BUILDING_DATA', buildings});
     }
 }
