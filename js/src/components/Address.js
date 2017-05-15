@@ -72,7 +72,11 @@ class ResidenceForm extends Component {
         <div className="row">
           <div className="field">
             <label>Reason for leaving</label>
-            <Control.textarea model='.reason'/>
+            <Control.select model='.reason'>
+              <option value=''></option>
+              <option value='Voluntary'>Voluntary</option>
+              <option value='Evicted'>Evicted</option>
+            </Control.select>
           </div>
         </div>
       </Form>

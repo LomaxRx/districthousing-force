@@ -43,7 +43,18 @@ class HouseholdMemberForm extends Component {
             <div className='row'>
               <div className="field">
                 <label>Relationship</label>
-                <Control.text model='.relationship'/>
+                <Control.select model='.relationship'>
+                  <option value=''></option>
+                  <option value='Mother'>Mother</option>
+                  <option value='Father'>Father</option>
+                  <option value='Sister'>Sister</option>
+                  <option value='Brother'>Brother</option>
+                  <option value='Daughter'>Daughter</option>
+                  <option value='Son'>Son</option>
+                  <option value='Grandmother'>Grandmother</option>
+                  <option value='Grandfather'>Grandfather</option>
+                  <option value='Friend'>Friend</option>
+                </Control.select>
               </div>
             </div>
             <div className='row'>

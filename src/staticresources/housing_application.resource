@@ -692,7 +692,21 @@ var ResidenceForm = function (_Component) {
               null,
               'Reason for leaving'
             ),
-            React.createElement(reactReduxForm.Control.textarea, { model: '.reason' })
+            React.createElement(
+              reactReduxForm.Control.select,
+              { model: '.reason' },
+              React.createElement('option', { value: '' }),
+              React.createElement(
+                'option',
+                { value: 'Voluntary' },
+                'Voluntary'
+              ),
+              React.createElement(
+                'option',
+                { value: 'Evicted' },
+                'Evicted'
+              )
+            )
           )
         )
       );
@@ -999,7 +1013,26 @@ var PersonForm = function (_Component) {
                 null,
                 'Citizenship'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.citizenship' })
+              React.createElement(
+                reactReduxForm.Control.select,
+                { model: '.citizenship' },
+                React.createElement('option', { value: '' }),
+                React.createElement(
+                  'option',
+                  { value: 'US Citizen' },
+                  'US Citizen'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Non-Citizen with eligible immigration status' },
+                  'Non-Citizen with eligible immigration status'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Other' },
+                  'Other'
+                )
+              )
             ),
             React.createElement(
               'div',
@@ -1071,7 +1104,36 @@ var PersonForm = function (_Component) {
                 null,
                 'Marital Status'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.marital_status' })
+              React.createElement(
+                reactReduxForm.Control.select,
+                { model: '.marital_status' },
+                React.createElement('option', { value: '' }),
+                React.createElement(
+                  'option',
+                  { value: 'Single' },
+                  'Single'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Separated' },
+                  'Separated'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Married' },
+                  'Married'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Widowed' },
+                  'Widowed'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Divorced' },
+                  'Divorced'
+                )
+              )
             ),
             React.createElement(
               'div',
@@ -1081,7 +1143,26 @@ var PersonForm = function (_Component) {
                 null,
                 'Student Status'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.student_status' })
+              React.createElement(
+                reactReduxForm.Control.select,
+                { model: '.student_status' },
+                React.createElement('option', { value: '' }),
+                React.createElement(
+                  'option',
+                  { value: 'Not a student' },
+                  'Not a student'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Part-time' },
+                  'Part-time'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Full-time' },
+                  'Full-time'
+                )
+              )
             )
           ),
           React.createElement(
@@ -1095,7 +1176,21 @@ var PersonForm = function (_Component) {
                 null,
                 'Gender'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.gender' })
+              React.createElement(
+                reactReduxForm.Control.select,
+                { model: '.gender' },
+                React.createElement('option', { value: '' }),
+                React.createElement(
+                  'option',
+                  { value: 'Female' },
+                  'Female'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Male' },
+                  'Male'
+                )
+              )
             ),
             React.createElement(
               'div',
@@ -1105,7 +1200,46 @@ var PersonForm = function (_Component) {
                 null,
                 'Race'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.race' })
+              React.createElement(
+                reactReduxForm.Control.select,
+                { model: '.race' },
+                React.createElement('option', { value: '' }),
+                React.createElement(
+                  'option',
+                  { value: 'NativeAmerican' },
+                  'American Indian or Alaska Native'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Asian' },
+                  'Asian'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Black' },
+                  'Black or African American'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'PacificIslander' },
+                  'Native Hawaiian or Other Pacific Islander'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'White' },
+                  'White'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Decline' },
+                  'Decline to State'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Other' },
+                  'Other'
+                )
+              )
             ),
             React.createElement(
               'div',
@@ -1115,7 +1249,26 @@ var PersonForm = function (_Component) {
                 null,
                 'Ethnicity'
               ),
-              React.createElement(reactReduxForm.Control.text, { model: '.ethnicity' })
+              React.createElement(
+                reactReduxForm.Control.select,
+                { model: '.ethnicity' },
+                React.createElement('option', { value: '' }),
+                React.createElement(
+                  'option',
+                  { value: 'Hispanic' },
+                  'Hispanic or Latino'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'NotHispanic' },
+                  'Not Hispanic or Latino'
+                ),
+                React.createElement(
+                  'option',
+                  { value: 'Decline' },
+                  'Decline to State'
+                )
+              )
             )
           ),
           React.createElement(
@@ -1262,7 +1415,56 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'Relationship'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.relationship' })
+                React.createElement(
+                  reactReduxForm.Control.select,
+                  { model: '.relationship' },
+                  React.createElement('option', { value: '' }),
+                  React.createElement(
+                    'option',
+                    { value: 'Mother' },
+                    'Mother'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Father' },
+                    'Father'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Sister' },
+                    'Sister'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Brother' },
+                    'Brother'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Daughter' },
+                    'Daughter'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Son' },
+                    'Son'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Grandmother' },
+                    'Grandmother'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Grandfather' },
+                    'Grandfather'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Friend' },
+                    'Friend'
+                  )
+                )
               )
             ),
             React.createElement(
@@ -1419,7 +1621,111 @@ var IncomeForm = function (_Component) {
                   null,
                   'Income Type'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.income_type' })
+                React.createElement(
+                  reactReduxForm.Control.select,
+                  { model: '.income_type' },
+                  React.createElement('option', { value: '' }),
+                  React.createElement(
+                    'option',
+                    { value: 'salary' },
+                    'Employment (Salary/Full-time)'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'part-time' },
+                    'Employment (Part-time)'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'self' },
+                    'Self-Employment'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'social_security' },
+                    'Social Security'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'disability_benefits' },
+                    'Disability Benefits'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'military' },
+                    'Military'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'veterans_benefits' },
+                    'Veterans Benefits'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'child_support' },
+                    'Child Support'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'government_assistance' },
+                    'TANF/Government Assistance'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'retirement' },
+                    'Retirement'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'alimony' },
+                    'Alimony'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'commissions' },
+                    'Commissions'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'rental' },
+                    'Rental'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'stock' },
+                    'Stock'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'insurance' },
+                    'Insurance Claim'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'cash_gifts' },
+                    'Cash Gifts'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'trust_fund' },
+                    'Trust Fund'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'workers_compensation' },
+                    'Worker\'s Compensation'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'severance' },
+                    'Severance'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'scholarship' },
+                    'Scholarship'
+                  )
+                )
               ),
               React.createElement(
                 'div',
@@ -1439,7 +1745,26 @@ var IncomeForm = function (_Component) {
                   null,
                   'Interval'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.interval' })
+                React.createElement(
+                  reactReduxForm.Control.select,
+                  { model: '.interval' },
+                  React.createElement('option', { value: '' }),
+                  React.createElement(
+                    'option',
+                    { value: 'weekly' },
+                    'Weekly'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'monthly' },
+                    'Monthly'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'yearly' },
+                    'Yearly'
+                  )
+                )
               )
             )
           );
@@ -1749,7 +2074,36 @@ var CriminalHistoryForm = function (_Component) {
                   null,
                   'Crime Type'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.crime_type' })
+                React.createElement(
+                  reactReduxForm.Control.select,
+                  { model: '.crime_type' },
+                  React.createElement('option', { value: '' }),
+                  React.createElement(
+                    'option',
+                    { value: 'felony' },
+                    'Felony'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'misdemeanor' },
+                    'Misdemeanor'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'sex_offense' },
+                    'Sex Offense'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'simple_assault' },
+                    'Simple Assault'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'other' },
+                    'Other'
+                  )
+                )
               ),
               React.createElement(
                 'div',

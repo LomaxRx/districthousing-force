@@ -48,7 +48,12 @@ class PersonForm extends Component {
          <div className='row'>
             <div className='field col-md-6'>
               <label>Citizenship</label>
-              <Control.text model='.citizenship'/>
+              <Control.select model='.citizenship'>
+                <option value=''></option>
+                <option value='US Citizen'>US Citizen</option>
+                <option value='Non-Citizen with eligible immigration status'>Non-Citizen with eligible immigration status</option>
+                <option value='Other'>Other</option>
+            </Control.select>
             </div>
             <div className='field col-md-6'>
               <label>Occupation</label>
@@ -78,25 +83,55 @@ class PersonForm extends Component {
         <div className='row'>
           <div className='field col-md-6'>
             <label>Marital Status</label>
-            <Control.text model='.marital_status'/>
+            <Control.select model='.marital_status'>
+              <option value=''></option>
+              <option value='Single'>Single</option>
+              <option value='Separated'>Separated</option>
+              <option value='Married'>Married</option>
+              <option value='Widowed'>Widowed</option>
+              <option value='Divorced'>Divorced</option>
+            </Control.select>
           </div>
           <div className='field col-md-6'>
             <label>Student Status</label>
-            <Control.text model='.student_status'/>
+            <Control.select model='.student_status'>
+              <option value=''></option>
+              <option value='Not a student'>Not a student</option>
+              <option value='Part-time'>Part-time</option>
+              <option value='Full-time'>Full-time</option>
+            </Control.select>
           </div>
         </div>
         <div className='row'>
           <div className='field col-md-4'>
             <label>Gender</label>
-            <Control.text model='.gender'/>
+            <Control.select model='.gender'>
+              <option value=''></option>
+              <option value='Female'>Female</option>
+              <option value='Male'>Male</option>
+            </Control.select>
           </div>
           <div className='field col-md-4'>
             <label>Race</label>
-            <Control.text model='.race'/>
+            <Control.select model='.race'>
+              <option value=''></option>
+              <option value='NativeAmerican'>American Indian or Alaska Native</option>
+              <option value='Asian'>Asian</option>
+              <option value='Black'>Black or African American</option>
+              <option value='PacificIslander'>Native Hawaiian or Other Pacific Islander</option>
+              <option value='White'>White</option>
+              <option value='Decline'>Decline to State</option>
+              <option value='Other'>Other</option>
+          </Control.select>
           </div>
           <div className='field col-md-4'>
             <label>Ethnicity</label>
-            <Control.text model='.ethnicity'/>
+            <Control.select model='.ethnicity'>
+              <option value=''></option>
+              <option value='Hispanic'>Hispanic or Latino</option>
+              <option value='NotHispanic'>Not Hispanic or Latino</option>
+              <option value='Decline'>Decline to State</option>
+            </Control.select>
           </div>
         </div>
         <div className='row'>

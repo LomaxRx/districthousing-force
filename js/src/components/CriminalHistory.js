@@ -32,7 +32,14 @@ class CriminalHistoryForm extends Component {
             <div className='row'>
               <div className="field col-md-8">
                 <label>Crime Type</label>
-                <Control.text model='.crime_type'/>
+                <Control.select model='.crime_type'>
+                  <option value=''></option>
+                  <option value='felony'>Felony</option>
+                  <option value='misdemeanor'>Misdemeanor</option>
+                  <option value='sex_offense'>Sex Offense</option>
+                  <option value='simple_assault'>Simple Assault</option>
+                  <option value='other'>Other</option>
+                </Control.select>
               </div>
               <div className="field col-md-4">
                 <label>Year</label>

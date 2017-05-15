@@ -285,7 +285,7 @@ public class HousingApplication {
         inc.id = i;
         inc.amount = client_income.Amount__c.intValue();
         inc.income_type = client_income.Type__c;
-        inc.interval = 'Month';
+        inc.interval = 'monthly';
         data.incomes.add(inc);
         i+=1;
       }

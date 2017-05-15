@@ -32,7 +32,29 @@ class IncomeForm extends Component {
             <div className='row'>
               <div className="field col-md-4">
                 <label>Income Type</label>
-                <Control.text model='.income_type'/>
+                <Control.select model='.income_type'>
+                  <option value=''></option>
+                  <option value='salary'>Employment (Salary/Full-time)</option>
+                  <option value='part-time'>Employment (Part-time)</option>
+                  <option value='self'>Self-Employment</option>
+                  <option value='social_security'>Social Security</option>
+                  <option value='disability_benefits'>Disability Benefits</option>
+                  <option value='military'>Military</option>
+                  <option value='veterans_benefits'>Veterans Benefits</option>
+                  <option value='child_support'>Child Support</option>
+                  <option value='government_assistance'>TANF/Government Assistance</option>
+                  <option value='retirement'>Retirement</option>
+                  <option value='alimony'>Alimony</option>
+                  <option value='commissions'>Commissions</option>
+                  <option value='rental'>Rental</option>
+                  <option value='stock'>Stock</option>
+                  <option value='insurance'>Insurance Claim</option>
+                  <option value='cash_gifts'>Cash Gifts</option>
+                  <option value='trust_fund'>Trust Fund</option>
+                  <option value='workers_compensation'>Worker's Compensation</option>
+                  <option value='severance'>Severance</option>
+                  <option value='scholarship'>Scholarship</option>
+            </Control.select>
               </div>
               <div className="field col-md-4">
                 <label>Amount ($)</label>
@@ -40,7 +62,12 @@ class IncomeForm extends Component {
               </div>
               <div className="field col-md-4">
                 <label>Interval</label>
-                <Control.text model='.interval'/>
+                <Control.select model='.interval'>
+                  <option value=''></option>
+                  <option value='weekly'>Weekly</option>
+                  <option value='monthly'>Monthly</option>
+                  <option value='yearly'>Yearly</option>
+                </Control.select>
               </div>
             </div>
           </Form>

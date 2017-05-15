@@ -582,9 +582,9 @@ html.hidden-overflow {
     border-radius: 0px;
     box-shadow: 0px 0px 1px 0px #AFAFB1; }
     #app #building-list button {
-      position: fixed;
-      top: 125px;
-      right: 125px;
+      position: absolute;
+      top: 25px;
+      right: 25px;
       z-index: 120; }
     #app #building-list.active {
       display: block; }
