@@ -378,10 +378,10 @@ public class HousingApplication {
       // return JSON.serialize(pdf_urls);
 
       PDFResult p1 = new PDFResult();
-      p1.url = 'https://na-production.s3.amazonaws.com/documents/EarlyLearning-FamilyEngagement-DigitalAge.pdf';
+      p1.url = 'http://www.directact.org/Housing/dchousingapplication.pdf';
       p1.building = 'Building 1';
       PDFResult p2 = new PDFResult();
-      p2.url = 'https://na-production.s3.amazonaws.com/documents/Roadmapping_AI_Final.pdf';
+      p2.url = 'http://www.directact.org/Housing/dchousingapplication.pdf';
       p2.building = 'Building 2';
 
       return new List<PDFResult>{ p1, p2 };
@@ -408,17 +408,37 @@ public class HousingApplication {
   public class BoxPDFUploader {
     public box.Toolkit boxToolkit;
     public BoxPlatformApiConnection api;
+    public String folderId;
+
     public BoxPDFUploader(){
       boxToolkit = new box.Toolkit();
     }
 
-    public BoxFile.Info upload(Blob pdf, Id recordId, String fileName){
-      String folderId = boxToolkit.createFolderForRecordId(recordId, null, true);
-      //BoxFolder folder = new BoxFolder(api, folderId);
-      // BoxFile.Info fileInfo = folder.uploadFile(pdf, fileName);
+    public String createOrGetFolder(Id recordId){
+      folderId = boxToolkit.createFolderForRecordId(recordId, null, true);
+      return folderId;
+    }
 
-    //  return fileInfo;
-      return null;
+    public Attachment[] createAttachments(HousingApplication.PDFResult[] pdfResults, Id hapCaseId){
+      Attachment[] attachments = new List<Attachment>();
+  		for(HousingApplication.PDFResult r : pdfResults){
+  			Attachment a = new Attachment();
+  			a.Body = HousingApplication.downloadPDF(r.url);
+  			a.Name = System.now().format('yyyy-MM-dd HH:mm') + ' ' + r.building + '.pdf';
+  			a.ParentId = hapCaseId;
+  			attachments.add(a);
+  		}
+
+      return attachments;
+  	}
+
+    public String[] uploadAttachments(Attachment[] attachments){
+      String[] fileIds = new List<String>();
+      for(Attachment a : attachments){
+        String fileId = boxToolkit.createFileFromAttachment(a, null, null, null);
+        fileIds.add(fileId);
+      }
+      return fileIds;
     }
 
     public void commitChanges(){

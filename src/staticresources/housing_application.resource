@@ -1421,6 +1421,11 @@ var HouseholdMemberForm = function (_Component) {
                   React.createElement('option', { value: '' }),
                   React.createElement(
                     'option',
+                    { value: 'Spouse' },
+                    'Spouse'
+                  ),
+                  React.createElement(
+                    'option',
                     { value: 'Mother' },
                     'Mother'
                   ),

@@ -1,4 +1,4 @@
-<apex:page showHeader="true" sidebar="false" controller="HousingApplicationController">
+<apex:page showHeader="true" sidebar="false" controller="HousingApplicationController" action="{!createFolder}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900" rel="stylesheet"></link>
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:600,700" rel="stylesheet"></link>
     <apex:stylesheet value="{!$Resource.bootstrap_grid}"/>

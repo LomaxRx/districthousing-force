@@ -45,6 +45,7 @@ class HouseholdMemberForm extends Component {
                 <label>Relationship</label>
                 <Control.select model='.relationship'>
                   <option value=''></option>
+                  <option value='Spouse'>Spouse</option>
                   <option value='Mother'>Mother</option>
                   <option value='Father'>Father</option>
                   <option value='Sister'>Sister</option>
