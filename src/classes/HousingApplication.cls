@@ -187,10 +187,16 @@ public class HousingApplication {
   }
 
   public class PDFResult {
-    public String url;
+    public Blob pdf;
     public String status;
     public String building;
-    public Blob pdf;
+  }
+
+  public class ApiResponse {
+    public String status;
+    public String pdf;
+    public String error;
+    public String code;
   }
 
   public class Form {
@@ -357,34 +363,36 @@ public class HousingApplication {
     }
 
     public PDFResult[] fetchPDFs(){
-      String json = this.toJSON();
-      return this.fetchPDFs(json);
+      return null;
+      // String json = this.toJSON();
+      // return this.fetchPDFs(json);
     }
 
-    public PDFResult[] fetchPDFs(String json){
-      // TODO: once Ruby endpoint is setup
-      // Http h = new Http();
-      // HttpRequest req = new HttpRequest();
-      // endpoint = endpoint.replace(' ', '%20');
-      // req.setEndpoint(endpoint);
-      // req.setMethod('POST');
-      // req.setHeader('Accept', 'application/json');
-      // req.setHeader('Content-Type', 'application/json');
-      // req.setBody(json);
-      // req.setTimeout(60000);
-      //
-      // HttpResponse res = h.send(req);
-      // String pdf_urls = res.getBody();
-      // return JSON.serialize(pdf_urls);
+    public PDFResult fetchPDFs(String building, String formData){
+      Http h = new Http();
+      HttpRequest req = new HttpRequest();
+      req.setEndpoint('https://pozon059e5.execute-api.us-west-2.amazonaws.com/districthousing/applicant');
+      req.setMethod('POST');
+      req.setHeader('Accept', 'application/json');
+      req.setHeader('Content-Type', 'application/json');
+      req.setBody(formData);
+      req.setTimeout(60000);
 
-      PDFResult p1 = new PDFResult();
-      p1.url = 'http://www.directact.org/Housing/dchousingapplication.pdf';
-      p1.building = 'Building 1';
-      PDFResult p2 = new PDFResult();
-      p2.url = 'http://www.directact.org/Housing/dchousingapplication.pdf';
-      p2.building = 'Building 2';
+      HttpResponse res = h.send(req);
+      Map<String,Object> response = (Map<String,Object>)System.JSON.deserializeUntyped(res.getBody());
 
-      return new List<PDFResult>{ p1, p2 };
+      PDFResult result = new PDFResult();
+      result.building = building;
+      if((String)response.get('status') == 'OK'){
+        System.debug((String)response.get('pdf'));
+        result.pdf = EncodingUtil.base64Decode((String)response.get('pdf'));
+        result.status = 'OK';
+      } else {
+        result.status = 'FAILURE';
+        System.debug((String)response.get('error'));
+      }
+
+      return result;
     }
   }
 
@@ -394,7 +402,7 @@ public class HousingApplication {
 
     url = url.replace(' ', '%20');
     req.setEndpoint(url);
-    req.setMethod('GET');
+    req.setMethod('POST');
     req.setHeader('Content-Type', 'application/pdf');
     req.setCompressed(true);
     req.setTimeout(60000);
@@ -423,8 +431,8 @@ public class HousingApplication {
       Attachment[] attachments = new List<Attachment>();
   		for(HousingApplication.PDFResult r : pdfResults){
   			Attachment a = new Attachment();
-  			a.Body = HousingApplication.downloadPDF(r.url);
-  			a.Name = System.now().format('yyyy-MM-dd HH:mm') + ' ' + r.building + '.pdf';
+  			a.Body = r.pdf;
+  			a.Name = System.now().format('yyyy-MM-dd HH:mm') + '__' + r.building + '.pdf';
   			a.ParentId = hapCaseId;
   			attachments.add(a);
   		}
@@ -435,7 +443,9 @@ public class HousingApplication {
     public String[] uploadAttachments(Attachment[] attachments){
       String[] fileIds = new List<String>();
       for(Attachment a : attachments){
+        system.debug(a);
         String fileId = boxToolkit.createFileFromAttachment(a, null, null, null);
+        system.debug(fileId);
         fileIds.add(fileId);
       }
       return fileIds;

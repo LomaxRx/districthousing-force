@@ -1,7 +1,7 @@
 public class HousingApplicationController {
 	private HousingApplication.Form hapForm;
 	private HousingApplication.BoxPDFUploader uploader;
-	private HousingApplication.PDFResult[] pdfResults;
+	transient HousingApplication.PDFResult[] pdfResults;
 	transient Attachment[] attachments;
 	private Id[] attachmentIds;
 
@@ -42,23 +42,25 @@ public class HousingApplicationController {
 	}
 
 	public void fetchPDFs(){
-		pdfResults = hapForm.fetchPDFs(formData);
-		pdfJSONResults = JSON.serialize(pdfResults);
+		//pdfJSONResults = JSON.serialize(pdfResults);
+		pdfResults = new List<HousingApplication.PDFResult>();
+		transient HousingApplication.PDFResult pdfResult = hapForm.fetchPDFs('3treeflats', formData);
+		pdfResults.add(pdfResult);
+
 		attachments = uploader.createAttachments(pdfResults, hapCaseId);
 		insert attachments;
 		for(Attachment a : attachments)
 			attachmentIds.add(a.Id);
-
 		status = 'PDFS_READY';
 	}
 
 	public void uploadPDFsToBox(){
-		system.debug(attachments);
 		attachments = [
 			SELECT Id, Name, Body, ParentId
 			FROM Attachment
 			WHERE Id IN :attachmentIds
 		];
+		system.debug(attachments);
 		uploader.uploadAttachments(attachments);
 		uploader.commitChanges();
 		delete attachments;

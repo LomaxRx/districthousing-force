@@ -45,7 +45,8 @@ class Nav extends Component {
   submit = () => {
     let { formData, dispatch } = this.props;
     dispatch({type:'SET_STATUS', status: 'FETCHING'});
-    setTimeout(()=>{fetchPDFs(formData);}, 1500);
+    console.log(formData);
+    setTimeout(()=>{fetchPDFs(JSON.stringify(formData));}, 1500);
   }
 
   uploadToBox = () => {

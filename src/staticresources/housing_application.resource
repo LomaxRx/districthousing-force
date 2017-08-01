@@ -451,7 +451,7 @@ var DatePicker = function (_Component) {
           name = _this$props.name,
           dispatch = _this$props.dispatch;
 
-      var d = moment(day).format('L');
+      var d = moment(day).format('YYYY-MM-DD');
       dispatch(reactReduxForm.actions.change(name, d));
       if (_this.input) _this.input.blur();
     }, _temp), possibleConstructorReturn(_this, _ret);
@@ -2247,8 +2247,9 @@ var Nav = function (_Component2) {
           dispatch = _this2$props.dispatch;
 
       dispatch({ type: 'SET_STATUS', status: 'FETCHING' });
+      console.log(formData);
       setTimeout(function () {
-        apexActions.fetchPDFs(formData);
+        apexActions.fetchPDFs(JSON.stringify(formData));
       }, 1500);
     }, _this2.uploadToBox = function () {
       var dispatch = _this2.props.dispatch;
