@@ -59,11 +59,12 @@ export default class HapForm{
         document.getElementById(idSelector)
       );
 
+      this.setEligibility(state.eligibility);
       this.setBuildings(state.buildings);
       this.addScrollListener();
+
       let queueLen = 0;
       this.store.subscribe(()=>{
-
         let { fetchQueue, status } = this.store.getState();
         let queue = fetchQueue;
 
@@ -111,8 +112,10 @@ export default class HapForm{
         }
       };
       console.log('fetching...');
+      delete submitData.applicant.forms;
       console.log(submitData);
-      fetchPDFs(JSON.stringify(submitData));
+
+      fetchPDFs(JSON.stringify(submitData), JSON.stringify(submitData.applicant));
     }
 
     setPDFResults(pdfResults){
@@ -123,6 +126,11 @@ export default class HapForm{
     setStatus(status){
       let { dispatch } = this.store;
       dispatch({type: 'SET_STATUS', status});
+    }
+
+    setEligibility(eligibility){
+      let { dispatch } = this.store;
+      dispatch({type: 'SET_ELIGIBILITY_DATA', eligibility});
     }
 
     setBuildings(buildings){

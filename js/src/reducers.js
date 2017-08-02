@@ -58,6 +58,20 @@ const buildings = function(state=[], action){
   }
 }
 
+const eligibility = function(state={}, action){
+  switch(action.type){
+    case 'SET_ELIGIBILITY_DATA':
+      return action.eligibility;
+    case 'SET_ELIGIBILITY':
+      return {
+        ...state,
+        [action.name]: action.value
+      }
+    default:
+      return state;
+  }
+}
+
 const selectedBuildings = function(state=[], action){
   let selected;
   switch(action.type){
@@ -108,7 +122,7 @@ const buildingListActive = function(state=false, action){
 }
 
 export {
-  status, pdfResults, scrollPosition, inViewSection,
+  status, pdfResults, scrollPosition, inViewSection, eligibility,
   buildings, selectedBuildings, buildingListActive, fetchingBuilding,
   fetching, fetchQueue
 };

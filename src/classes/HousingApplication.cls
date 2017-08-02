@@ -114,6 +114,7 @@ public class HousingApplication {
     Boolean elderly;
     Decimal minimum_age_with_disability;
     Decimal minimum_age_without_disability;
+    String rooms_available;
   }
 
   public class Building{
@@ -166,13 +167,22 @@ public class HousingApplication {
     }
   }
 
+  public class ClientEligibility {
+    Boolean mobility_impairment;
+    Boolean disability;
+    Decimal age;
+    String rooms_requested;
+  }
+
   public class ClientData {
-    public Client__c client;
+    public Client__c clientRecord;
     public Income_and_Benefits__c[] incomes;
     public Household_Members__c[] household_members;
     public Address__c[] addresses;
     public Case__c hapCase;
+    public ClientEligibility eligibility;
   }
+
 
   public class FormData {
     Person person = new Person();
@@ -204,12 +214,16 @@ public class HousingApplication {
     public String endpoint;
     public FormData data;
     public ClientData client;
+    public Case__c hapCase;
 
-    public Form(Id clientId){
+    public Form(Id clientId, Id hapCaseId){
       data = new FormData();
       client = new ClientData();
 
-      if(clientId==null) return;
+      hapCase = [
+       SELECT Id, Name, Wheelchair__c, Disability__c, Age__c, Bedrooms_Needed__c, Application_Data__c
+       FROM Case__c WHERE Id=:hapCaseId LIMIT 1
+      ];
 
       Client__c[] clients = [
         SELECT Id, Name, First_Name__c, Last_Name__c, Middle_Name__c, Alternate_Name__c, Email_Address__c,
@@ -222,26 +236,17 @@ public class HousingApplication {
       ];
 
       if(clients.size()>0){
-        client.client = clients[0];
-        client.hapCase = getHapCase(clientId);
+        client.clientRecord = clients[0];
+        client.eligibility = new ClientEligibility();
+        client.eligibility.mobility_impairment = hapCase.Wheelchair__c;
+        client.eligibility.disability = hapCase.Disability__c;
+        client.eligibility.rooms_requested = hapCase.Bedrooms_Needed__c;
+        client.eligibility.age = hapCase.Age__c;
         mapPerson(clients[0]);
         mapIncome(clientId);
         mapAddress(clientId);
         mapHouseholdMember(clientId);
       }
-    }
-
-    private Case__c getHapCase(String clientId){
-      Case__c[] cases = [
-        SELECT Id, Name, RecordType.Name, HAP_Start_Date__c, HAP_End_Date__c,
-        Age__c, Wheelchair__c, 	Disability__c, Bedrooms_Needed__c
-        FROM Case__c
-        WHERE Client__c=:clientId AND RecordType.Name='HAP'
-      ];
-
-      if(cases.size()>0) return cases[0];
-
-      return null;
     }
 
     private void mapPerson(Client__c c){
@@ -505,6 +510,7 @@ public class HousingApplication {
       b.eligibility.income = d.Income_Required__c;
       b.eligibility.minimum_age_with_disability = d.Minimum_Age_with_Disability__c;
       b.eligibility.minimum_age_without_disability = d.Minimum_Age_Without_Disability__c;
+      b.eligibility.rooms_available = d.BedroomsOpen__c;
 
       b.required_proofs.none = d.No_Proofs__c;
       b.required_proofs.birth_certificate = d.Birth_Certificate__c;

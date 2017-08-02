@@ -2623,15 +2623,42 @@ var BuildingList = function (_Component3) {
       args[_key3] = arguments[_key3];
     }
 
-    return _ret3 = (_temp3 = (_this3 = possibleConstructorReturn(this, (_ref3 = BuildingList.__proto__ || Object.getPrototypeOf(BuildingList)).call.apply(_ref3, [this].concat(args))), _this3), _this3.splitList = function () {
-      var buildings = _this3.props.buildings;
+    return _ret3 = (_temp3 = (_this3 = possibleConstructorReturn(this, (_ref3 = BuildingList.__proto__ || Object.getPrototypeOf(BuildingList)).call.apply(_ref3, [this].concat(args))), _this3), _this3.filterBuildings = function () {
+      var _this3$props = _this3.props,
+          buildings = _this3$props.buildings,
+          _this3$props$eligibil = _this3$props.eligibility,
+          age = _this3$props$eligibil.age,
+          mobility_impairment = _this3$props$eligibil.mobility_impairment,
+          disability = _this3$props$eligibil.disability,
+          rooms_requested = _this3$props$eligibil.rooms_requested;
 
-      var list = [];
-      for (var i = 0, j = buildings.length; i < j; i += 3) {
-        list.push(buildings.slice(i, i + 3));
-      }
+      var filtered = buildings.filter(function (b) {
 
-      return list;
+        if (!b.eligibility.rooms_available) return false;
+        if (!mobility_impairment && age < 62 && b.eligibility.mobility_impairment === true) return false;
+        if (!disability && b.eligibility.disability === true) return false;
+        if (b.eligibility.minimum_age_with_disability) {
+          if (disability && age < b.eligibility.minimum_age_with_disability) return false;
+        }
+        if (b.eligibility.minimum_age_without_disability) {
+          if (!disability && age < b.eligibility.minimum_age_without_disability) return false;
+        }
+        if (rooms_requested != '' && rooms_requested !== null) {
+          if (b.eligibility.rooms_available.indexOf(rooms_requested) == -1) return false;
+        }
+
+        return true;
+      });
+
+      return filtered;
+    }, _this3.setElig = function (fieldName, value) {
+      var dispatch = _this3.props.dispatch;
+
+      dispatch({
+        type: 'SET_ELIGIBILITY',
+        name: fieldName,
+        value: value
+      });
     }, _this3.closeBuildingList = function () {
       var dispatch = _this3.props.dispatch;
 
@@ -2642,12 +2669,18 @@ var BuildingList = function (_Component3) {
   createClass(BuildingList, [{
     key: 'render',
     value: function render$$1() {
+      var _this4 = this;
+
       var _props = this.props,
           buildingListActive = _props.buildingListActive,
           selectedBuildings = _props.selectedBuildings,
-          buildings = _props.buildings;
+          _props$eligibility = _props.eligibility,
+          mobility_impairment = _props$eligibility.mobility_impairment,
+          disability = _props$eligibility.disability,
+          age = _props$eligibility.age,
+          rooms_requested = _props$eligibility.rooms_requested;
 
-      var list = this.splitList();
+      var buildings = this.filterBuildings();
       return React.createElement(
         'div',
         { id: 'building-list', className: buildingListActive ? 'container active' : 'container' },
@@ -2655,6 +2688,96 @@ var BuildingList = function (_Component3) {
           'button',
           { onClick: this.closeBuildingList, className: 'close-button' },
           'X'
+        ),
+        React.createElement(
+          'div',
+          { className: 'eligibility' },
+          React.createElement(
+            'h6',
+            null,
+            'Filter by'
+          ),
+          React.createElement(
+            'div',
+            { className: 'eligibility-inputs row' },
+            React.createElement(
+              'div',
+              { className: 'field col-md-3' },
+              React.createElement(
+                'label',
+                null,
+                'Mobility Impairment'
+              ),
+              React.createElement('input', { type: 'checkbox', value: mobility_impairment, onChange: function onChange(e) {
+                  _this4.setElig('mobility_impairment', e.target.value);
+                } })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field col-md-3' },
+              React.createElement(
+                'label',
+                null,
+                'Disability'
+              ),
+              React.createElement('input', { type: 'checkbox', value: disability, onChange: function onChange(e) {
+                  _this4.setElig('disability', e.target.value);
+                } })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field col-md-3' },
+              React.createElement(
+                'label',
+                null,
+                'Age'
+              ),
+              React.createElement('input', { type: 'text', value: age, onChange: function onChange(e) {
+                  _this4.setElig('age', e.target.value);
+                } })
+            ),
+            React.createElement(
+              'div',
+              { className: 'field col-md-3' },
+              React.createElement(
+                'label',
+                null,
+                'Rooms Needed'
+              ),
+              React.createElement(
+                'select',
+                { onChange: function onChange(e) {
+                    _this4.setElig('rooms_requested', e.target.value);
+                  } },
+                React.createElement('option', { value: '', selected: rooms_requested == "" || rooms_requested == null }),
+                React.createElement(
+                  'option',
+                  { value: '1', selected: rooms_requested == "1" },
+                  '1'
+                ),
+                React.createElement(
+                  'option',
+                  { value: '2', selected: rooms_requested == "2" },
+                  '2'
+                ),
+                React.createElement(
+                  'option',
+                  { value: '3', selected: rooms_requested == "3" },
+                  '3'
+                ),
+                React.createElement(
+                  'option',
+                  { value: '4', selected: rooms_requested == "4" },
+                  '4'
+                ),
+                React.createElement(
+                  'option',
+                  { value: '5', selected: rooms_requested == "5" },
+                  '5'
+                )
+              )
+            )
+          )
         ),
         React.createElement(
           'div',
@@ -2674,6 +2797,11 @@ var BuildingList = function (_Component3) {
             'div',
             { className: 'col-md-3 selected-buildings' },
             React.createElement(
+              'h6',
+              null,
+              'Selected'
+            ),
+            React.createElement(
               'div',
               { className: 'row' },
               selectedBuildings.map(function (s, i) {
@@ -2688,17 +2816,10 @@ var BuildingList = function (_Component3) {
   return BuildingList;
 }(react.Component);
 
-// {list.map((buildings,i)=>(
-//   <div className="row">
-//     {buildings.map((b,j)=>(
-//       <Building building={b} id={j}/>
-//     ))}
-//   </div>
-// ))}
-
 var mapStateToProps$9 = function mapStateToProps(state) {
   return {
     buildings: state.buildings,
+    eligibility: state.eligibility,
     selectedBuildings: state.selectedBuildings,
     buildingListActive: state.buildingListActive
   };
@@ -2825,6 +2946,20 @@ var buildings = function buildings() {
   }
 };
 
+var eligibility = function eligibility() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SET_ELIGIBILITY_DATA':
+      return action.eligibility;
+    case 'SET_ELIGIBILITY':
+      return _extends({}, state, defineProperty({}, action.name, action.value));
+    default:
+      return state;
+  }
+};
+
 var selectedBuildings = function selectedBuildings() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
@@ -2893,6 +3028,7 @@ var reducers = Object.freeze({
 	pdfResults: pdfResults,
 	scrollPosition: scrollPosition,
 	inViewSection: inViewSection,
+	eligibility: eligibility,
 	buildings: buildings,
 	selectedBuildings: selectedBuildings,
 	buildingListActive: buildingListActive,
@@ -2971,8 +3107,10 @@ var HapForm = function () {
         }
       };
       console.log('fetching...');
+      delete submitData.applicant.forms;
       console.log(submitData);
-      apexActions.fetchPDFs(JSON.stringify(submitData));
+
+      apexActions.fetchPDFs(JSON.stringify(submitData), JSON.stringify(submitData.applicant));
     };
 
     this.store = redux.createStore(redux.combineReducers(_extends({}, reducers, {
@@ -2985,8 +3123,10 @@ var HapForm = function () {
       React.createElement(App, null)
     ), document.getElementById(idSelector));
 
+    this.setEligibility(state.eligibility);
     this.setBuildings(state.buildings);
     this.addScrollListener();
+
     var queueLen = 0;
     this.store.subscribe(function () {
       var _store$getState2 = _this2.store.getState(),
@@ -3036,6 +3176,13 @@ var HapForm = function () {
       var dispatch = this.store.dispatch;
 
       dispatch({ type: 'SET_STATUS', status: status$$1 });
+    }
+  }, {
+    key: 'setEligibility',
+    value: function setEligibility(eligibility$$1) {
+      var dispatch = this.store.dispatch;
+
+      dispatch({ type: 'SET_ELIGIBILITY_DATA', eligibility: eligibility$$1 });
     }
   }, {
     key: 'setBuildings',

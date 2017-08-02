@@ -105,14 +105,36 @@ const mapStateToBuildingProps = (state) => ({
 Building = connect(mapStateToBuildingProps)(Building);
 
 class BuildingList extends Component{
-  splitList = () => {
-    let { buildings } = this.props;
-    let list = [];
-    for (let i=0,j=buildings.length; i<j; i+=3) {
-      list.push(buildings.slice(i,i+3));
-    }
+  filterBuildings = () => {
+    let { buildings, eligibility: { age, mobility_impairment, disability, rooms_requested }} = this.props;
+    let filtered = buildings.filter(function(b){
 
-    return list;
+      if(!b.eligibility.rooms_available) return false;
+      if(!mobility_impairment && age < 62 && b.eligibility.mobility_impairment===true) return false;
+      if(!disability && b.eligibility.disability===true) return false;
+      if(b.eligibility.minimum_age_with_disability){
+        if(disability && age < b.eligibility.minimum_age_with_disability) return false;
+      }
+      if(b.eligibility.minimum_age_without_disability){
+        if(!disability && age < b.eligibility.minimum_age_without_disability) return false;
+      }
+      if(rooms_requested!='' && rooms_requested!==null){
+        if(b.eligibility.rooms_available.indexOf(rooms_requested)==-1) return false;
+      }
+
+      return true;
+    });
+
+    return filtered;
+  }
+
+  setElig = (fieldName, value) => {
+    let { dispatch } = this.props;
+    dispatch({
+      type: 'SET_ELIGIBILITY',
+      name: fieldName,
+      value
+    });
   }
 
   closeBuildingList = () => {
@@ -121,11 +143,39 @@ class BuildingList extends Component{
   }
 
   render(){
-    let { buildingListActive, selectedBuildings, buildings } = this.props;
-    let list = this.splitList();
+    let { buildingListActive, selectedBuildings, eligibility: { mobility_impairment, disability, age, rooms_requested} } = this.props;
+    let buildings = this.filterBuildings();
     return (
       <div id="building-list" className={buildingListActive ? 'container active' : 'container'}>
         <button onClick={this.closeBuildingList} className="close-button">X</button>
+        <div className="eligibility">
+          <h6>Filter by</h6>
+          <div className="eligibility-inputs row">
+            <div className="field col-md-3">
+              <label>Mobility Impairment</label>
+              <input type="checkbox" value={mobility_impairment} onChange={(e)=>{this.setElig('mobility_impairment', e.target.value);}} />
+            </div>
+            <div className="field col-md-3">
+              <label>Disability</label>
+              <input type="checkbox" value={disability} onChange={(e)=>{this.setElig('disability', e.target.value);}} />
+            </div>
+            <div className="field col-md-3">
+              <label>Age</label>
+              <input type="text" value={age} onChange={(e)=>{this.setElig('age', e.target.value);}}/>
+            </div>
+            <div className="field col-md-3">
+              <label>Rooms Needed</label>
+              <select onChange={(e)=>{this.setElig('rooms_requested', e.target.value);}}>
+                <option value="" selected={rooms_requested==""||rooms_requested==null}></option>
+                <option value="1" selected={rooms_requested=="1"}>1</option>
+                <option value="2" selected={rooms_requested=="2"}>2</option>
+                <option value="3" selected={rooms_requested=="3"}>3</option>
+                <option value="4" selected={rooms_requested=="4"}>4</option>
+                <option value="5" selected={rooms_requested=="5"}>5</option>
+              </select>
+            </div>
+          </div>
+        </div>
         <div className="row column-wrapper">
           <div className="col-md-9 building-options">
             <div className="row">
@@ -135,6 +185,7 @@ class BuildingList extends Component{
             </div>
           </div>
           <div className="col-md-3 selected-buildings">
+            <h6>Selected</h6>
             <div className="row">
               {selectedBuildings.map((s,i)=>(
                 <SelectedBuilding index={i} building={s} />
@@ -147,16 +198,9 @@ class BuildingList extends Component{
   }
 }
 
-// {list.map((buildings,i)=>(
-//   <div className="row">
-//     {buildings.map((b,j)=>(
-//       <Building building={b} id={j}/>
-//     ))}
-//   </div>
-// ))}
-
 const mapStateToProps = (state) => ({
   buildings: state.buildings,
+  eligibility: state.eligibility,
   selectedBuildings: state.selectedBuildings,
   buildingListActive: state.buildingListActive
 });

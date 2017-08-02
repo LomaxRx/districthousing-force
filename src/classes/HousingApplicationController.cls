@@ -14,20 +14,25 @@ public class HousingApplicationController {
 	public String pdfJSONResults {get; set;}
 	/** actionFunction fetchPDFs passes formData **/
 	public String formData {get; set;}
-	public String fetchBuilding {get; set;}
+	public String applicationData {get; set;}
 
 	public HousingApplicationController() {
 		clientId = ApexPages.currentPage().getParameters().get('clientId');
 		hapCaseId = ApexPages.currentPage().getParameters().get('hapCaseId');
-		hapForm = new HousingApplication.Form(clientId);
-		client = hapform.client.client; // ew, gross.
+		hapForm = new HousingApplication.Form(clientId, hapCaseId);
+		client = hapform.client.clientRecord;
 		buildings = HousingApplication.getBuildingData();
 		attachments = new List<Attachment>();
 		attachmentIds = new List<Id>();
 
 		JSONGenerator gen = JSON.createGenerator(false);
 		gen.writeStartObject();
-		gen.writeObjectField('form', hapForm.data);
+		if(hapForm.hapCase.Application_Data__c != null){
+			gen.writeObjectField('form',(Map<String,Object>)JSON.deserializeUntyped(hapForm.hapCase.Application_Data__c));
+		} else {
+			gen.writeObjectField('form', hapForm.data);
+		}
+		gen.writeObjectField('eligibility', hapForm.client.eligibility);
 		gen.writeObjectField('buildings', buildings);
 		gen.writeEndObject();
 		initialState = gen.getAsString();
@@ -59,6 +64,9 @@ public class HousingApplicationController {
 		for(Attachment a : attachments)
 			attachmentIds.add(a.Id);
 		status = 'PDF_FETCHED';
+
+		hapForm.hapCase.Application_Data__c = applicationData;
+		update hapForm.hapCase;
 	}
 
 	public void uploadPDFsToBox(){

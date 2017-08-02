@@ -581,13 +581,17 @@ html.hidden-overflow {
     top: 100px;
     right: 25px;
     padding: 25px;
-    padding-top: 75px;
     min-height: 500px;
     max-height: calc(100vh - 200px);
     overflow: hidden;
     background: #fff;
     border-radius: 0px;
     box-shadow: 0px 0px 1px 0px #AFAFB1; }
+    #app #building-list h6 {
+      margin-bottom: 5px;
+      display: block; }
+    #app #building-list .eligibility {
+      width: 75%; }
     #app #building-list button {
       position: absolute;
       top: 25px;
@@ -626,8 +630,8 @@ html.hidden-overflow {
       max-height: calc(100vh - 200px);
       overflow-y: scroll;
       border-right: 1px solid #AFAFB1;
-      padding: 10px;
-      padding-bottom: 100px; }
+      padding: 15px;
+      padding-bottom: 175px; }
     #app #building-list .building-details {
       padding: 15px;
       z-index: 110;
