@@ -119,6 +119,7 @@ public class HousingApplication {
 
   public class Building{
     Integer id;
+    Id salesforceId;
     String name;
     String company_name;
     String address;
@@ -483,6 +484,7 @@ public class HousingApplication {
       Building b = new Building();
 
       b.id = i;
+      b.salesforceId = d.Id;
       b.name = d.Name;
       b.company_name = d.Building__r.Name;
       b.application_fee = d.App_Fee__c;

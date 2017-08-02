@@ -3110,7 +3110,7 @@ var HapForm = function () {
       delete submitData.applicant.forms;
       console.log(submitData);
 
-      apexActions.fetchPDFs(JSON.stringify(submitData), JSON.stringify(submitData.applicant));
+      apexActions.fetchPDFs(JSON.stringify(submitData), JSON.stringify(submitData.applicant), building.salesforceId);
     };
 
     this.store = redux.createStore(redux.combineReducers(_extends({}, reducers, {

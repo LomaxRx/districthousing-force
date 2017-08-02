@@ -1,4 +1,4 @@
-<apex:page showHeader="true" sidebar="false" controller="HousingApplicationController" action="{!createFolder}">
+<apex:page showHeader="false" sidebar="false" controller="HousingApplicationController" action="{!createFolder}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900" rel="stylesheet"></link>
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed:600,700" rel="stylesheet"></link>
     <apex:stylesheet value="{!$Resource.bootstrap_grid}"/>
@@ -24,6 +24,7 @@
       <apex:actionFunction action="{!fetchPDFs}" name="fetchPDFs" reRender="callback">
           <apex:param name="formData" assignTo="{!formData}" value="{!initialState}" />
           <apex:param name="applicationData" assignTo="{!applicationData}" value="" />
+          <apex:param name="buildingId" assignTo="{!buildingId}" value="" />
       </apex:actionFunction>
       <apex:actionFunction action="{!uploadPDFsToBox}" name="uploadPDFsToBox" reRender="callback" />
     </apex:form>

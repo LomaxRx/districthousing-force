@@ -195,8 +195,9 @@ html.hidden-overflow {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 16px;
   color: #484848;
-  margin-top: 75px;
-  margin-bottom: 25vh; }
+  padding-top: 75px;
+  padding-bottom: 25vh;
+  background: #f2f3f7 !important; }
   #app * {
     -moz-box-sizing: border-box;
     box-sizing: border-box; }

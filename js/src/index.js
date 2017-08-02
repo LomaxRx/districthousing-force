@@ -114,8 +114,8 @@ export default class HapForm{
       console.log('fetching...');
       delete submitData.applicant.forms;
       console.log(submitData);
-
-      fetchPDFs(JSON.stringify(submitData), JSON.stringify(submitData.applicant));
+      
+      fetchPDFs(JSON.stringify(submitData), JSON.stringify(submitData.applicant), building.salesforceId);
     }
 
     setPDFResults(pdfResults){
