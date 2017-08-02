@@ -1,4 +1,4 @@
-var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,DayPicker,moment,Jump,apexActions) {
+var HapForm = (function (redux,reactRedux,reactReduxForm,Thunk,react,reactDom,apexActions,DayPicker,moment,Jump) {
 'use strict';
 
 Thunk = 'default' in Thunk ? Thunk['default'] : Thunk;
@@ -2243,14 +2243,17 @@ var Nav = function (_Component2) {
       dispatch({ type: 'ACTIVATE_BUILDING_LIST' });
     }, _this2.submit = function () {
       var _this2$props = _this2.props,
-          formData = _this2$props.formData,
-          dispatch = _this2$props.dispatch;
+          dispatch = _this2$props.dispatch,
+          selectedBuildings = _this2$props.selectedBuildings;
 
-      dispatch({ type: 'SET_STATUS', status: 'FETCHING' });
-      console.log(formData);
-      setTimeout(function () {
-        apexActions.fetchPDFs(JSON.stringify(formData));
-      }, 1500);
+      if (selectedBuildings.length === 0) {
+        alert('Please add at least one building.');
+        return;
+      }
+      dispatch({
+        type: 'SET_QUEUE',
+        queue: selectedBuildings
+      });
     }, _this2.uploadToBox = function () {
       var dispatch = _this2.props.dispatch;
 
@@ -2264,7 +2267,9 @@ var Nav = function (_Component2) {
     value: function render$$1() {
       var _props2 = this.props,
           results = _props2.results,
-          status = _props2.status;
+          status = _props2.status,
+          fetching = _props2.fetching,
+          selectedBuildings = _props2.selectedBuildings;
 
       return React.createElement(
         'nav',
@@ -2302,17 +2307,32 @@ var Nav = function (_Component2) {
         ),
         status == 'READY' && React.createElement(
           'button',
-          { onClick: this.submit },
+          { onClick: this.submit, disabled: selectedBuildings.length === 0 },
           'Submit'
         ),
         status == 'FETCHING' && React.createElement(
           'div',
-          { className: 'spinner' },
-          React.createElement('div', { className: 'rect1' }),
-          React.createElement('div', { className: 'rect2' }),
-          React.createElement('div', { className: 'rect3' }),
-          React.createElement('div', { className: 'rect4' }),
-          React.createElement('div', { className: 'rect5' })
+          { className: 'fetching' },
+          React.createElement(
+            'div',
+            { className: 'fetching-which' },
+            'generating pdf for ',
+            React.createElement(
+              'b',
+              null,
+              fetching.name
+            ),
+            '...'
+          ),
+          React.createElement(
+            'div',
+            { className: 'spinner' },
+            React.createElement('div', { className: 'rect1' }),
+            React.createElement('div', { className: 'rect2' }),
+            React.createElement('div', { className: 'rect3' }),
+            React.createElement('div', { className: 'rect4' }),
+            React.createElement('div', { className: 'rect5' })
+          )
         ),
         status == 'PDFS_READY' && React.createElement(
           'button',
@@ -2341,7 +2361,9 @@ var mapStateToProps$8 = function mapStateToProps(state) {
   return {
     status: state.status,
     results: state.pdfResults,
-    formData: state.formData
+    selectedBuildings: state.selectedBuildings,
+    fetchQueue: state.fetchQueue,
+    fetching: state.fetching
   };
 };
 
@@ -2366,7 +2388,11 @@ var SelectedBuilding = function (_Component) {
           dispatch = _this$props.dispatch,
           index = _this$props.index;
 
-      dispatch(reactReduxForm.actions.remove('formData.housing_forms', index));
+      dispatch({
+        type: 'REMOVE_BUILDING',
+        index: index
+      });
+      //dispatch(actions.remove('formData.housing_forms', index));
     }, _temp), possibleConstructorReturn(_this, _ret);
   }
 
@@ -2375,7 +2401,8 @@ var SelectedBuilding = function (_Component) {
     value: function render$$1() {
       var _props$building = this.props.building,
           name = _props$building.name,
-          index = _props$building.index;
+          index = _props$building.index,
+          fetchingBuilding = _props$building.fetchingBuilding;
 
       return React.createElement(
         'div',
@@ -2400,7 +2427,13 @@ var SelectedBuilding = function (_Component) {
   return SelectedBuilding;
 }(react.Component);
 
-SelectedBuilding = reactRedux.connect()(SelectedBuilding);
+var mapStateToSelectedBuilding = function mapStateToSelectedBuilding(state) {
+  return {
+    fetchingBuilding: state.fetchingBuilding
+  };
+};
+
+SelectedBuilding = reactRedux.connect(mapStateToSelectedBuilding)(SelectedBuilding);
 
 var Building = function (_Component2) {
   inherits(Building, _Component2);
@@ -2421,7 +2454,11 @@ var Building = function (_Component2) {
           dispatch = _this2$props.dispatch,
           building = _this2$props.building;
 
-      dispatch(reactReduxForm.actions.push('formData.housing_forms', building));
+      dispatch({
+        type: 'SELECT_BUILDING',
+        building: building
+      });
+      //dispatch(actions.push('formData.housing_forms', building ));
     }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
@@ -2443,10 +2480,10 @@ var Building = function (_Component2) {
           eligibility = _props$building2.eligibility,
           required_proofs = _props$building2.required_proofs,
           id = _props$building2.id;
-      var housing_forms = this.props.housing_forms;
+      var selectedBuildings = this.props.selectedBuildings;
 
 
-      if (getIndex(housing_forms, id) !== false) return null;
+      if (getIndex(selectedBuildings, id) !== false) return null;
 
       return React.createElement(
         'div',
@@ -2566,7 +2603,7 @@ var Building = function (_Component2) {
 
 var mapStateToBuildingProps = function mapStateToBuildingProps(state) {
   return {
-    housing_forms: state.formData.housing_forms
+    selectedBuildings: state.selectedBuildings
   };
 };
 
@@ -2607,7 +2644,7 @@ var BuildingList = function (_Component3) {
     value: function render$$1() {
       var _props = this.props,
           buildingListActive = _props.buildingListActive,
-          housing_forms = _props.housing_forms,
+          selectedBuildings = _props.selectedBuildings,
           buildings = _props.buildings;
 
       var list = this.splitList();
@@ -2639,8 +2676,8 @@ var BuildingList = function (_Component3) {
             React.createElement(
               'div',
               { className: 'row' },
-              housing_forms.map(function (h, i) {
-                return React.createElement(SelectedBuilding, { index: i, building: h });
+              selectedBuildings.map(function (s, i) {
+                return React.createElement(SelectedBuilding, { index: i, building: s });
               })
             )
           )
@@ -2662,8 +2699,8 @@ var BuildingList = function (_Component3) {
 var mapStateToProps$9 = function mapStateToProps(state) {
   return {
     buildings: state.buildings,
-    buildingListActive: state.buildingListActive,
-    housing_forms: state.formData.housing_forms
+    selectedBuildings: state.selectedBuildings,
+    buildingListActive: state.buildingListActive
   };
 };
 
@@ -2718,6 +2755,23 @@ var status = function status() {
   switch (action.type) {
     case 'SET_STATUS':
       return action.status;
+    case 'SHIFT_QUEUE':
+      return 'FETCHING';
+    default:
+      return state;
+  }
+};
+
+var fetching = function fetching() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SHIFT_QUEUE':
+      return action.building;
+    case 'SET_STATUS':
+      if (action.status == 'COMPLETE') return {};
+      return state;
     default:
       return state;
   }
@@ -2771,6 +2825,51 @@ var buildings = function buildings() {
   }
 };
 
+var selectedBuildings = function selectedBuildings() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  var selected = void 0;
+  switch (action.type) {
+    case 'SELECT_BUILDING':
+      return [].concat(toConsumableArray(state), [action.building]);
+    case 'REMOVE_BUILDING':
+      selected = [].concat(toConsumableArray(state));
+      selected.splice(action.index, 1);
+      return selected;
+    default:
+      return state;
+  }
+};
+
+var fetchingBuilding = function fetchingBuilding() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'FETCH_BUILDING':
+      return action.building;
+    default:
+      return state;
+  }
+};
+
+var fetchQueue = function fetchQueue() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SET_QUEUE':
+      return [].concat(toConsumableArray(action.queue));
+    case 'SHIFT_QUEUE':
+      var queue = [].concat(toConsumableArray(state));
+      queue.shift();
+      return queue;
+    default:
+      return state;
+  }
+};
+
 var buildingListActive = function buildingListActive() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
   var action = arguments[1];
@@ -2795,7 +2894,11 @@ var reducers = Object.freeze({
 	scrollPosition: scrollPosition,
 	inViewSection: inViewSection,
 	buildings: buildings,
-	buildingListActive: buildingListActive
+	selectedBuildings: selectedBuildings,
+	buildingListActive: buildingListActive,
+	fetchingBuilding: fetchingBuilding,
+	fetching: fetching,
+	fetchQueue: fetchQueue
 });
 
 var App = function (_Component) {
@@ -2820,7 +2923,7 @@ var App = function (_Component) {
           React.createElement(
             'h1',
             null,
-            'Affordable Housing FTW'
+            'MEGA APP'
           ),
           React.createElement(PersonForm$1, null),
           React.createElement(AddressForm$1, null),
@@ -2838,10 +2941,39 @@ var App = function (_Component) {
 
 var HapForm = function () {
   function HapForm() {
+    var _this2 = this;
+
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var idSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'app';
     classCallCheck(this, HapForm);
 
+    this.fetchBuilding = function () {
+      var dispatch = _this2.store.dispatch;
+
+      var _store$getState = _this2.store.getState(),
+          selectedBuildings$$1 = _store$getState.selectedBuildings,
+          status$$1 = _store$getState.status,
+          fetchQueue$$1 = _store$getState.fetchQueue,
+          formData = _store$getState.formData;
+
+      var building = fetchQueue$$1[0];
+
+      dispatch({
+        type: 'SHIFT_QUEUE',
+        building: building
+      });
+
+      var submitData = {
+        applicant: _extends({}, formData),
+        form: {
+          path: building.application_url,
+          name: building.name
+        }
+      };
+      console.log('fetching...');
+      console.log(submitData);
+      apexActions.fetchPDFs(JSON.stringify(submitData));
+    };
 
     this.store = redux.createStore(redux.combineReducers(_extends({}, reducers, {
       formData: reactReduxForm.combineForms(state.form, 'formData')
@@ -2855,6 +2987,27 @@ var HapForm = function () {
 
     this.setBuildings(state.buildings);
     this.addScrollListener();
+    var queueLen = 0;
+    this.store.subscribe(function () {
+      var _store$getState2 = _this2.store.getState(),
+          fetchQueue$$1 = _store$getState2.fetchQueue,
+          status$$1 = _store$getState2.status;
+
+      var queue = fetchQueue$$1;
+
+      if (queue.length === queueLen) {
+        return;
+      } else if (queue.length > 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY')) {
+        queueLen = queue.length;
+        _this2.fetchBuilding();
+      } else if (queue.length === 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY')) {
+        queueLen = 0;
+        _this2.store.dispatch({
+          type: 'SET_STATUS',
+          status: 'COMPLETE'
+        });
+      }
+    });
   }
 
   createClass(HapForm, [{
@@ -2897,4 +3050,4 @@ var HapForm = function () {
 
 return HapForm;
 
-}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,React,ReactDOM,DayPicker,moment,Jump,ApexActions));
+}(Redux,ReactRedux,ReactReduxForm,ReduxThunk,React,ReactDOM,ApexActions,DayPicker,moment,Jump));

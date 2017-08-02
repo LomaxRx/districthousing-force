@@ -7,6 +7,7 @@ import { combineForms } from 'react-redux-form';
 import Thunk from 'redux-thunk';
 import { Component } from 'react';
 import { render } from 'react-dom';
+import { fetchPDFs, uploadPDFsToBox } from 'apex-actions';
 
 import Main from './components/Main';
 import AddressForm from './components/Address';
@@ -28,7 +29,7 @@ class App extends Component {
         <BuildingList />
         <Overlay />
         <article>
-          <h1>Affordable Housing FTW</h1>
+          <h1>MEGA APP</h1>
           <PersonForm />
           <AddressForm />
           <HouseholdMemberForm />
@@ -60,6 +61,24 @@ export default class HapForm{
 
       this.setBuildings(state.buildings);
       this.addScrollListener();
+      let queueLen = 0;
+      this.store.subscribe(()=>{
+
+        let { fetchQueue, status } = this.store.getState();
+        let queue = fetchQueue;
+
+        if(queue.length===queueLen){ return; }
+        else if(queue.length > 0 && (status=='PDF_FETCHED' || status == 'READY')){
+          queueLen = queue.length;
+          this.fetchBuilding();
+        } else if(queue.length===0 && (status=='PDF_FETCHED' || status == 'READY')){
+          queueLen = 0;
+          this.store.dispatch({
+            type: 'SET_STATUS',
+            status: 'COMPLETE'
+          });
+        }
+      });
     }
 
     addScrollListener(){
@@ -71,6 +90,29 @@ export default class HapForm{
           scrollPosition: window.scrollTop || window.pageYOffset
         });
       });
+    }
+
+    fetchBuilding = () => {
+      let { dispatch } = this.store;
+      let { selectedBuildings, status, fetchQueue, formData } = this.store.getState();
+
+      let building = fetchQueue[0];
+
+      dispatch({
+        type: 'SHIFT_QUEUE',
+        building
+      });
+
+      let submitData = {
+        applicant: {...formData},
+        form: {
+          path: building.application_url,
+          name: building.name
+        }
+      };
+      console.log('fetching...');
+      console.log(submitData);
+      fetchPDFs(JSON.stringify(submitData));
     }
 
     setPDFResults(pdfResults){

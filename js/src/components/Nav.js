@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Jump from 'jump.js';
-import { fetchPDFs, uploadPDFsToBox } from 'apex-actions';
+import { uploadPDFsToBox } from 'apex-actions';
 import { easeInOutQuad } from '../utils';
 
 class NavSection extends Component {
@@ -43,10 +43,15 @@ class Nav extends Component {
   }
 
   submit = () => {
-    let { formData, dispatch } = this.props;
-    dispatch({type:'SET_STATUS', status: 'FETCHING'});
-    console.log(formData);
-    setTimeout(()=>{fetchPDFs(JSON.stringify(formData));}, 1500);
+    let { dispatch, selectedBuildings } = this.props;
+    if(selectedBuildings.length===0){
+      alert('Please add at least one building.');
+      return;
+    }
+    dispatch({
+      type: 'SET_QUEUE',
+      queue: selectedBuildings
+    });
   }
 
   uploadToBox = () => {
@@ -56,7 +61,7 @@ class Nav extends Component {
   }
 
   render(){
-    let { results, status } = this.props;
+    let { results, status, fetching, selectedBuildings } = this.props;
     return(
       <nav>
         <div className="nav-sections-wrapper">
@@ -85,15 +90,20 @@ class Nav extends Component {
           <button onClick={this.openBuildingList}>Add Buildings</button>
         }
         {status=='READY' &&
-          <button onClick={this.submit}>Submit</button>
+          <button onClick={this.submit} disabled={selectedBuildings.length===0}>Submit</button>
         }
         {status=='FETCHING' &&
-          <div className="spinner">
-            <div className="rect1"></div>
-            <div className="rect2"></div>
-            <div className="rect3"></div>
-            <div className="rect4"></div>
-            <div className="rect5"></div>
+          <div className="fetching">
+            <div className="fetching-which">
+              generating pdf for <b>{fetching.name}</b>...
+            </div>
+            <div className="spinner">
+              <div className="rect1"></div>
+              <div className="rect2"></div>
+              <div className="rect3"></div>
+              <div className="rect4"></div>
+              <div className="rect5"></div>
+            </div>
           </div>
         }
         {status=='PDFS_READY' &&
@@ -115,7 +125,9 @@ class Nav extends Component {
 const mapStateToProps = (state) => ({
   status: state.status,
   results: state.pdfResults,
-  formData: state.formData
+  selectedBuildings: state.selectedBuildings,
+  fetchQueue: state.fetchQueue,
+  fetching: state.fetching
 });
 
 export default connect(mapStateToProps)(Nav);

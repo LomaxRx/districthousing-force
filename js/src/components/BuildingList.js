@@ -8,11 +8,15 @@ import { getIndex } from '../utils';
 class SelectedBuilding extends Component {
   removeBuildingFromForm = () => {
     let { dispatch, index } = this.props;
-    dispatch(actions.remove('formData.housing_forms', index));
+    dispatch({
+      type: 'REMOVE_BUILDING',
+      index
+    });
+    //dispatch(actions.remove('formData.housing_forms', index));
   }
 
   render(){
-    let { name, index } = this.props.building;
+    let { name, index, fetchingBuilding } = this.props.building;
     return (
       <div className="selected-building-wrapper">
         <div className="selected-building">
@@ -24,13 +28,21 @@ class SelectedBuilding extends Component {
   }
 }
 
-SelectedBuilding = connect()(SelectedBuilding);
+const mapStateToSelectedBuilding = (state) => ({
+  fetchingBuilding: state.fetchingBuilding
+});
+
+SelectedBuilding = connect(mapStateToSelectedBuilding)(SelectedBuilding);
 
 class Building extends Component {
 
   addBuildingToForm = () => {
     const { dispatch, building } = this.props;
-    dispatch(actions.push('formData.housing_forms', building ));
+    dispatch({
+      type: 'SELECT_BUILDING',
+      building
+    });
+    //dispatch(actions.push('formData.housing_forms', building ));
   }
 
   render(){
@@ -42,9 +54,9 @@ class Building extends Component {
       eligibility, required_proofs, id
     } = this.props.building;
 
-    let { housing_forms } = this.props;
+    let { selectedBuildings } = this.props;
 
-    if(getIndex(housing_forms, id)!==false) return null;
+    if(getIndex(selectedBuildings, id)!==false) return null;
 
     return (
       <div className="building col-md-4" onClick={this.addBuildingToForm}>
@@ -87,7 +99,7 @@ class Building extends Component {
 }
 
 const mapStateToBuildingProps = (state) => ({
-  housing_forms: state.formData.housing_forms
+  selectedBuildings: state.selectedBuildings
 });
 
 Building = connect(mapStateToBuildingProps)(Building);
@@ -109,7 +121,7 @@ class BuildingList extends Component{
   }
 
   render(){
-    let { buildingListActive, housing_forms, buildings } = this.props;
+    let { buildingListActive, selectedBuildings, buildings } = this.props;
     let list = this.splitList();
     return (
       <div id="building-list" className={buildingListActive ? 'container active' : 'container'}>
@@ -124,8 +136,8 @@ class BuildingList extends Component{
           </div>
           <div className="col-md-3 selected-buildings">
             <div className="row">
-              {housing_forms.map((h,i)=>(
-                <SelectedBuilding index={i} building={h} />
+              {selectedBuildings.map((s,i)=>(
+                <SelectedBuilding index={i} building={s} />
               ))}
             </div>
           </div>
@@ -145,8 +157,8 @@ class BuildingList extends Component{
 
 const mapStateToProps = (state) => ({
   buildings: state.buildings,
-  buildingListActive: state.buildingListActive,
-  housing_forms: state.formData.housing_forms
+  selectedBuildings: state.selectedBuildings,
+  buildingListActive: state.buildingListActive
 });
 
 export default connect(mapStateToProps)(BuildingList);

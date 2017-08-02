@@ -303,6 +303,8 @@ html.hidden-overflow {
       -ms-transform: translateX(-25%);
       -o-transform: translateX(-25%);
       transform: translateX(-25%); }
+      #app nav button[disabled="true"] {
+        opacity: 0.8; }
     #app nav .results {
       margin: 25px 0;
       -webkit-transform: translateX(-25%);
@@ -566,6 +568,11 @@ html.hidden-overflow {
   20% {
     transform: scaleY(1);
     -webkit-transform: scaleY(1); } }
+  #app .fetching-which {
+    font-size: 0.8em !important;
+    color: #aaaaaa !important;
+    position: relative;
+    left: -1.5em; }
   #app #building-list {
     display: none;
     position: fixed;

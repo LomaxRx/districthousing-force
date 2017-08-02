@@ -61,6 +61,9 @@ nav {
 
   button{
     @include transform(translateX(-25%));
+    &[disabled="true"]{
+      opacity: 0.8;
+    }
   }
 
   .results{

@@ -6,6 +6,7 @@ public class HousingApplicationController {
 	private Id[] attachmentIds;
 
 	public HousingApplication.Building[] buildings {get; set;}
+	public Client__c client {get; set;}
 	public String clientId {get; set;}
 	public String hapCaseId {get; set;}
 	public String initialState {get; set;}
@@ -13,11 +14,13 @@ public class HousingApplicationController {
 	public String pdfJSONResults {get; set;}
 	/** actionFunction fetchPDFs passes formData **/
 	public String formData {get; set;}
+	public String fetchBuilding {get; set;}
 
 	public HousingApplicationController() {
 		clientId = ApexPages.currentPage().getParameters().get('clientId');
 		hapCaseId = ApexPages.currentPage().getParameters().get('hapCaseId');
 		hapForm = new HousingApplication.Form(clientId);
+		client = hapform.client.client; // ew, gross.
 		buildings = HousingApplication.getBuildingData();
 		attachments = new List<Attachment>();
 		attachmentIds = new List<Id>();
@@ -42,16 +45,20 @@ public class HousingApplicationController {
 	}
 
 	public void fetchPDFs(){
-		//pdfJSONResults = JSON.serialize(pdfResults);
 		pdfResults = new List<HousingApplication.PDFResult>();
-		transient HousingApplication.PDFResult pdfResult = hapForm.fetchPDFs('3treeflats', formData);
+		transient HousingApplication.PDFResult pdfResult = hapForm.fetchPDFs(formData);
+
+		if(pdfResult.status != 'OK'){
+			status = 'PDF_FETCHED';
+			return;
+		}
 		pdfResults.add(pdfResult);
 
 		attachments = uploader.createAttachments(pdfResults, hapCaseId);
 		insert attachments;
 		for(Attachment a : attachments)
 			attachmentIds.add(a.Id);
-		status = 'PDFS_READY';
+		status = 'PDF_FETCHED';
 	}
 
 	public void uploadPDFsToBox(){
@@ -60,7 +67,7 @@ public class HousingApplicationController {
 			FROM Attachment
 			WHERE Id IN :attachmentIds
 		];
-		system.debug(attachments);
+
 		uploader.uploadAttachments(attachments);
 		uploader.commitChanges();
 		delete attachments;

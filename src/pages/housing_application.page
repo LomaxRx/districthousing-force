@@ -38,10 +38,9 @@
       var hapForm = new HapForm({!initialState}, 'form');
     </script>
 
-    <!-- makeshift callback function after ApexActions call -->
+    <!-- makeshift callback functions after ApexActions call -->
     <apex:outputPanel id="callback">
       <script type="text/javascript">
-        hapForm.setPDFResults({!pdfJSONResults});
         hapForm.setStatus('{!status}');
       </script>
     </apex:outputPanel>

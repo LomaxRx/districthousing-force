@@ -137,6 +137,7 @@ public class HousingApplication {
     String pets_allowed;
     String bus_routes;
     String notes;
+    String application_url;
 
     BuildingRequiredProofs required_proofs = new BuildingRequiredProofs();
     BuildingEligibility eligibility = new BuildingEligibility();
@@ -368,7 +369,7 @@ public class HousingApplication {
       // return this.fetchPDFs(json);
     }
 
-    public PDFResult fetchPDFs(String building, String formData){
+    public PDFResult fetchPDFs(String formData){
       Http h = new Http();
       HttpRequest req = new HttpRequest();
       req.setEndpoint('https://pozon059e5.execute-api.us-west-2.amazonaws.com/districthousing/applicant');
@@ -382,13 +383,13 @@ public class HousingApplication {
       Map<String,Object> response = (Map<String,Object>)System.JSON.deserializeUntyped(res.getBody());
 
       PDFResult result = new PDFResult();
-      result.building = building;
+      result.building = (String)response.get('building');
       if((String)response.get('status') == 'OK'){
-        System.debug((String)response.get('pdf'));
         result.pdf = EncodingUtil.base64Decode((String)response.get('pdf'));
         result.status = 'OK';
       } else {
         result.status = 'FAILURE';
+        result.status = (String)response.get('error');
         System.debug((String)response.get('error'));
       }
 
@@ -459,7 +460,7 @@ public class HousingApplication {
 
   public static Building[] getBuildingData(){
     Building_Detail__c[] building_details = [
-      SELECT Id, Name, App_Fee__c, Application_Info__c, Application_On_File__c, Building__r.Name,
+      SELECT Id, Name, App_Fee__c, Application_Info__c, Application_URL__c, Application_On_File__c, Building__r.Name,
       Bank_Statement__c, Bedrooms_Offered__C, BedroomsOpen__c, Birth_Certificate__c,
       Building_Address__c, Building__c, Building_Name__c, Building_Phone__c, Bus__c,
       Company_Phone__c, Disability_Required__c, Elderly__c, Employment_History__c, General_Notes__c,
@@ -467,7 +468,7 @@ public class HousingApplication {
       No_Proofs__c, Pets__c, Proof_of_Citizenship__c, Proof_of_DC_Residency__c, Proof_of_Disability__c, Proof_of_Income__c,
       Rental_History__c, Require_Id__c, Require_Other__c, Social_Security_Card__c, Utilities__c,
       Wait_Length__c, Waitlist_Closed_Until__c, Waitlist_Open__c, Ward__c, Mobility_Impairment_Required__c
-      FROM Building_Detail__c
+      FROM Building_Detail__c WHERE Application_URL__c != null
       ORDER BY Name
     ];
 
@@ -496,6 +497,7 @@ public class HousingApplication {
       b.waitlist_closed_until = d.Waitlist_Closed_Until__c;
       b.waitlist_open = d.Waitlist_Open__c;
       b.notes = d.General_Notes__c;
+      b.application_url = d.Application_URL__c;
 
       b.eligibility.mobility_impairment = d.Mobility_Impairment_Required__c;
       b.eligibility.disability = d.Disability_Required__c;
