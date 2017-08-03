@@ -253,7 +253,7 @@ html.hidden-overflow {
       background: rgba(72, 72, 72, 0.15);
       border-radius: 0.5em;
       position: absolute;
-      left: -1.5em;
+      left: -26px;
       top: 10px;
       display: block;
       content: ' ';
@@ -278,7 +278,7 @@ html.hidden-overflow {
         width: 0.5em;
         border-radius: 0.5em;
         background: rgba(72, 72, 72, 0.4);
-        left: -1.5em;
+        left: -26px;
         position: absolute;
         top: 50%;
         -webkit-transform: translate(0, -50%);
@@ -297,7 +297,7 @@ html.hidden-overflow {
           border-radius: .75em;
           height: .75em;
           width: .75em;
-          left: -1.6em; }
+          left: calc(-26px - 0.125em); }
     #app nav button {
       -webkit-transform: translateX(-25%);
       -moz-transform: translateX(-25%);
