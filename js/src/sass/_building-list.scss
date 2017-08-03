@@ -44,7 +44,7 @@ $max-height: calc(100vh - 200px);
     border-radius: $border-radius;
     padding-left: 0;
     padding-right: 0;
-    height: 130px;
+    height: 150px;
   }
 
   .selected-buildings{
@@ -111,7 +111,7 @@ $max-height: calc(100vh - 200px);
 }
 
 #overlay{
-  position: absolute;
+  position: fixed;
   z-index: 90;
   background: rgba(0,0,0,0.25);
   top: 0;

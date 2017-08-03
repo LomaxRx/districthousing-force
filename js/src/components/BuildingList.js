@@ -51,7 +51,7 @@ class Building extends Component {
       bedrooms_open, bedrooms_offered, address,
       building_phone, company_phone, wait_length,
       waitlist_open, waitlist_closed_until,
-      eligibility, required_proofs, id
+      eligibility, required_proofs, id, last_applied
     } = this.props.building;
 
     let { selectedBuildings } = this.props;
@@ -70,6 +70,12 @@ class Building extends Component {
             <label>Building Phone</label>
             <p>{building_phone}</p>
           </div>
+          {last_applied &&
+            <div className="building-detail">
+              <label>Last Applied</label>
+              <p>{last_applied}</p>
+            </div>
+          }
           <div className="more-details">
             <div className="building-detail">
               <label>Bedrooms Open</label>

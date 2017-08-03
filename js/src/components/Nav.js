@@ -61,7 +61,7 @@ class Nav extends Component {
   }
 
   render(){
-    let { results, status, fetching, selectedBuildings } = this.props;
+    let { failed, status, fetching, selectedBuildings } = this.props;
     return(
       <nav>
         <div className="nav-sections-wrapper">
@@ -90,7 +90,7 @@ class Nav extends Component {
           <button onClick={this.openBuildingList}>Add Buildings</button>
         }
         {status=='READY' &&
-          <button onClick={this.submit} disabled={selectedBuildings.length===0}>Submit</button>
+          <button onClick={this.submit} className={selectedBuildings.length===0 ? 'disabled' : ''}>Submit</button>
         }
         {status=='FETCHING' &&
           <div className="fetching">
@@ -110,11 +110,16 @@ class Nav extends Component {
           <button onClick={this.uploadToBox}>Upload to Box</button>
         }
         {status=='COMPLETE' &&
-          <h3>Success!</h3>
+          <h3>Done.</h3>
         }
-        <div className='results'>
-          {results.map((r,i)=>(
-            <PDFResult url={r.url} building={r.building} />
+        <div className='failures'>
+          {failed.map((f,i)=>(
+            <div className='failure'>
+              <em>failed to generate pdf for <b>{f.building.name}</b></em>
+              <p className="error-msg">
+                {f.status}
+              </p>
+            </div>
           ))}
         </div>
       </nav>
@@ -124,7 +129,7 @@ class Nav extends Component {
 
 const mapStateToProps = (state) => ({
   status: state.status,
-  results: state.pdfResults,
+  failed: state.failed,
   selectedBuildings: state.selectedBuildings,
   fetchQueue: state.fetchQueue,
   fetching: state.fetching

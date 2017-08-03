@@ -69,10 +69,10 @@ export default class HapForm{
         let queue = fetchQueue;
 
         if(queue.length===queueLen){ return; }
-        else if(queue.length > 0 && (status=='PDF_FETCHED' || status == 'READY')){
+        else if(queue.length > 0 && (status=='PDF_FETCHED' || status == 'READY' || status.indexOf('ERROR')!=-1)){
           queueLen = queue.length;
           this.fetchBuilding();
-        } else if(queue.length===0 && (status=='PDF_FETCHED' || status == 'READY')){
+        } else if(queue.length===0 && (status=='PDF_FETCHED' || status == 'READY' || status.indexOf('ERROR')!=-1)){
           queueLen = 0;
           this.store.dispatch({
             type: 'SET_STATUS',
@@ -114,7 +114,7 @@ export default class HapForm{
       console.log('fetching...');
       delete submitData.applicant.forms;
       console.log(submitData);
-      
+
       fetchPDFs(JSON.stringify(submitData), JSON.stringify(submitData.applicant), building.salesforceId);
     }
 
@@ -125,6 +125,14 @@ export default class HapForm{
 
     setStatus(status){
       let { dispatch } = this.store;
+      let { fetching } = this.store.getState();
+      if(status.indexOf('ERROR')!=-1){
+        dispatch({
+          type: 'ADD_FAILURE',
+          building: fetching,
+          status
+        });
+      }
       dispatch({type: 'SET_STATUS', status});
     }
 

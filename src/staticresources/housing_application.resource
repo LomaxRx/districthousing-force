@@ -2211,18 +2211,6 @@ var mapStateToNavProps = function mapStateToNavProps(state) {
 
 NavSection = reactRedux.connect(mapStateToNavProps)(NavSection);
 
-var PDFResult = function PDFResult(props) {
-  return React.createElement(
-    'div',
-    { className: 'pdf-result' },
-    React.createElement(
-      'a',
-      { href: props.url, target: '_blank' },
-      props.building
-    )
-  );
-};
-
 var Nav = function (_Component2) {
   inherits(Nav, _Component2);
 
@@ -2266,7 +2254,7 @@ var Nav = function (_Component2) {
     key: 'render',
     value: function render$$1() {
       var _props2 = this.props,
-          results = _props2.results,
+          failed = _props2.failed,
           status = _props2.status,
           fetching = _props2.fetching,
           selectedBuildings = _props2.selectedBuildings;
@@ -2307,7 +2295,7 @@ var Nav = function (_Component2) {
         ),
         status == 'READY' && React.createElement(
           'button',
-          { onClick: this.submit, disabled: selectedBuildings.length === 0 },
+          { onClick: this.submit, className: selectedBuildings.length === 0 ? 'disabled' : '' },
           'Submit'
         ),
         status == 'FETCHING' && React.createElement(
@@ -2342,13 +2330,31 @@ var Nav = function (_Component2) {
         status == 'COMPLETE' && React.createElement(
           'h3',
           null,
-          'Success!'
+          'Done.'
         ),
         React.createElement(
           'div',
-          { className: 'results' },
-          results.map(function (r, i) {
-            return React.createElement(PDFResult, { url: r.url, building: r.building });
+          { className: 'failures' },
+          failed.map(function (f, i) {
+            return React.createElement(
+              'div',
+              { className: 'failure' },
+              React.createElement(
+                'em',
+                null,
+                'failed to generate pdf for ',
+                React.createElement(
+                  'b',
+                  null,
+                  f.building.name
+                )
+              ),
+              React.createElement(
+                'p',
+                { className: 'error-msg' },
+                f.status
+              )
+            );
           })
         )
       );
@@ -2360,7 +2366,7 @@ var Nav = function (_Component2) {
 var mapStateToProps$8 = function mapStateToProps(state) {
   return {
     status: state.status,
-    results: state.pdfResults,
+    failed: state.failed,
     selectedBuildings: state.selectedBuildings,
     fetchQueue: state.fetchQueue,
     fetching: state.fetching
@@ -2479,7 +2485,8 @@ var Building = function (_Component2) {
           waitlist_closed_until = _props$building2.waitlist_closed_until,
           eligibility = _props$building2.eligibility,
           required_proofs = _props$building2.required_proofs,
-          id = _props$building2.id;
+          id = _props$building2.id,
+          last_applied = _props$building2.last_applied;
       var selectedBuildings = this.props.selectedBuildings;
 
 
@@ -2522,6 +2529,20 @@ var Building = function (_Component2) {
               'p',
               null,
               building_phone
+            )
+          ),
+          last_applied && React.createElement(
+            'div',
+            { className: 'building-detail' },
+            React.createElement(
+              'label',
+              null,
+              'Last Applied'
+            ),
+            React.createElement(
+              'p',
+              null,
+              last_applied
             )
           ),
           React.createElement(
@@ -3005,6 +3026,18 @@ var fetchQueue = function fetchQueue() {
   }
 };
 
+var failed = function failed() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'ADD_FAILURE':
+      return [].concat(toConsumableArray(state), [{ building: _extends({}, action.building), status: action.status }]);
+    default:
+      return state;
+  }
+};
+
 var buildingListActive = function buildingListActive() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
   var action = arguments[1];
@@ -3034,7 +3067,8 @@ var reducers = Object.freeze({
 	buildingListActive: buildingListActive,
 	fetchingBuilding: fetchingBuilding,
 	fetching: fetching,
-	fetchQueue: fetchQueue
+	fetchQueue: fetchQueue,
+	failed: failed
 });
 
 var App = function (_Component) {
@@ -3137,10 +3171,10 @@ var HapForm = function () {
 
       if (queue.length === queueLen) {
         return;
-      } else if (queue.length > 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY')) {
+      } else if (queue.length > 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY' || status$$1.indexOf('ERROR') != -1)) {
         queueLen = queue.length;
         _this2.fetchBuilding();
-      } else if (queue.length === 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY')) {
+      } else if (queue.length === 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY' || status$$1.indexOf('ERROR') != -1)) {
         queueLen = 0;
         _this2.store.dispatch({
           type: 'SET_STATUS',
@@ -3175,6 +3209,16 @@ var HapForm = function () {
     value: function setStatus(status$$1) {
       var dispatch = this.store.dispatch;
 
+      var _store$getState3 = this.store.getState(),
+          fetching$$1 = _store$getState3.fetching;
+
+      if (status$$1.indexOf('ERROR') != -1) {
+        dispatch({
+          type: 'ADD_FAILURE',
+          building: fetching$$1,
+          status: status$$1
+        });
+      }
       dispatch({ type: 'SET_STATUS', status: status$$1 });
     }
   }, {

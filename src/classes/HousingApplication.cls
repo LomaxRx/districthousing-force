@@ -140,6 +140,7 @@ public class HousingApplication {
     String bus_routes;
     String notes;
     String application_url;
+    Date last_applied;
 
     BuildingRequiredProofs required_proofs = new BuildingRequiredProofs();
     BuildingEligibility eligibility = new BuildingEligibility();
@@ -202,13 +203,6 @@ public class HousingApplication {
     public Blob pdf;
     public String status;
     public String building;
-  }
-
-  public class ApiResponse {
-    public String status;
-    public String pdf;
-    public String error;
-    public String code;
   }
 
   public class Form {
@@ -394,9 +388,8 @@ public class HousingApplication {
         result.pdf = EncodingUtil.base64Decode((String)response.get('pdf'));
         result.status = 'OK';
       } else {
-        result.status = 'FAILURE';
-        result.status = (String)response.get('error');
-        System.debug((String)response.get('error'));
+        result.status = (String)response.get('errorMessage');
+        System.debug(result.status);
       }
 
       return result;
@@ -464,7 +457,14 @@ public class HousingApplication {
 
   }
 
-  public static Building[] getBuildingData(){
+  public static Building[] getBuildingData(Id clientId){
+    Application__c[] pastApplications = [
+      SELECT Id, Building_Name__r.Id, Date_Completed__c
+      FROM Application__c
+      WHERE Social_Services_Case__r.Client__c=:clientId
+      ORDER BY Date_Completed__c ASC
+    ];
+
     Building_Detail__c[] building_details = [
       SELECT Id, Name, App_Fee__c, Application_Info__c, Application_URL__c, Application_On_File__c, Building__r.Name,
       Bank_Statement__c, Bedrooms_Offered__C, BedroomsOpen__c, Birth_Certificate__c,
@@ -505,6 +505,9 @@ public class HousingApplication {
       b.waitlist_open = d.Waitlist_Open__c;
       b.notes = d.General_Notes__c;
       b.application_url = d.Application_URL__c;
+      for(Application__c a :pastApplications){
+        if(a.Building_Name__r.Id==d.Id) b.last_applied = a.Date_Completed__c;
+      }
 
       b.eligibility.mobility_impairment = d.Mobility_Impairment_Required__c;
       b.eligibility.disability = d.Disability_Required__c;

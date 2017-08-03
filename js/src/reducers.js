@@ -108,6 +108,15 @@ const fetchQueue = function(state=[], action){
   }
 }
 
+const failed = function(state=[], action){
+  switch(action.type){
+    case 'ADD_FAILURE':
+      return [...state, { building: {...action.building}, status: action.status }];
+    default:
+      return state;
+  }
+}
+
 const buildingListActive = function(state=false, action){
   switch(action.type){
     case 'DEACTIVATE_BUILDING_LIST':
@@ -124,5 +133,5 @@ const buildingListActive = function(state=false, action){
 export {
   status, pdfResults, scrollPosition, inViewSection, eligibility,
   buildings, selectedBuildings, buildingListActive, fetchingBuilding,
-  fetching, fetchQueue
+  fetching, fetchQueue, failed
 };

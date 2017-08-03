@@ -61,9 +61,6 @@ nav {
 
   button{
     @include transform(translateX(-25%));
-    &[disabled="true"]{
-      opacity: 0.8;
-    }
   }
 
   .results{
@@ -112,6 +109,34 @@ nav {
         &:before{
           background: rgba($blue, 0.65);
         }
+      }
+    }
+  }
+
+  .failure{
+    margin-top: 10px;
+    position: relative;
+    left: -1.5em;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dddddd;
+    em {
+      color: red;
+      font-size: 0.8em;
+      opacity: 0.5;
+      cursor: default;
+    }
+    .error-msg{
+      height: 0px;
+      overflow: hidden;
+      font-size: 0.8em;
+      color: #aaaaaa;
+      margin: 0 0 0 0;
+      font-family: monospace;
+    }
+    &:hover{
+      .error-msg{
+        height: auto;
+        margin: 5px 0 0 0;
       }
     }
   }

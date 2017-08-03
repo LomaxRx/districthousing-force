@@ -304,8 +304,6 @@ html.hidden-overflow {
       -ms-transform: translateX(-25%);
       -o-transform: translateX(-25%);
       transform: translateX(-25%); }
-      #app nav button[disabled="true"] {
-        opacity: 0.8; }
     #app nav .results {
       margin: 25px 0;
       -webkit-transform: translateX(-25%);
@@ -355,6 +353,27 @@ html.hidden-overflow {
         color: #484848; }
         #app nav .pdf-result a:hover:before {
           background: rgba(0, 110, 167, 0.65); }
+    #app nav .failure {
+      margin-top: 10px;
+      position: relative;
+      left: -1.5em;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #dddddd; }
+      #app nav .failure em {
+        color: red;
+        font-size: 0.8em;
+        opacity: 0.5;
+        cursor: default; }
+      #app nav .failure .error-msg {
+        height: 0px;
+        overflow: hidden;
+        font-size: 0.8em;
+        color: #aaaaaa;
+        margin: 0 0 0 0;
+        font-family: monospace; }
+      #app nav .failure:hover .error-msg {
+        height: auto;
+        margin: 5px 0 0 0; }
   #app form, #app .sub-section {
     display: block;
     width: 100%;
@@ -500,6 +519,8 @@ html.hidden-overflow {
     -ms-transition: background 0.25s ease-out, border 0.25s ease-out, box-shadow 0.25s ease-out;
     -o-transition: background 0.25s ease-out, border 0.25s ease-out, box-shadow 0.25s ease-out;
     transition: background 0.25s ease-out, border 0.25s ease-out, box-shadow 0.25s ease-out; }
+    #app button.disabled {
+      opacity: 0.8; }
     #app button.remove-button {
       float: right;
       position: relative;
@@ -514,15 +535,15 @@ html.hidden-overflow {
       border: 1px solid #AFAFB1;
       width: 36px;
       height: 36px; }
-  #app button:hover {
+  #app button:hover:not(.disabled) {
     cursor: pointer;
     border: 1px solid rgba(0, 110, 167, 0);
     background: rgba(0, 110, 167, 0.95);
     box-shadow: 0px 0px 1px 1px rgba(72, 72, 72, 0); }
-    #app button:hover.remove-button {
+    #app button:hover:not(.disabled).remove-button {
       border: 1px solid rgba(163, 38, 69, 0);
       background: rgba(163, 38, 69, 0.95); }
-    #app button:hover.close-button {
+    #app button:hover:not(.disabled).close-button {
       border: 1px solid rgba(175, 175, 177, 0);
       background: rgba(175, 175, 177, 0.95); }
   #app .spinner {
@@ -607,7 +628,7 @@ html.hidden-overflow {
       border-radius: 0px;
       padding-left: 0;
       padding-right: 0;
-      height: 130px; }
+      height: 150px; }
     #app #building-list .selected-buildings {
       padding: 10px;
       padding-right: 25px;
@@ -650,7 +671,7 @@ html.hidden-overflow {
       #app #building-list .building-details:hover {
         box-shadow: 0px 0px 1px 0px #AFAFB1; }
   #app #overlay {
-    position: absolute;
+    position: fixed;
     z-index: 90;
     background: rgba(0, 0, 0, 0.25);
     top: 0;
