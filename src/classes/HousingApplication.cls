@@ -363,12 +363,6 @@ public class HousingApplication {
       return JSON.serialize(data);
     }
 
-    public PDFResult[] fetchPDFs(){
-      return null;
-      // String json = this.toJSON();
-      // return this.fetchPDFs(json);
-    }
-
     public PDFResult fetchPDFs(String formData){
       Http h = new Http();
       HttpRequest req = new HttpRequest();
@@ -396,26 +390,8 @@ public class HousingApplication {
     }
   }
 
-  public static Blob downloadPDF(String url){
-    Http h = new Http();
-    HttpRequest req = new HttpRequest();
-
-    url = url.replace(' ', '%20');
-    req.setEndpoint(url);
-    req.setMethod('POST');
-    req.setHeader('Content-Type', 'application/pdf');
-    req.setCompressed(true);
-    req.setTimeout(60000);
-
-    HttpResponse res = h.send(req);
-    String response = res.getBody();
-
-    return res.getBodyAsBlob();
-  }
-
   public class BoxPDFUploader {
     public box.Toolkit boxToolkit;
-    public BoxPlatformApiConnection api;
     public String folderId;
 
     public BoxPDFUploader(){
