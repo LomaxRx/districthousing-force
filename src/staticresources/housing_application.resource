@@ -2149,7 +2149,7 @@ var CriminalHistoryForm = function (_Component) {
                   null,
                   'State'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.description' })
+                React.createElement(reactReduxForm.Control.text, { model: '.state' })
               )
             )
           );

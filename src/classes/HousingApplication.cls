@@ -84,6 +84,7 @@ public class HousingApplication {
     Integer id;
     String description;
     Integer year;
+    String state;
     String crime_type;
   }
 
@@ -324,6 +325,7 @@ public class HousingApplication {
           a.street += ' ' + client_address.Address_2__c;
         a.city = client_address.City__c;
         a.state = client_address.State__c;
+        a.zip = client_address.Zip_Code__c;
         if(
           (client_address.Landlord_Name__c!=null&&client_address.Landlord_Name__c!='')||
           client_address.Start_Date__c!=null||client_address.End_Date__c!=null

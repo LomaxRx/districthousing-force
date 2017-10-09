@@ -40,7 +40,7 @@ class CriminalHistoryForm extends Component {
               </div>
               <div className="field col-md-3">
                 <label>State</label>
-                <Control.text model='.description'/>
+                <Control.text model='.state'/>
               </div>
             </div>
           </Form>
