@@ -44,7 +44,6 @@ $max-height: calc(100vh - 200px);
     border-radius: $border-radius;
     padding-left: 0;
     padding-right: 0;
-    height: 150px;
   }
 
   .selected-buildings{
@@ -88,7 +87,7 @@ $max-height: calc(100vh - 200px);
     width: 100%;
 
     .more-details{
-      display: none;
+    //  display: none;
     }
     .building-detail{
       margin-top: 5px;

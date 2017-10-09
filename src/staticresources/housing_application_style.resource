@@ -627,8 +627,7 @@ html.hidden-overflow {
       margin-bottom: 25px;
       border-radius: 0px;
       padding-left: 0;
-      padding-right: 0;
-      height: 150px; }
+      padding-right: 0; }
     #app #building-list .selected-buildings {
       padding: 10px;
       padding-right: 25px;
@@ -659,8 +658,6 @@ html.hidden-overflow {
       z-index: 110;
       cursor: pointer;
       width: 100%; }
-      #app #building-list .building-details .more-details {
-        display: none; }
       #app #building-list .building-details .building-detail {
         margin-top: 5px; }
         #app #building-list .building-details .building-detail label {

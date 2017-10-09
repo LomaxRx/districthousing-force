@@ -51,7 +51,8 @@ class Building extends Component {
       bedrooms_open, bedrooms_offered, address,
       building_phone, company_phone, wait_length,
       waitlist_open, waitlist_closed_until,
-      eligibility, required_proofs, id, last_applied
+      eligibility: { mobility_impairment, minimum_age_with_disability, minimum_age_without_disability },
+      required_proofs, id, last_applied
     } = this.props.building;
 
     let { selectedBuildings } = this.props;
@@ -67,8 +68,8 @@ class Building extends Component {
             <p>{address}</p>
           </div>
           <div className="building-detail">
-            <label>Building Phone</label>
-            <p>{building_phone}</p>
+            <label>Bedrooms Open</label>
+            <p>{bedrooms_open}</p>
           </div>
           {last_applied &&
             <div className="building-detail">
@@ -78,14 +79,18 @@ class Building extends Component {
           }
           <div className="more-details">
             <div className="building-detail">
-              <label>Bedrooms Open</label>
-              <p>{bedrooms_open}</p>
+              <label>Mobility Impairment Required</label>
+              <p>{mobility_impairment ? 'Yes' : 'No'}</p>
             </div>
             <div className="building-detail">
-              <label>Waitlist Open</label>
-              <p>{waitlist_open}</p>
+              <label>Minimum Age with Disablity</label>
+              <p>{minimum_age_with_disability === 0 ? 'None' : minimum_age_with_disability}</p>
             </div>
             <div className="building-detail">
+              <label>Minimum Age without Disability</label>
+              <p>{minimum_age_without_disability === 0 ? 'None' : minimum_age_without_disability}</p>
+            </div>
+            {/*<div className="building-detail">
               <label>Waitlist Closed Until</label>
               <p>{waitlist_closed_until}</p>
             </div>
@@ -94,9 +99,13 @@ class Building extends Component {
               <p>{wait_length}</p>
             </div>
             <div className="building-detail">
+              <label>Building Phone</label>
+              <p>{building_phone}</p>
+            </div>
+            <div className="building-detail">
               <label>Details</label>
               <p dangerouslySetInnerHTML={{__html:application_info}}></p>
-            </div>
+            </div>*/}
           </div>
         </div>
       </div>
@@ -112,9 +121,9 @@ Building = connect(mapStateToBuildingProps)(Building);
 
 class BuildingList extends Component{
   filterBuildings = () => {
-    let { buildings, eligibility: { age, mobility_impairment, disability, rooms_requested }} = this.props;
+    let { buildings, eligibility: { age, mobility_impairment, disability, rooms_requested, waitlist_open }} = this.props;
     let filtered = buildings.filter(function(b){
-
+      if(waitlist_open && !b.waitlist_open) return false;
       if(!b.eligibility.rooms_available) return false;
       if(!mobility_impairment && age < 62 && b.eligibility.mobility_impairment===true) return false;
       if(!disability && b.eligibility.disability===true) return false;
@@ -149,8 +158,14 @@ class BuildingList extends Component{
   }
 
   render(){
-    let { buildingListActive, selectedBuildings, eligibility: { mobility_impairment, disability, age, rooms_requested} } = this.props;
+    let { buildingListActive, selectedBuildings, eligibility: { mobility_impairment, disability, age, rooms_requested, waitlist_open }} = this.props;
     let buildings = this.filterBuildings();
+    let options = [];
+    let applied = [];
+    for(let b of buildings){
+      if(b.last_applied) applied.push(b);
+      else options.push(b);
+    }
     return (
       <div id="building-list" className={buildingListActive ? 'container active' : 'container'}>
         <button onClick={this.closeBuildingList} className="close-button">X</button>
@@ -159,17 +174,17 @@ class BuildingList extends Component{
           <div className="eligibility-inputs row">
             <div className="field col-md-3">
               <label>Mobility Impairment</label>
-              <input type="checkbox" value={mobility_impairment} onChange={(e)=>{this.setElig('mobility_impairment', e.target.value);}} />
+              <input type="checkbox" value={mobility_impairment} checked={mobility_impairment} onChange={(e)=>{this.setElig('mobility_impairment', !mobility_impairment);}} />
             </div>
             <div className="field col-md-3">
               <label>Disability</label>
-              <input type="checkbox" value={disability} onChange={(e)=>{this.setElig('disability', e.target.value);}} />
+              <input type="checkbox" value={disability} checked={disability} onChange={(e)=>{this.setElig('disability', !disability);}} />
             </div>
-            <div className="field col-md-3">
+            <div className="field col-md-2">
               <label>Age</label>
               <input type="text" value={age} onChange={(e)=>{this.setElig('age', e.target.value);}}/>
             </div>
-            <div className="field col-md-3">
+            <div className="field col-md-2">
               <label>Rooms Needed</label>
               <select onChange={(e)=>{this.setElig('rooms_requested', e.target.value);}}>
                 <option value="" selected={rooms_requested==""||rooms_requested==null}></option>
@@ -180,12 +195,23 @@ class BuildingList extends Component{
                 <option value="5" selected={rooms_requested=="5"}>5</option>
               </select>
             </div>
+            <div className="field col-md-2">
+              <label>Open Waitlist</label>
+              <input type="checkbox" value={waitlist_open} checked={waitlist_open} onChange={(e)=>{this.setElig('waitlist_open', !waitlist_open);}}/>
+            </div>
           </div>
         </div>
         <div className="row column-wrapper">
           <div className="col-md-9 building-options">
             <div className="row">
-              {buildings.map((b,j)=>(
+              {options.map((b,j)=>(
+                <Building building={b}/>
+              ))}
+            </div>
+            {applied.length &&
+            <h6>Already Applied</h6>}
+            <div className="row">
+              {applied.map((b,j)=>(
                 <Building building={b}/>
               ))}
             </div>

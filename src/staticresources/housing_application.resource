@@ -2483,7 +2483,10 @@ var Building = function (_Component2) {
           wait_length = _props$building2.wait_length,
           waitlist_open = _props$building2.waitlist_open,
           waitlist_closed_until = _props$building2.waitlist_closed_until,
-          eligibility = _props$building2.eligibility,
+          _props$building2$elig = _props$building2.eligibility,
+          mobility_impairment = _props$building2$elig.mobility_impairment,
+          minimum_age_with_disability = _props$building2$elig.minimum_age_with_disability,
+          minimum_age_without_disability = _props$building2$elig.minimum_age_without_disability,
           required_proofs = _props$building2.required_proofs,
           id = _props$building2.id,
           last_applied = _props$building2.last_applied;
@@ -2523,12 +2526,12 @@ var Building = function (_Component2) {
             React.createElement(
               'label',
               null,
-              'Building Phone'
+              'Bedrooms Open'
             ),
             React.createElement(
               'p',
               null,
-              building_phone
+              bedrooms_open
             )
           ),
           last_applied && React.createElement(
@@ -2554,12 +2557,12 @@ var Building = function (_Component2) {
               React.createElement(
                 'label',
                 null,
-                'Bedrooms Open'
+                'Mobility Impairment Required'
               ),
               React.createElement(
                 'p',
                 null,
-                bedrooms_open
+                mobility_impairment ? 'Yes' : 'No'
               )
             ),
             React.createElement(
@@ -2568,12 +2571,12 @@ var Building = function (_Component2) {
               React.createElement(
                 'label',
                 null,
-                'Waitlist Open'
+                'Minimum Age with Disablity'
               ),
               React.createElement(
                 'p',
                 null,
-                waitlist_open
+                minimum_age_with_disability === 0 ? 'None' : minimum_age_with_disability
               )
             ),
             React.createElement(
@@ -2582,37 +2585,13 @@ var Building = function (_Component2) {
               React.createElement(
                 'label',
                 null,
-                'Waitlist Closed Until'
+                'Minimum Age without Disability'
               ),
               React.createElement(
                 'p',
                 null,
-                waitlist_closed_until
+                minimum_age_without_disability === 0 ? 'None' : minimum_age_without_disability
               )
-            ),
-            React.createElement(
-              'div',
-              { className: 'building-detail' },
-              React.createElement(
-                'label',
-                null,
-                'Wait Length'
-              ),
-              React.createElement(
-                'p',
-                null,
-                wait_length
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'building-detail' },
-              React.createElement(
-                'label',
-                null,
-                'Details'
-              ),
-              React.createElement('p', { dangerouslySetInnerHTML: { __html: application_info } })
             )
           )
         )
@@ -2651,10 +2630,11 @@ var BuildingList = function (_Component3) {
           age = _this3$props$eligibil.age,
           mobility_impairment = _this3$props$eligibil.mobility_impairment,
           disability = _this3$props$eligibil.disability,
-          rooms_requested = _this3$props$eligibil.rooms_requested;
+          rooms_requested = _this3$props$eligibil.rooms_requested,
+          waitlist_open = _this3$props$eligibil.waitlist_open;
 
       var filtered = buildings.filter(function (b) {
-
+        if (waitlist_open && !b.waitlist_open) return false;
         if (!b.eligibility.rooms_available) return false;
         if (!mobility_impairment && age < 62 && b.eligibility.mobility_impairment === true) return false;
         if (!disability && b.eligibility.disability === true) return false;
@@ -2699,9 +2679,37 @@ var BuildingList = function (_Component3) {
           mobility_impairment = _props$eligibility.mobility_impairment,
           disability = _props$eligibility.disability,
           age = _props$eligibility.age,
-          rooms_requested = _props$eligibility.rooms_requested;
+          rooms_requested = _props$eligibility.rooms_requested,
+          waitlist_open = _props$eligibility.waitlist_open;
 
       var buildings = this.filterBuildings();
+      var options = [];
+      var applied = [];
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = buildings[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var b = _step.value;
+
+          if (b.last_applied) applied.push(b);else options.push(b);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
       return React.createElement(
         'div',
         { id: 'building-list', className: buildingListActive ? 'container active' : 'container' },
@@ -2729,8 +2737,8 @@ var BuildingList = function (_Component3) {
                 null,
                 'Mobility Impairment'
               ),
-              React.createElement('input', { type: 'checkbox', value: mobility_impairment, onChange: function onChange(e) {
-                  _this4.setElig('mobility_impairment', e.target.value);
+              React.createElement('input', { type: 'checkbox', value: mobility_impairment, checked: mobility_impairment, onChange: function onChange(e) {
+                  _this4.setElig('mobility_impairment', !mobility_impairment);
                 } })
             ),
             React.createElement(
@@ -2741,13 +2749,13 @@ var BuildingList = function (_Component3) {
                 null,
                 'Disability'
               ),
-              React.createElement('input', { type: 'checkbox', value: disability, onChange: function onChange(e) {
-                  _this4.setElig('disability', e.target.value);
+              React.createElement('input', { type: 'checkbox', value: disability, checked: disability, onChange: function onChange(e) {
+                  _this4.setElig('disability', !disability);
                 } })
             ),
             React.createElement(
               'div',
-              { className: 'field col-md-3' },
+              { className: 'field col-md-2' },
               React.createElement(
                 'label',
                 null,
@@ -2759,7 +2767,7 @@ var BuildingList = function (_Component3) {
             ),
             React.createElement(
               'div',
-              { className: 'field col-md-3' },
+              { className: 'field col-md-2' },
               React.createElement(
                 'label',
                 null,
@@ -2797,6 +2805,18 @@ var BuildingList = function (_Component3) {
                   '5'
                 )
               )
+            ),
+            React.createElement(
+              'div',
+              { className: 'field col-md-2' },
+              React.createElement(
+                'label',
+                null,
+                'Open Waitlist'
+              ),
+              React.createElement('input', { type: 'checkbox', value: waitlist_open, checked: waitlist_open, onChange: function onChange(e) {
+                  _this4.setElig('waitlist_open', !waitlist_open);
+                } })
             )
           )
         ),
@@ -2809,7 +2829,19 @@ var BuildingList = function (_Component3) {
             React.createElement(
               'div',
               { className: 'row' },
-              buildings.map(function (b, j) {
+              options.map(function (b, j) {
+                return React.createElement(Building, { building: b });
+              })
+            ),
+            applied.length && React.createElement(
+              'h6',
+              null,
+              'Already Applied'
+            ),
+            React.createElement(
+              'div',
+              { className: 'row' },
+              applied.map(function (b, j) {
                 return React.createElement(Building, { building: b });
               })
             )
@@ -2968,12 +3000,18 @@ var buildings = function buildings() {
 };
 
 var eligibility = function eligibility() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    age: null,
+    mobility_impairment: null,
+    disability: null,
+    rooms_requested: null,
+    waitlist_open: true
+  };
   var action = arguments[1];
 
   switch (action.type) {
     case 'SET_ELIGIBILITY_DATA':
-      return action.eligibility;
+      return _extends({}, state, action.eligibility);
     case 'SET_ELIGIBILITY':
       return _extends({}, state, defineProperty({}, action.name, action.value));
     default:

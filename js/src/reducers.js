@@ -58,10 +58,16 @@ const buildings = function(state=[], action){
   }
 }
 
-const eligibility = function(state={}, action){
+const eligibility = function(state={
+  age: null,
+  mobility_impairment: null,
+  disability: null,
+  rooms_requested: null,
+  waitlist_open: true
+}, action){
   switch(action.type){
     case 'SET_ELIGIBILITY_DATA':
-      return action.eligibility;
+      return { ...state, ...action.eligibility };
     case 'SET_ELIGIBILITY':
       return {
         ...state,
