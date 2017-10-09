@@ -1,5 +1,5 @@
 public class HousingApplication {
-  public class Person {
+  public abstract class AbstractPerson {
     String first_name;
     String last_name;
     String middle_name;
@@ -25,6 +25,8 @@ public class HousingApplication {
     String driver_license_exp_date;
   }
 
+  public class Person extends AbstractPerson{}
+
   public class Income {
     Integer id;
     Integer amount;
@@ -37,8 +39,13 @@ public class HousingApplication {
     String street;
     String city;
     String state;
+    String zip;
     String apt;
     Boolean residence;
+  }
+
+  public class Landlord extends AbstractPerson {
+    Address address = new Address();
   }
 
   public class Residence {
@@ -48,9 +55,10 @@ public class HousingApplication {
 		// keywords in Apex.
     Date start_date;
     Date end_date;
+    Integer rent;
     String reason;
     Boolean current;
-    Person landlord = new Person();
+    Landlord landlord = new Landlord();
   }
 
   public class HouseholdMember {

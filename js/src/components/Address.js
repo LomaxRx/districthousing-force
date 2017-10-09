@@ -42,17 +42,27 @@ class ResidenceForm extends Component {
     return(
       <Form model={track('formData.residences[]', { id })}>
         <div className="row">
-          <div className="field col-md-5">
+          <div className="field col-md-2">
+            <label>Rent ($/month)</label>
+            <Control.text model='.rent'/>
+          </div>
+          <div className="field col-md-4">
             <label>Start Date</label>
             <DatePicker model='.start_date'/>
           </div>
-          <div className="field col-md-5">
+          <div className="field col-md-4">
             <label>End Date</label>
             <DatePicker model='.end_date'/>
           </div>
           <div className="field col-md-2">
             <label>Current</label>
             <Control.checkbox model='.current'/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="field">
+            <label>Reason for Leaving</label>
+            <Control.textarea model='.reason'/>
           </div>
         </div>
         <div className="row">
@@ -70,13 +80,21 @@ class ResidenceForm extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="field">
-            <label>Reason for leaving</label>
-            <Control.select model='.reason'>
-              <option value=''></option>
-              <option value='Voluntary'>Voluntary</option>
-              <option value='Evicted'>Evicted</option>
-            </Control.select>
+          <div className="field col-md-3">
+            <label>Landlord's Street</label>
+            <Control.text model='.landlord.address.street'/>
+          </div>
+          <div className="field col-md-3">
+            <label>Landlord's City</label>
+            <Control.text model='.landlord.address.city'/>
+          </div>
+          <div className="field col-md-3">
+            <label>Landlord's State</label>
+            <Control.text model='.landlord.address.state'/>
+          </div>
+          <div className="field col-md-3">
+            <label>Landlord's Zip</label>
+            <Control.text model='.landlord.address.zip'/>
           </div>
         </div>
       </Form>
@@ -126,13 +144,17 @@ class AddressForm extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="field col-md-8">
+                <div className="field col-md-6">
                   <label>City</label>
                   <Control.text model='.city'/>
                 </div>
                 <div className="field col-md-2">
                   <label>State</label>
                   <Control.text model='.state'/>
+                </div>
+                <div className="field col-md-2">
+                  <label>Zip</label>
+                  <Control.text model='.zip'/>
                 </div>
                 <div className="field col-md-2">
                   <label>Residence</label>
