@@ -16,6 +16,7 @@ import HouseholdMemberForm from './components/HouseholdMember';
 import IncomeForm from './components/Income';
 import EmploymentForm from './components/Employment';
 import CriminalHistoryForm from './components/CriminalHistory';
+import ContactForm from './components/Contact';
 import Nav from './components/Nav';
 import BuildingList from './components/BuildingList';
 import Overlay from './components/Overlay';
@@ -36,6 +37,7 @@ class App extends Component {
           <IncomeForm />
           <EmploymentForm />
           <CriminalHistoryForm />
+          <ContactForm />
         </article>
         <Nav/>
       </Main>
@@ -45,7 +47,8 @@ class App extends Component {
 
 export default class HapForm{
     constructor(state=initialState, idSelector='app'){
-
+      // make archived data compatible with new models
+      state.form = { ...initialState.form, ...state.form };
       this.store = createStore(combineReducers({
           ...reducers,
           formData: combineForms(state.form, 'formData')

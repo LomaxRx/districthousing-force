@@ -6,29 +6,30 @@ import { uniqueInteger } from '../utils';
 import DatePicker from './DatePicker';
 import FormSection from './FormSection';
 
-class HouseholdMemberForm extends Component {
-  addHouseholdMember = () => {
-    const { dispatch, household_members } = this.props;
-    dispatch(actions.push('formData.household_members', {
-      ...models.HouseholdMember, id: uniqueInteger(household_members)
+class ContactForm extends Component {
+  addContact = () => {
+    const { dispatch, contacts } = this.props;
+    dispatch(actions.push('formData.contacts', {
+      ...models.Contact, id: uniqueInteger(contacts)
     }));
   }
 
-  removeHouseholdMember = (index) => {
+  removeContact = (index) => {
     const { dispatch } = this.props;
-    dispatch(actions.remove('formData.household_members', index));
+    dispatch(actions.remove('formData.contacts', index));
   }
 
   render() {
-    const { household_members } = this.props;
+    const { contacts } = this.props;
+
     return (
-      <FormSection id='household_members' className='form-list'>
-        <h2>Household Members</h2>
-        {household_members.map((h,i)=>(
-          <Form model={track('formData.household_members[]', { id: h.id })} className='form-item'>
+      <FormSection id='contacts' className='form-list'>
+        <h2>Contacts</h2>
+        {contacts.map((c,i)=>(
+          <Form model={track('formData.contacts[]', { id: c.id })} className='form-item'>
             <h3>
-              Member {i+1}
-              <button className='remove-button' onClick={()=>{this.removeHouseholdMember(i)}}>X</button>
+              Contact {i+1}
+              <button className='remove-button' onClick={()=>{this.removeContact(i)}}>X</button>
             </h3>
             <div className='row'>
               <div className="field col-md-6">
@@ -59,16 +60,6 @@ class HouseholdMemberForm extends Component {
               </div>
             </div>
             <div className='row'>
-              <div className="field col-md-8">
-                <label>Social Security Number</label>
-                <Control.text model='.ssn'/>
-              </div>
-              <div className="field col-md-4">
-                <label>Date of Birth</label>
-                <DatePicker model='.dob'/>
-              </div>
-            </div>
-            <div className='row'>
               <div className="field col-md-4">
                 <label>Home Phone</label>
                 <Control.text model='.home_phone'/>
@@ -82,10 +73,28 @@ class HouseholdMemberForm extends Component {
                 <Control.text model='.work_phone'/>
               </div>
             </div>
+            <div className="row">
+              <div className="field col-md-4">
+                <label>Street</label>
+                <Control.text model=".address.street" />
+              </div>
+              <div className="field col-md-4">
+                <label>City</label>
+                <Control.text model=".address.city" />
+              </div>
+              <div className="field col-md-2">
+                <label>State</label>
+                <Control.text model=".address.state" />
+              </div>
+              <div className="field col-md-2">
+                <label>Zip</label>
+                <Control.text model=".address.zip" />
+              </div>
+            </div>
           </Form>
         ))}
         <div className='sub-section'>
-          <button onClick={this.addHouseholdMember}>Add Household Member</button>
+          <button onClick={this.addContact}>Add Contact</button>
         </div>
       </FormSection>
     );
@@ -93,7 +102,7 @@ class HouseholdMemberForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  household_members: state.formData.household_members
+  contacts: state.formData.contacts
 });
 
-export default connect(mapStateToProps)(HouseholdMemberForm);
+export default connect(mapStateToProps)(ContactForm);

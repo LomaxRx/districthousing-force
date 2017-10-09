@@ -33,7 +33,8 @@ export let initialState = {
 		"employments": [],
 		"criminal_histories": [],
 		"aliases": [],
-		"addresses": []
+		"addresses": [],
+		"contacts": []
 	},
 	"buildings": []
 };
@@ -66,7 +67,14 @@ export let models = {
 			"country_of_birth": '',
 			"city_of_birth": '',
 			"citizenship": '',
-			"cell_phone": ''
+			"cell_phone": '',
+			"address": {
+				"street": '',
+				"state": '',
+				"city": '',
+				"zip": '',
+				"apt": ''
+			}
 		},
 		"end_date": '',
 		"current": false,
@@ -195,6 +203,7 @@ export let models = {
 			"state": '',
 			"id": '',
 			"city": '',
+			"zip": '',
 			"apt": ''
 		}
 	},
@@ -202,6 +211,7 @@ export let models = {
 		"id": '',
 		"year": '',
 		"description": '',
+		"state": '',
 		"crime_type": ''
 	},
 	"Alias": {
@@ -215,6 +225,23 @@ export let models = {
 		"id": '',
 		"city": '',
 		"apt": '',
+		"zip": '',
 		"residence": false
+	},
+	"Contact": {
+		"id": '',
+		"work_phone": '',
+		"last_name": '',
+		"home_phone": '',
+		"first_name": '',
+		"relationship": '',
+		"cell_phone": '',
+		"address": {
+			"street": '',
+			"state": '',
+			"city": '',
+			"zip": '',
+			"apt": ''
+		}
 	}
 };

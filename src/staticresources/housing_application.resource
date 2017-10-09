@@ -164,7 +164,8 @@ var initialState = {
 		"employments": [],
 		"criminal_histories": [],
 		"aliases": [],
-		"addresses": []
+		"addresses": [],
+		"contacts": []
 	},
 	"buildings": []
 };
@@ -197,7 +198,14 @@ var models = {
 			"country_of_birth": '',
 			"city_of_birth": '',
 			"citizenship": '',
-			"cell_phone": ''
+			"cell_phone": '',
+			"address": {
+				"street": '',
+				"state": '',
+				"city": '',
+				"zip": '',
+				"apt": ''
+			}
 		},
 		"end_date": '',
 		"current": false,
@@ -326,6 +334,7 @@ var models = {
 			"state": '',
 			"id": '',
 			"city": '',
+			"zip": '',
 			"apt": ''
 		}
 	},
@@ -333,6 +342,7 @@ var models = {
 		"id": '',
 		"year": '',
 		"description": '',
+		"state": '',
 		"crime_type": ''
 	},
 	"Alias": {
@@ -343,7 +353,23 @@ var models = {
 		"id": '',
 		"street": '',
 		"state": ''
-	}, defineProperty(_Address, "id", ''), defineProperty(_Address, "city", ''), defineProperty(_Address, "apt", ''), defineProperty(_Address, "residence", false), _Address)
+	}, defineProperty(_Address, "id", ''), defineProperty(_Address, "city", ''), defineProperty(_Address, "apt", ''), defineProperty(_Address, "zip", ''), defineProperty(_Address, "residence", false), _Address),
+	"Contact": {
+		"id": '',
+		"work_phone": '',
+		"last_name": '',
+		"home_phone": '',
+		"first_name": '',
+		"relationship": '',
+		"cell_phone": '',
+		"address": {
+			"street": '',
+			"state": '',
+			"city": '',
+			"zip": '',
+			"apt": ''
+		}
+	}
 };
 
 var Main = function (_Component) {
@@ -965,7 +991,7 @@ var PersonForm = function (_Component) {
         React.createElement(
           'h2',
           null,
-          'Contact Information'
+          'General Information'
         ),
         React.createElement(
           reactReduxForm.Form,
@@ -1441,7 +1467,7 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'First Name'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.member.first_name' })
+                React.createElement(reactReduxForm.Control.text, { model: '.first_name' })
               ),
               React.createElement(
                 'div',
@@ -1451,7 +1477,7 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'Last Name'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.member.last_name' })
+                React.createElement(reactReduxForm.Control.text, { model: '.last_name' })
               )
             ),
             React.createElement(
@@ -1533,7 +1559,7 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'Social Security Number'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.member.ssn' })
+                React.createElement(reactReduxForm.Control.text, { model: '.ssn' })
               ),
               React.createElement(
                 'div',
@@ -1543,7 +1569,7 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'Date of Birth'
                 ),
-                React.createElement(CustomControl, { model: '.member.dob' })
+                React.createElement(CustomControl, { model: '.dob' })
               )
             ),
             React.createElement(
@@ -1557,7 +1583,7 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'Home Phone'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.member.home_phone' })
+                React.createElement(reactReduxForm.Control.text, { model: '.home_phone' })
               ),
               React.createElement(
                 'div',
@@ -1567,7 +1593,7 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'Cell Phone'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.member.cell_phone' })
+                React.createElement(reactReduxForm.Control.text, { model: '.cell_phone' })
               ),
               React.createElement(
                 'div',
@@ -1577,7 +1603,7 @@ var HouseholdMemberForm = function (_Component) {
                   null,
                   'Work Phone'
                 ),
-                React.createElement(reactReduxForm.Control.text, { model: '.member.work_phone' })
+                React.createElement(reactReduxForm.Control.text, { model: '.work_phone' })
               )
             )
           );
@@ -2177,6 +2203,262 @@ var mapStateToProps$7 = function mapStateToProps(state) {
 
 var CriminalHistoryForm$1 = reactRedux.connect(mapStateToProps$7)(CriminalHistoryForm);
 
+var ContactForm = function (_Component) {
+  inherits(ContactForm, _Component);
+
+  function ContactForm() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    classCallCheck(this, ContactForm);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = possibleConstructorReturn(this, (_ref = ContactForm.__proto__ || Object.getPrototypeOf(ContactForm)).call.apply(_ref, [this].concat(args))), _this), _this.addContact = function () {
+      var _this$props = _this.props,
+          dispatch = _this$props.dispatch,
+          contacts = _this$props.contacts;
+
+      dispatch(reactReduxForm.actions.push('formData.contacts', _extends({}, models.Contact, { id: uniqueInteger(contacts)
+      })));
+    }, _this.removeContact = function (index) {
+      var dispatch = _this.props.dispatch;
+
+      dispatch(reactReduxForm.actions.remove('formData.contacts', index));
+    }, _temp), possibleConstructorReturn(_this, _ret);
+  }
+
+  createClass(ContactForm, [{
+    key: 'render',
+    value: function render$$1() {
+      var _this2 = this;
+
+      var contacts = this.props.contacts;
+
+
+      return React.createElement(
+        FormSection$1,
+        { id: 'contacts', className: 'form-list' },
+        React.createElement(
+          'h2',
+          null,
+          'Contacts'
+        ),
+        contacts.map(function (c, i) {
+          return React.createElement(
+            reactReduxForm.Form,
+            { model: reactReduxForm.track('formData.contacts[]', { id: c.id }), className: 'form-item' },
+            React.createElement(
+              'h3',
+              null,
+              'Contact ',
+              i + 1,
+              React.createElement(
+                'button',
+                { className: 'remove-button', onClick: function onClick() {
+                    _this2.removeContact(i);
+                  } },
+                'X'
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'row' },
+              React.createElement(
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'First Name'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.first_name' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-6' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Last Name'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.last_name' })
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'row' },
+              React.createElement(
+                'div',
+                { className: 'field' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Relationship'
+                ),
+                React.createElement(
+                  reactReduxForm.Control.select,
+                  { model: '.relationship' },
+                  React.createElement('option', { value: '' }),
+                  React.createElement(
+                    'option',
+                    { value: 'Spouse' },
+                    'Spouse'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Mother' },
+                    'Mother'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Father' },
+                    'Father'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Sister' },
+                    'Sister'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Brother' },
+                    'Brother'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Daughter' },
+                    'Daughter'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Son' },
+                    'Son'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Grandmother' },
+                    'Grandmother'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Grandfather' },
+                    'Grandfather'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Friend' },
+                    'Friend'
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'row' },
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Home Phone'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.home_phone' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Cell Phone'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.cell_phone' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Work Phone'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.work_phone' })
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'row' },
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Street'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.address.street' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'City'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.address.city' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'State'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.address.state' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Zip'
+                ),
+                React.createElement(reactReduxForm.Control.text, { model: '.address.zip' })
+              )
+            )
+          );
+        }),
+        React.createElement(
+          'div',
+          { className: 'sub-section' },
+          React.createElement(
+            'button',
+            { onClick: this.addContact },
+            'Add Contact'
+          )
+        )
+      );
+    }
+  }]);
+  return ContactForm;
+}(react.Component);
+
+var mapStateToProps$8 = function mapStateToProps(state) {
+  return {
+    contacts: state.formData.contacts
+  };
+};
+
+var ContactForm$1 = reactRedux.connect(mapStateToProps$8)(ContactForm);
+
 var NavSection = function (_Component) {
   inherits(NavSection, _Component);
 
@@ -2287,7 +2569,7 @@ var Nav = function (_Component2) {
             { className: 'nav-sections' },
             React.createElement(NavSection, {
               anchor: '#contact_information',
-              label: 'Contact' }),
+              label: 'General' }),
             React.createElement(NavSection, {
               anchor: '#addresses',
               label: 'Addresses' }),
@@ -2302,7 +2584,10 @@ var Nav = function (_Component2) {
               label: 'Employment' }),
             React.createElement(NavSection, {
               anchor: '#criminal_histories',
-              label: 'Record' })
+              label: 'Record' }),
+            React.createElement(NavSection, {
+              anchor: '#contacts',
+              label: 'Contacts' })
           )
         ),
         status == 'READY' && React.createElement(
@@ -2380,7 +2665,7 @@ var Nav = function (_Component2) {
   return Nav;
 }(react.Component);
 
-var mapStateToProps$8 = function mapStateToProps(state) {
+var mapStateToProps$9 = function mapStateToProps(state) {
   return {
     status: state.status,
     failed: state.failed,
@@ -2390,7 +2675,7 @@ var mapStateToProps$8 = function mapStateToProps(state) {
   };
 };
 
-var Nav$1 = reactRedux.connect(mapStateToProps$8)(Nav);
+var Nav$1 = reactRedux.connect(mapStateToProps$9)(Nav);
 
 var SelectedBuilding = function (_Component) {
   inherits(SelectedBuilding, _Component);
@@ -2886,7 +3171,7 @@ var BuildingList = function (_Component3) {
   return BuildingList;
 }(react.Component);
 
-var mapStateToProps$9 = function mapStateToProps(state) {
+var mapStateToProps$10 = function mapStateToProps(state) {
   return {
     buildings: state.buildings,
     eligibility: state.eligibility,
@@ -2895,7 +3180,7 @@ var mapStateToProps$9 = function mapStateToProps(state) {
   };
 };
 
-var BuildingList$1 = reactRedux.connect(mapStateToProps$9)(BuildingList);
+var BuildingList$1 = reactRedux.connect(mapStateToProps$10)(BuildingList);
 
 var Overlay = function (_Component) {
   inherits(Overlay, _Component);
@@ -2931,13 +3216,13 @@ var Overlay = function (_Component) {
   return Overlay;
 }(react.Component);
 
-var mapStateToProps$10 = function mapStateToProps(state) {
+var mapStateToProps$11 = function mapStateToProps(state) {
   return {
     active: state.buildingListActive
   };
 };
 
-var Overlay$1 = reactRedux.connect(mapStateToProps$10)(Overlay);
+var Overlay$1 = reactRedux.connect(mapStateToProps$11)(Overlay);
 
 var status = function status() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'READY';
@@ -3155,7 +3440,8 @@ var App = function (_Component) {
           React.createElement(HouseholdMemberForm$1, null),
           React.createElement(IncomeForm$1, null),
           React.createElement(EmploymentForm$1, null),
-          React.createElement(CriminalHistoryForm$1, null)
+          React.createElement(CriminalHistoryForm$1, null),
+          React.createElement(ContactForm$1, null)
         ),
         React.createElement(Nav$1, null)
       );
@@ -3204,6 +3490,8 @@ var HapForm = function () {
       apexActions.fetchPDFs(submitDataString, JSON.stringify(submitData.applicant), building.salesforceId);
     };
 
+    // make archived data compatible with new models
+    state.form = _extends({}, initialState.form, state.form);
     this.store = redux.createStore(redux.combineReducers(_extends({}, reducers, {
       formData: reactReduxForm.combineForms(state.form, 'formData')
     })), redux.applyMiddleware(Thunk));

@@ -9,7 +9,7 @@ class PersonForm extends Component {
     const { addresses } = this.props;
     return (
       <FormSection id="contact_information">
-        <h2>Contact Information</h2>
+        <h2>General Information</h2>
         <Form model='formData.person'>
           <div className='row'>
             <div className='field col-md-4'>

@@ -61,10 +61,15 @@ public class HousingApplication {
     Landlord landlord = new Landlord();
   }
 
-  public class HouseholdMember {
+  public class HouseholdMember extends AbstractPerson {
     Integer id;
-    Person member = new Person();
     String relationship;
+  }
+
+  public class Contact extends AbstractPerson {
+    Integer id;
+    String relationship;
+    Address address = new Address();
   }
 
   public class Employment {
@@ -167,6 +172,7 @@ public class HousingApplication {
     HouseholdMember HouseholdMember = new HouseholdMember();
     Employment Employment = new Employment();
     CriminalHistory CriminalHistory = new CriminalHistory();
+    Contact Contact = new Contact();
     Alias Alias = new Alias();
     PreviousSSN PreviousSSN = new PreviousSSN();
     String HousingForm = '';
@@ -203,6 +209,7 @@ public class HousingApplication {
     HouseholdMember[] household_members = new List<HouseholdMember>();
     Employment[] employments = new List<Employment>();
     CriminalHistory[] criminal_histories = new List<CriminalHistory>();
+    Contact[] contacts = new List<Contact>();
     Alias[] aliases = new List<Alias>();
     PreviousSSN[] previous_ssns = new List<PreviousSSN>();
     String[] housing_forms = new List<String>();
@@ -360,9 +367,9 @@ public class HousingApplication {
         HouseholdMember member = new HouseholdMember();
         member.id = i;
         String[] names = client_household_member.Name.split(' ', 2);
-        member.member.first_name = names[0];
-        if(names.size()>1) member.member.last_name = names[1];
-        member.member.dob = client_household_member.DOB__c;
+        member.first_name = names[0];
+        if(names.size()>1) member.last_name = names[1];
+        member.dob = client_household_member.DOB__c;
         member.relationship = client_household_member.Relationship__c;
         data.household_members.add(member);
         i+=1;

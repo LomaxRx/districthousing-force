@@ -68,7 +68,7 @@ class Nav extends Component {
           <div className="nav-sections">
             <NavSection
               anchor='#contact_information'
-              label='Contact'/>
+              label='General'/>
             <NavSection
               anchor='#addresses'
               label='Addresses'/>
@@ -84,6 +84,9 @@ class Nav extends Component {
             <NavSection
               anchor='#criminal_histories'
               label='Record'/>
+            <NavSection
+              anchor='#contacts'
+              label='Contacts'/>
           </div>
         </div>
         {status=='READY' &&
