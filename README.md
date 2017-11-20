@@ -47,7 +47,7 @@ Defines a data model for an housing application that replicates Code for DC's [D
 Maps SOQL queries for a client's demographics, address, household members, and incomes to the District Housing model.
 
 #### [Form#fetchPDFs(*JSONString*<form_data>)](https://github.com/LomaxRx/districthousing-force/blob/master/src/classes/HousingApplication.cls#L383)
-Maps SOQL queries for a client's demographics, address, household members, and incomes to the District Housing model.
+Fetches a single pdf from the [AWS Lambda endpoint](https://github.com/LomaxRx/districthousing-lambda)
 
 #### [React HapForm](https://github.com/LomaxRx/districthousing-force/tree/master/js/src)
 
