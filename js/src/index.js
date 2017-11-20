@@ -47,7 +47,7 @@ class App extends Component {
 
 export default class HapForm{
     constructor(state=initialState, idSelector='app'){
-      // make archived data compatible with new models
+      // make archived data compatible with new models by merging old and new models
       state.form = { ...initialState.form, ...state.form };
       this.store = createStore(combineReducers({
           ...reducers,
@@ -62,48 +62,45 @@ export default class HapForm{
         document.getElementById(idSelector)
       );
 
+      this.setFetchQueue();
       this.setEligibility(state.eligibility);
       this.setBuildings(state.buildings);
       this.addScrollListener();
+    }
 
-      let queueLen = 0;
+    setFetchQueue(){
+      /**
+        Fetch next building when status changes
+        to READY_TO_FETCH
+      **/
+      let currentStatus;
       this.store.subscribe(()=>{
-        let { fetchQueue, status } = this.store.getState();
-        let queue = fetchQueue;
+        let prevStatus = currenStatus;
+        let { status, pdfQueue } = this.store.getState();
+        currentStatus = status;
 
-        if(queue.length===queueLen){ return; }
-        else if(queue.length > 0 && (status=='PDF_FETCHED' || status == 'READY' || status.indexOf('ERROR')!=-1)){
-          queueLen = queue.length;
-          this.fetchBuilding();
-        } else if(queue.length===0 && (status=='PDF_FETCHED' || status == 'READY' || status.indexOf('ERROR')!=-1)){
-          queueLen = 0;
+        if(currentStatus==prevStatus) return;
+        if(currentStatus != 'READY_TO_FETCH') return;
+
+        if(pdfQueue.length===0){
           this.store.dispatch({
             type: 'SET_STATUS',
             status: 'COMPLETE'
           });
+        } else {
+          this.fetchBuilding();
         }
-      });
-    }
-
-    addScrollListener(){
-      let { dispatch } = this.store;
-
-      window.addEventListener('scroll', function(e){
-        dispatch({
-          type: 'SET_SCROLL_POSITION',
-          scrollPosition: window.scrollTop || window.pageYOffset
-        });
       });
     }
 
     fetchBuilding = () => {
       let { dispatch } = this.store;
-      let { selectedBuildings, status, fetchQueue, formData } = this.store.getState();
+      let { selectedBuildings, status, pdfQueue, formData } = this.store.getState();
 
-      let building = fetchQueue[0];
+      let building = pdfQueue[0];
 
       dispatch({
-        type: 'SHIFT_QUEUE',
+        type: 'SET_FETCHING_AND_SHIFT_QUEUE',
         building
       });
 
@@ -123,11 +120,6 @@ export default class HapForm{
       fetchPDFs(submitDataString, JSON.stringify(submitData.applicant), building.salesforceId);
     }
 
-    setPDFResults(pdfResults){
-      let { dispatch } = this.store;
-      dispatch({type: 'SET_PDF_RESULTS', pdfResults});
-    }
-
     setStatus(status){
       let { dispatch } = this.store;
       let { fetching } = this.store.getState();
@@ -138,7 +130,7 @@ export default class HapForm{
           status
         });
       }
-      dispatch({type: 'SET_STATUS', status});
+      dispatch({ type: 'SET_STATUS', status: 'READY_TO_FETCH' });
     }
 
     setEligibility(eligibility){
@@ -149,5 +141,16 @@ export default class HapForm{
     setBuildings(buildings){
       let { dispatch } = this.store;
       dispatch({type: 'SET_BUILDING_DATA', buildings});
+    }
+
+    addScrollListener(){
+      let { dispatch } = this.store;
+
+      window.addEventListener('scroll', function(e){
+        dispatch({
+          type: 'SET_SCROLL_POSITION',
+          scrollPosition: window.scrollTop || window.pageYOffset
+        });
+      });
     }
 }

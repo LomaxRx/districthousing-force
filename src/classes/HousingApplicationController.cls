@@ -65,7 +65,7 @@ public class HousingApplicationController {
 			for(Attachment a : attachments)
 				attachmentIds.add(a.Id);
 
-			status = 'PDF_FETCHED';
+			status = 'READY_TO_FETCH';
 		}
 
 		updateHapCase(applicationData);

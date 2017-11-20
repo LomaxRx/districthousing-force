@@ -49,8 +49,13 @@ class Nav extends Component {
       return;
     }
     dispatch({
-      type: 'SET_QUEUE',
+      type: 'SET_PDF_QUEUE',
       queue: selectedBuildings
+    });
+
+    dispatch({
+      type: 'SET_STATUS',
+      status: 'READY_TO_FETCH'
     });
   }
 
@@ -134,7 +139,7 @@ const mapStateToProps = (state) => ({
   status: state.status,
   failed: state.failed,
   selectedBuildings: state.selectedBuildings,
-  fetchQueue: state.fetchQueue,
+  pdfQueue: state.pdfQueue,
   fetching: state.fetching
 });
 

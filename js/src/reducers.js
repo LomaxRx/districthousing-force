@@ -2,7 +2,7 @@ const status = function(state='READY', action){
   switch(action.type){
     case 'SET_STATUS':
       return action.status;
-    case 'SHIFT_QUEUE':
+    case 'SET_FETCHING_AND_SHIFT_QUEUE':
       return 'FETCHING';
     default:
       return state;
@@ -11,21 +11,12 @@ const status = function(state='READY', action){
 
 const fetching = function(state={}, action){
   switch(action.type){
-    case 'SHIFT_QUEUE':
+    case 'SET_FETCHING_AND_SHIFT_QUEUE':
       return action.building;
     case 'SET_STATUS':
       if(action.status=='COMPLETE')
         return {};
       return state;
-    default:
-      return state;
-  }
-}
-
-const pdfResults = function(state=[], action){
-  switch(action.type){
-    case 'SET_PDF_RESULTS':
-      return [...action.pdfResults];
     default:
       return state;
   }
@@ -101,11 +92,11 @@ const fetchingBuilding = function(state=false, action){
   }
 }
 
-const fetchQueue = function(state=[], action){
+const pdfQueue = function(state=false, action){
   switch(action.type){
-    case 'SET_QUEUE':
+    case 'SET_PDF_QUEUE':
       return [...action.queue];
-    case 'SHIFT_QUEUE':
+    case 'SET_FETCHING_AND_SHIFT_QUEUE':
       let queue = [...state];
       queue.shift();
       return queue;
@@ -139,5 +130,5 @@ const buildingListActive = function(state=false, action){
 export {
   status, pdfResults, scrollPosition, inViewSection, eligibility,
   buildings, selectedBuildings, buildingListActive, fetchingBuilding,
-  fetching, fetchQueue, failed
+  fetching, pdfQueue, failed
 };
