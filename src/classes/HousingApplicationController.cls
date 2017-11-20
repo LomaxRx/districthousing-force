@@ -28,11 +28,12 @@ public class HousingApplicationController {
 
 		JSONGenerator gen = JSON.createGenerator(false);
 		gen.writeStartObject();
-		if(hapForm.hapCase.Application_Data__c != null){
-			gen.writeObjectField('form',(Map<String,Object>)JSON.deserializeUntyped(hapForm.hapCase.Application_Data__c));
-		} else {
-			gen.writeObjectField('form', hapForm.data);
-		}
+		// if(hapForm.hapCase.Application_Data__c != null){
+		// 	gen.writeObjectField('form',(Map<String,Object>)JSON.deserializeUntyped(hapForm.hapCase.Application_Data__c));
+		// } else {
+		// 	gen.writeObjectField('form', hapForm.data);
+		// }
+		gen.writeObjectField('form', hapForm.data);
 		gen.writeObjectField('eligibility', hapForm.client.eligibility);
 		gen.writeObjectField('buildings', buildings);
 		gen.writeEndObject();
