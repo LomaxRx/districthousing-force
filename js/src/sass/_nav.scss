@@ -8,6 +8,9 @@ nav {
 
   .nav-sections-wrapper{
     position: relative;
+    &.hidden{
+      display: none;
+    }
   }
 
   .nav-sections{
@@ -68,12 +71,68 @@ nav {
     @include transform(translateX(-25%));
   }
 
-  h3{
+  .fetching{
+    height: 72px;
+  }
+
+  .done-check{
     @include transform(translateX(-25%));
     background: rgba($blue, 0.65);
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
+    text-align: center;
     color: $white;
     padding: 0.25em;
     display: inline-block;
+  }
+
+  .completed-pdfs{
+    @include transform(translateX(-15%));
+    max-height: calc(100vh - 225px);
+    padding-top: 1px;
+    padding-bottom: 25px;
+    overflow-y: scroll;
+  }
+
+  .try-again{
+    color: $blue;
+    text-decoration: underline;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.85em;
+    @include transform(translate(-15%, -100%));
+  }
+
+  .completed-pdfs__item{
+    cursor: pointer;
+    position: relative;
+    padding: 10px;
+    padding-right: 30px;
+    margin-left: 1px;
+    margin-right: 1px;
+    background: white;
+    box-shadow: 0px 0px 1px rgba(0,0,0,0.1);
+
+    h4{
+      margin: 0;
+      color: rgba($black,0.6);
+      line-height: 1em;
+    }
+    &:after{
+      display: block;
+      position: absolute;
+      text-align: center;
+      content: '➡';
+      right: 5px;
+      top: 50%;
+      @include transform(translateY(-50%));
+      width: 20px;
+      height: 20px;
+      border-radius: 20px;
+      color: white;
+      background: rgba($blue, 0.65)
+    }
   }
 
   .pdf-result {
@@ -116,7 +175,6 @@ nav {
   .failure{
     margin-top: 10px;
     position: relative;
-    left: -1.5em;
     padding-bottom: 5px;
     border-bottom: 1px solid #dddddd;
     em {

@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>Affordable Housing Application</title>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jump.js/1.0.2/jump.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.min.js"></script>
@@ -18,33 +19,28 @@
       var status = 'READY';
       /** Hand Waving **/
       var ApexActions = {
-        fetchPDFs: function(){
-            status = newStatus();
-            hapForm.setPDFResults([
-              {building: 'Building 1', url:'http://www.directact.org/Housing/dchousingapplication.pdf'},
-              {building: 'Building 2', url:'http://www.directact.org/Housing/dchousingapplication.pdf'},
-              {building: 'Building 3', url:'http://www.directact.org/Housing/dchousingapplication.pdf'}
-            ]);
-            hapForm.setStatus(status);
-        },
-
-        uploadPDFsToBox: function(){
-          setTimeout(function(){
-            status = newStatus();
-            hapForm.setStatus(status);
-          }, 2000);
+        fetchPDFs: function(formData){
+            var endpoint = 'https://pozon059e5.execute-api.us-west-2.amazonaws.com/districthousing/applicant';
+            var request = {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            };
+            fetch(endpoint, request).then(function(response){
+              return response.json();
+            }).then(function(res){
+              console.log(res);
+              hapForm.pdfCallback({
+                building: res.building,
+                status: res.status || 'ERROR: ' + res.errorMessage,
+                pdfUrl: 'data:application/pdf;base64,' + res.pdf
+              });
+            });
         }
       };
-      function newStatus(){
-        switch(status){
-          case 'READY':
-            return 'PDFS_READY';
-          case 'PDFS_READY':
-            return 'COMPLETE';
-          default:
-            return 'READY';
-        }
-      }
     </script>
     <script src="app.js"></script>
 
@@ -59,7 +55,48 @@
     </div>
 
     <script type="text/javascript">
-      hapForm = new HapForm(undefined, 'form');
+      var sheet = "https://docs.google.com/spreadsheets/d/1TdDEKFSzH_3yqKBfWwokzXzBIqPumgj_xkYQ5rcVd9c/export?gid=1189415643&format=csv";
+      fetch(sheet).then(function(response){
+        return response.text();
+      }).then(function(buildings){
+        hapForm = new HapForm({ buildings: cleanBuildings(buildings), form: {} }, 'form');
+      });
+
+      function cleanBuildings(_buildings){
+        var buildings = [];
+        _buildings = Papa.parse(_buildings, { header: true }).data;
+        _buildings.forEach(function(b,i){
+          var building = { id: i };
+          for(var k in b){
+            var val = b[k];
+            switch(val){
+              case "TRUE":
+                val = true;
+                break;
+              case "FALSE":
+                val = false;
+                break;
+              case "null":
+                val = null;
+                break;
+              default:
+                if(!isNaN(val)) val = +val;
+            }
+
+            if(k.indexOf('.')!=-1){
+              var nest = k.split('.');
+              if(!building[nest[0]]) building[nest[0]] = {};
+              building[nest[0]][nest[1]] = val;
+            } else {
+              building[k] = val;
+            }
+          }
+
+          buildings.push(building);
+        });
+
+        return buildings;
+      }
     </script>
   </body>
 </html>

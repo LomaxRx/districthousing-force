@@ -7,8 +7,10 @@
     "test": "echo 'no tests'",
     "sf-deploy": "cd .. && mavensmate compile src/staticresources/housing_application.resource && mavensmate compile src/staticresources/housing_application_style.resource",
     "build": "rollup -c",
+    "build:demo": "rollup -c rollup.demo.js",
     "build:deploy": "npm run build && npm run sf-deploy",
     "watch": "watch 'npm run build' src/",
+    "watch:demo": "watch 'npm run build:demo' src/",
     "watch:deploy": "watch 'npm run build:deploy' src/"
   },
   "author": "Andrew Lomax",

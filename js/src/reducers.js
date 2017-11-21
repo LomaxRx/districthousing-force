@@ -49,6 +49,17 @@ const buildings = function(state=[], action){
   }
 }
 
+const completedPDFs = function(state=[], action){
+  switch(action.type){
+    case 'COMPLETED_PDF':
+      return [...state, action.result];
+    case 'CLEAR_COMPLETED_PDFS':
+      return [];
+    default:
+      return state;
+  }
+}
+
 const eligibility = function(state={
   age: null,
   mobility_impairment: null,
@@ -109,6 +120,8 @@ const failed = function(state=[], action){
   switch(action.type){
     case 'ADD_FAILURE':
       return [...state, { building: {...action.building}, status: action.status }];
+    case 'CLEAR_COMPLETED_PDFS':
+      return [];
     default:
       return state;
   }
@@ -128,7 +141,7 @@ const buildingListActive = function(state=false, action){
 }
 
 export {
-  status, pdfResults, scrollPosition, inViewSection, eligibility,
+  status, scrollPosition, inViewSection, eligibility,
   buildings, selectedBuildings, buildingListActive, fetchingBuilding,
-  fetching, pdfQueue, failed
+  fetching, pdfQueue, failed, completedPDFs
 };

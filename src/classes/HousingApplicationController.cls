@@ -10,8 +10,7 @@ public class HousingApplicationController {
 	public String clientId {get; set;}
 	public String hapCaseId {get; set;}
 	public String initialState {get; set;}
-	public String status {get; set;}
-	public String pdfJSONResults {get; set;}
+	public String fetchPdfResponse {get; set;}
 	/** actionFunction fetchPDFs passes formData **/
 	public String formData {get; set;}
 	public String applicationData {get; set;}
@@ -38,12 +37,6 @@ public class HousingApplicationController {
 		gen.writeObjectField('buildings', buildings);
 		gen.writeEndObject();
 		initialState = gen.getAsString();
-
-		pdfResults = new List<HousingApplication.PDFResult>();
-		pdfJSONResults = JSON.serialize(pdfResults);
-
-		uploader = new HousingApplication.BoxPDFUploader();
-		status = 'READY';
 	}
 
 	public void createFolder(){
@@ -54,9 +47,12 @@ public class HousingApplicationController {
 	public void fetchPDFs(){
 		pdfResults = new List<HousingApplication.PDFResult>();
 		transient HousingApplication.PDFResult pdfResult = hapForm.fetchPDFs(formData);
+		JSONGenerator gen = JSON.createGenerator(false);
+		gen.writeStartObject();
 
 		if(pdfResult.status != 'OK'){
-			status = 'ERROR: ' + pdfResult.status;
+			pdfResult.status = 'ERROR: ' + pdfResult.status;
+			gen.writeObjectField('pdfUrl', null);
 		} else {
 			pdfResults.add(pdfResult);
 
@@ -65,11 +61,16 @@ public class HousingApplicationController {
 			for(Attachment a : attachments)
 				attachmentIds.add(a.Id);
 
-			status = 'READY_TO_FETCH';
+			gen.writeObjectField('pdfUrl', URL.getSalesforceBaseUrl().toExternalForm() + '/' + attachments[0].Id);
 		}
 
 		updateHapCase(applicationData);
 		insertApplication(buildingId);
+
+		gen.writeObjectField('status', pdfResult.status);
+		gen.writeObjectField('building', pdfResult.building );
+		gen.writeEndObject();
+		fetchPdfResponse = gen.getAsString();
 	}
 
 	public void uploadPDFsToBox(){

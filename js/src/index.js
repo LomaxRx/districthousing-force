@@ -75,7 +75,7 @@ export default class HapForm{
       **/
       let currentStatus;
       this.store.subscribe(()=>{
-        let prevStatus = currenStatus;
+        let prevStatus = currentStatus;
         let { status, pdfQueue } = this.store.getState();
         currentStatus = status;
 
@@ -120,15 +120,17 @@ export default class HapForm{
       fetchPDFs(submitDataString, JSON.stringify(submitData.applicant), building.salesforceId);
     }
 
-    setStatus(status){
+    pdfCallback(result){
       let { dispatch } = this.store;
       let { fetching } = this.store.getState();
-      if(status.indexOf('ERROR')!=-1){
+      if(result.status.indexOf('ERROR')!=-1){
         dispatch({
           type: 'ADD_FAILURE',
           building: fetching,
-          status
+          status: result.status
         });
+      } else {
+        dispatch({ type: 'COMPLETED_PDF', result })
       }
       dispatch({ type: 'SET_STATUS', status: 'READY_TO_FETCH' });
     }

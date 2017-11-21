@@ -7,7 +7,7 @@ $max-height: calc(100vh - 200px);
   left: 25px;
   top: 100px;
   right: 25px;
-  padding: 25px;
+  padding: 0px;
   min-height: 500px;
   max-height: $max-height;
   overflow: hidden;
@@ -15,13 +15,16 @@ $max-height: calc(100vh - 200px);
   border-radius: $border-radius;
   box-shadow: 0px 0px 1px 0px $gray;
 
-  h6{
-    margin-bottom: 5px;
-    display: block;
+  .eligibility-header, .selected-header{
+    padding-bottom: 5px;
+    padding-top: 60px;
+    h4 {
+      margin-bottom: 10px;
+    }
   }
 
-  .eligibility{
-    width: 75%;
+  h4{
+    margin: 0;
   }
 
   button {
@@ -43,12 +46,16 @@ $max-height: calc(100vh - 200px);
     margin-bottom: 25px;
     border-radius: $border-radius;
     padding-left: 0;
-    padding-right: 0;
+    paddinwg-right: 0;
+    height: 335px;
+  }
+
+  .selected{
+    background: #f2f3f7;
+    height: 100vh;
   }
 
   .selected-buildings{
-    padding: 10px;
-    padding-right: 25px;
     padding-bottom: 100px;
     max-height: $max-height;
     overflow-y: scroll;
@@ -58,23 +65,27 @@ $max-height: calc(100vh - 200px);
     position: relative;
     font-weight: 600;
     background: #fff;
-    border: 1px solid rgba(72, 72, 72, 0.25);
-    box-shadow: 0px 0px 1px 0px rgba(72, 72, 72, 0.15);
-    padding: 10px;
-    font-size: 12px;
-    margin: 5px 0;
-
+    margin-left: 1px;
+    margin-right: 1px;
+    box-shadow: 0px 0px 1px rgba(0,0,0,0.1);
+    padding: 15px;
+    h4{
+      color: rgba(72, 72, 72, 0.6);
+      line-height: 1em;
+    }
     .remove-selected-building{
+      font-size: 9px;
       position: absolute;
-      right: -10px;
-      top: -10px;
+      right: 15px;
+      top: 50%;
+      @include transform(translateY(-50%));
     }
   }
 
   .building-options{
     max-height: $max-height;
     overflow-y: scroll;
-    border-right: 1px solid $gray;
+    box-shadow: 0px -1px 0 rgba(0,0,0,0.15), 0px 1px 0 rgba(0,0,0,0.15);
     padding: 15px;
     padding-bottom: 175px;
   }

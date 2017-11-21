@@ -18,11 +18,9 @@ class SelectedBuilding extends Component {
   render(){
     let { name, index, fetchingBuilding } = this.props.building;
     return (
-      <div className="selected-building-wrapper">
-        <div className="selected-building">
-          <h4>{name}</h4>
-          <button className="remove-selected-building remove-button" onClick={this.removeBuildingFromForm}>X</button>
-        </div>
+      <div className="selected-building">
+        <h4>{name}</h4>
+        <button className="remove-selected-building remove-button" onClick={this.removeBuildingFromForm}>X</button>
       </div>
     );
   }
@@ -124,17 +122,16 @@ class BuildingList extends Component{
     let { buildings, eligibility: { age, mobility_impairment, disability, rooms_requested, waitlist_open }} = this.props;
     let filtered = buildings.filter(function(b){
       if(waitlist_open && !b.waitlist_open) return false;
-      if(!b.eligibility.rooms_available) return false;
       if(!mobility_impairment && age < 62 && b.eligibility.mobility_impairment===true) return false;
       if(!disability && b.eligibility.disability===true) return false;
-      if(b.eligibility.minimum_age_with_disability){
+      if(b.eligibility.minimum_age_with_disability && age){
         if(disability && age < b.eligibility.minimum_age_with_disability) return false;
       }
-      if(b.eligibility.minimum_age_without_disability){
+      if(b.eligibility.minimum_age_without_disability && age){
         if(!disability && age < b.eligibility.minimum_age_without_disability) return false;
       }
       if(rooms_requested!='' && rooms_requested!==null){
-        if(b.eligibility.rooms_available.indexOf(rooms_requested)==-1) return false;
+        if(b.bedrooms_open.indexOf(rooms_requested)==-1) return false;
       }
 
       return true;
@@ -169,56 +166,57 @@ class BuildingList extends Component{
     return (
       <div id="building-list" className={buildingListActive ? 'container active' : 'container'}>
         <button onClick={this.closeBuildingList} className="close-button">X</button>
-        <div className="eligibility">
-          <h6>Filter by</h6>
-          <div className="eligibility-inputs row">
-            <div className="field col-md-3">
-              <label>Mobility Impairment</label>
-              <input type="checkbox" value={mobility_impairment} checked={mobility_impairment} onChange={(e)=>{this.setElig('mobility_impairment', !mobility_impairment);}} />
+        <div className="row">
+          <div className="eligibility-header col-md-9">
+            <h4>Filter by</h4>
+            <div className="eligibility-inputs row">
+              <div className="field col-md-3">
+                <label>Mobility Impairment</label>
+                <input type="checkbox" value={mobility_impairment} checked={mobility_impairment} onChange={(e)=>{this.setElig('mobility_impairment', !mobility_impairment);}} />
+              </div>
+              <div className="field col-md-3">
+                <label>Disability</label>
+                <input type="checkbox" value={disability} checked={disability} onChange={(e)=>{this.setElig('disability', !disability);}} />
+              </div>
+              <div className="field col-md-2">
+                <label>Age</label>
+                <input type="text" value={age} onChange={(e)=>{this.setElig('age', e.target.value);}}/>
+              </div>
+              <div className="field col-md-2">
+                <label>Rooms Needed</label>
+                <select onChange={(e)=>{this.setElig('rooms_requested', e.target.value);}}>
+                  <option value="" selected={rooms_requested==""||rooms_requested==null}></option>
+                  <option value="1" selected={rooms_requested=="1"}>1</option>
+                  <option value="2" selected={rooms_requested=="2"}>2</option>
+                  <option value="3" selected={rooms_requested=="3"}>3</option>
+                  <option value="4" selected={rooms_requested=="4"}>4</option>
+                  <option value="5" selected={rooms_requested=="5"}>5</option>
+                </select>
+              </div>
+              <div className="field col-md-2">
+                <label>Open Waitlist</label>
+                <input type="checkbox" value={waitlist_open} checked={waitlist_open} onChange={(e)=>{this.setElig('waitlist_open', !waitlist_open);}}/>
+              </div>
             </div>
-            <div className="field col-md-3">
-              <label>Disability</label>
-              <input type="checkbox" value={disability} checked={disability} onChange={(e)=>{this.setElig('disability', !disability);}} />
-            </div>
-            <div className="field col-md-2">
-              <label>Age</label>
-              <input type="text" value={age} onChange={(e)=>{this.setElig('age', e.target.value);}}/>
-            </div>
-            <div className="field col-md-2">
-              <label>Rooms Needed</label>
-              <select onChange={(e)=>{this.setElig('rooms_requested', e.target.value);}}>
-                <option value="" selected={rooms_requested==""||rooms_requested==null}></option>
-                <option value="1" selected={rooms_requested=="1"}>1</option>
-                <option value="2" selected={rooms_requested=="2"}>2</option>
-                <option value="3" selected={rooms_requested=="3"}>3</option>
-                <option value="4" selected={rooms_requested=="4"}>4</option>
-                <option value="5" selected={rooms_requested=="5"}>5</option>
-              </select>
-            </div>
-            <div className="field col-md-2">
-              <label>Open Waitlist</label>
-              <input type="checkbox" value={waitlist_open} checked={waitlist_open} onChange={(e)=>{this.setElig('waitlist_open', !waitlist_open);}}/>
+            <div className="building-options">
+              {options.length>0 && <div className="row">
+                {options.map((b,j)=>(
+                  <Building building={b}/>
+                ))}
+              </div>}
+              {applied.length>0 && <div className="row">
+                <h6>Already Applied</h6>
+                {applied.map((b,j)=>(
+                  <Building building={b}/>
+                ))}
+              </div>}
             </div>
           </div>
-        </div>
-        <div className="row column-wrapper">
-          <div className="col-md-9 building-options">
-            <div className="row">
-              {options.map((b,j)=>(
-                <Building building={b}/>
-              ))}
+          <div className="selected col-md-3">
+            <div className="selected-header">
+              <h4>Selected</h4>
             </div>
-            {applied.length &&
-            <h6>Already Applied</h6>}
-            <div className="row">
-              {applied.map((b,j)=>(
-                <Building building={b}/>
-              ))}
-            </div>
-          </div>
-          <div className="col-md-3 selected-buildings">
-            <h6>Selected</h6>
-            <div className="row">
+            <div className="selected-buildings">
               {selectedBuildings.map((s,i)=>(
                 <SelectedBuilding index={i} building={s} />
               ))}

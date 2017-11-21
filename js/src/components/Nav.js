@@ -65,11 +65,32 @@ class Nav extends Component {
     uploadPDFsToBox();
   }
 
+  navigateTo = (pdfResult) => {
+    if(pdfResult.pdfUrl.indexOf('data:application/pdf;base64')!=-1){
+      let iframe = "<iframe width='100%' height='100%' src='" + pdfResult.pdfUrl + "'></iframe>"
+      let pdf = window.open();
+      pdf.document.write(iframe);
+    } else {
+      window.open(pdfResult.pdfUrl);
+    }
+  }
+
+  reset = () => {
+    let { dispatch } = this.props;
+    dispatch({
+      type: 'SET_STATUS',
+      status: 'READY'
+    });
+    dispatch({
+      type: 'CLEAR_COMPLETED_PDFS'
+    });
+  }
+
   render(){
-    let { failed, status, fetching, selectedBuildings } = this.props;
+    let { failed, status, fetching, selectedBuildings, completedPDFs } = this.props;
     return(
       <nav>
-        <div className="nav-sections-wrapper">
+        <div className={"nav-sections-wrapper " + (status=='FETCHING' || status=='COMPLETE' ? 'hidden' : '') }>
           <div className="nav-sections">
             <NavSection
               anchor='#contact_information'
@@ -118,18 +139,30 @@ class Nav extends Component {
           <button onClick={this.uploadToBox}>Upload to Box</button>
         }
         {status=='COMPLETE' &&
-          <h3>Done.</h3>
+          <h3><span className="done-check">✔</span> All Done.</h3>
         }
-        <div className='failures'>
-          {failed.map((f,i)=>(
-            <div className='failure'>
-              <em>failed to generate pdf for <b>{f.building.name}</b></em>
-              <p className="error-msg">
-                {f.status}
-              </p>
+        {status=='COMPLETE' &&
+          <div className="try-again" href="" onClick={this.reset}>try again</div>
+        }
+        {completedPDFs.length>0 &&
+          <div className="completed-pdfs">
+            {completedPDFs.map((result)=>(
+              <div className="completed-pdfs__item" onClick={()=>{this.navigateTo(result);}}>
+                  <h4>{result.building}</h4>
+              </div>
+            ))}
+            <div className='failures'>
+              {failed.map((f,i)=>(
+                <div className='failure'>
+                  <em>failed to generate pdf for <b>{f.building.name}</b></em>
+                  <p className="error-msg">
+                    {f.status}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        }
       </nav>
     )
   }
@@ -140,7 +173,8 @@ const mapStateToProps = (state) => ({
   failed: state.failed,
   selectedBuildings: state.selectedBuildings,
   pdfQueue: state.pdfQueue,
-  fetching: state.fetching
+  fetching: state.fetching,
+  completedPDFs: state.completedPDFs
 });
 
 export default connect(mapStateToProps)(Nav);
