@@ -42,7 +42,7 @@ class DatePicker extends Component{
 
   dayClick = (day) => {
     const { name, dispatch } = this.props;
-    let d = moment(day).format('L');
+    let d = moment(day).format('YYYY-MM-DD');
     dispatch(actions.change(name, d));
     if(this.input)
       this.input.blur();

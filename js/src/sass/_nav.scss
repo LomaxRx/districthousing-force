@@ -16,7 +16,7 @@ nav {
       background: rgba($black, 0.15);
       border-radius: 0.5em;
       position: absolute;
-      left: -1.5em;
+      left: -26px;
       top: 10px;
       display: block;
       content: ' ';
@@ -41,7 +41,7 @@ nav {
       width: 0.5em;
       border-radius: 0.5em;
       background: rgba($black,0.4);
-      left: -1.5em;
+      left: -26px;
       position: absolute;
       @include vertical-center;
       @include transition(all 0.1s ease-in);
@@ -54,7 +54,7 @@ nav {
         border-radius: .75em;
         height: .75em;
         width: .75em;
-        left: -1.6em;
+        left: calc(-26px - 0.125em);
       }
     }
   }
@@ -109,6 +109,34 @@ nav {
         &:before{
           background: rgba($blue, 0.65);
         }
+      }
+    }
+  }
+
+  .failure{
+    margin-top: 10px;
+    position: relative;
+    left: -1.5em;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dddddd;
+    em {
+      color: red;
+      font-size: 0.8em;
+      opacity: 0.5;
+      cursor: default;
+    }
+    .error-msg{
+      height: 0px;
+      overflow: hidden;
+      font-size: 0.8em;
+      color: #aaaaaa;
+      margin: 0 0 0 0;
+      font-family: monospace;
+    }
+    &:hover{
+      .error-msg{
+        height: auto;
+        margin: 5px 0 0 0;
       }
     }
   }

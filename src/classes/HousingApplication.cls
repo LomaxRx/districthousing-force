@@ -1,5 +1,5 @@
 public class HousingApplication {
-  public class Person {
+  public abstract class AbstractPerson {
     String first_name;
     String last_name;
     String middle_name;
@@ -25,6 +25,8 @@ public class HousingApplication {
     String driver_license_exp_date;
   }
 
+  public class Person extends AbstractPerson{}
+
   public class Income {
     Integer id;
     Integer amount;
@@ -37,8 +39,13 @@ public class HousingApplication {
     String street;
     String city;
     String state;
+    String zip;
     String apt;
     Boolean residence;
+  }
+
+  public class Landlord extends AbstractPerson {
+    Address address = new Address();
   }
 
   public class Residence {
@@ -48,15 +55,21 @@ public class HousingApplication {
 		// keywords in Apex.
     Date start_date;
     Date end_date;
+    Integer rent;
     String reason;
     Boolean current;
-    Person landlord = new Person();
+    Landlord landlord = new Landlord();
   }
 
-  public class HouseholdMember {
+  public class HouseholdMember extends AbstractPerson {
     Integer id;
-    Person member = new Person();
     String relationship;
+  }
+
+  public class Contact extends AbstractPerson {
+    Integer id;
+    String relationship;
+    Address address = new Address();
   }
 
   public class Employment {
@@ -76,6 +89,7 @@ public class HousingApplication {
     Integer id;
     String description;
     Integer year;
+    String state;
     String crime_type;
   }
 
@@ -91,6 +105,62 @@ public class HousingApplication {
     String previous_number;
   }
 
+  public class BuildingRequiredProofs{
+    Boolean none;
+    Boolean identification;
+    Boolean bank_statement;
+    Boolean birth_certificate;
+    Boolean employment_history;
+    Boolean citizenship;
+    Boolean dc_residency;
+    Boolean disability;
+    Boolean income;
+    Boolean rental_history;
+    Boolean social_security_card;
+    String other;
+
+  }
+
+  public class BuildingEligibility{
+    Boolean income;
+    Boolean disability;
+    Boolean mobility_impairment;
+    Boolean elderly;
+    Decimal minimum_age_with_disability;
+    Decimal minimum_age_without_disability;
+    String rooms_available;
+  }
+
+  public class Building{
+    Integer id;
+    Id salesforceId;
+    String name;
+    String company_name;
+    String address;
+    Decimal longitude;
+    Decimal latitude;
+    String application_info;
+    Boolean application_on_file;
+    Boolean application_fee;
+    String bedrooms_offered;
+    String bedrooms_open;
+    String building_phone;
+    String company_phone;
+    String utilities_included;
+    String wait_length;
+    Boolean waitlist_open;
+    String waitlist_closed_until;
+    String pets_allowed;
+    String bus_routes;
+    String notes;
+    String application_url;
+    Date last_applied;
+
+    BuildingRequiredProofs required_proofs = new BuildingRequiredProofs();
+    BuildingEligibility eligibility = new BuildingEligibility();
+
+  }
+
   public class Model {
     /**
       Convenience class for getting JSON version of entire app model
@@ -102,6 +172,7 @@ public class HousingApplication {
     HouseholdMember HouseholdMember = new HouseholdMember();
     Employment Employment = new Employment();
     CriminalHistory CriminalHistory = new CriminalHistory();
+    Contact Contact = new Contact();
     Alias Alias = new Alias();
     PreviousSSN PreviousSSN = new PreviousSSN();
     String HousingForm = '';
@@ -113,13 +184,22 @@ public class HousingApplication {
     }
   }
 
+  public class ClientEligibility {
+    Boolean mobility_impairment;
+    Boolean disability;
+    Decimal age;
+    String rooms_requested;
+  }
+
   public class ClientData {
-    public Client__c client;
+    public Client__c clientRecord;
     public Income_and_Benefits__c[] incomes;
     public Household_Members__c[] household_members;
     public Address__c[] addresses;
     public Case__c hapCase;
+    public ClientEligibility eligibility;
   }
+
 
   public class FormData {
     Person person = new Person();
@@ -129,28 +209,32 @@ public class HousingApplication {
     HouseholdMember[] household_members = new List<HouseholdMember>();
     Employment[] employments = new List<Employment>();
     CriminalHistory[] criminal_histories = new List<CriminalHistory>();
+    Contact[] contacts = new List<Contact>();
     Alias[] aliases = new List<Alias>();
     PreviousSSN[] previous_ssns = new List<PreviousSSN>();
     String[] housing_forms = new List<String>();
   }
 
   public class PDFResult {
-    public String url;
+    public Blob pdf;
     public String status;
     public String building;
-    public Blob pdf;
   }
 
   public class Form {
     public String endpoint;
     public FormData data;
     public ClientData client;
+    public Case__c hapCase;
 
-    public Form(Id clientId){
+    public Form(Id clientId, Id hapCaseId){
       data = new FormData();
       client = new ClientData();
 
-      if(clientId==null) return;
+      hapCase = [
+       SELECT Id, Name, Wheelchair__c, Disability__c, Age__c, Bedrooms_Needed__c, Application_Data__c
+       FROM Case__c WHERE Id=:hapCaseId LIMIT 1
+      ];
 
       Client__c[] clients = [
         SELECT Id, Name, First_Name__c, Last_Name__c, Middle_Name__c, Alternate_Name__c, Email_Address__c,
@@ -163,26 +247,17 @@ public class HousingApplication {
       ];
 
       if(clients.size()>0){
-        client.client = clients[0];
-        client.hapCase = getHapCase(clientId);
+        client.clientRecord = clients[0];
+        client.eligibility = new ClientEligibility();
+        client.eligibility.mobility_impairment = hapCase.Wheelchair__c;
+        client.eligibility.disability = hapCase.Disability__c;
+        client.eligibility.rooms_requested = hapCase.Bedrooms_Needed__c;
+        client.eligibility.age = hapCase.Age__c;
         mapPerson(clients[0]);
         mapIncome(clientId);
         mapAddress(clientId);
         mapHouseholdMember(clientId);
       }
-    }
-
-    private Case__c getHapCase(String clientId){
-      Case__c[] cases = [
-        SELECT Id, Name, RecordType.Name, HAP_Start_Date__c, HAP_End_Date__c,
-        Age__c, Wheelchair__c, 	Disability__c, Bedrooms_Needed__c
-        FROM Case__c
-        WHERE Client__c=:clientId AND RecordType.Name='HAP'
-      ];
-
-      if(cases.size()>0) return cases[0];
-
-      return null;
     }
 
     private void mapPerson(Client__c c){
@@ -233,7 +308,7 @@ public class HousingApplication {
         inc.id = i;
         inc.amount = client_income.Amount__c.intValue();
         inc.income_type = client_income.Type__c;
-        inc.interval = 'Month';
+        inc.interval = 'monthly';
         data.incomes.add(inc);
         i+=1;
       }
@@ -257,6 +332,7 @@ public class HousingApplication {
           a.street += ' ' + client_address.Address_2__c;
         a.city = client_address.City__c;
         a.state = client_address.State__c;
+        a.zip = client_address.Zip_Code__c;
         if(
           (client_address.Landlord_Name__c!=null&&client_address.Landlord_Name__c!='')||
           client_address.Start_Date__c!=null||client_address.End_Date__c!=null
@@ -291,9 +367,9 @@ public class HousingApplication {
         HouseholdMember member = new HouseholdMember();
         member.id = i;
         String[] names = client_household_member.Name.split(' ', 2);
-        member.member.first_name = names[0];
-        if(names.size()>1) member.member.last_name = names[1];
-        member.member.dob = client_household_member.DOB__c;
+        member.first_name = names[0];
+        if(names.size()>1) member.last_name = names[1];
+        member.dob = client_household_member.DOB__c;
         member.relationship = client_household_member.Relationship__c;
         data.household_members.add(member);
         i+=1;
@@ -304,77 +380,151 @@ public class HousingApplication {
       return JSON.serialize(data);
     }
 
-    public PDFResult[] fetchPDFs(){
-      String json = this.toJSON();
-      return this.fetchPDFs(json);
+    public PDFResult fetchPDFs(String formData){
+      Http h = new Http();
+      HttpRequest req = new HttpRequest();
+      req.setEndpoint('https://pozon059e5.execute-api.us-west-2.amazonaws.com/districthousing/applicant');
+      req.setMethod('POST');
+      req.setHeader('Accept', 'application/json');
+      req.setHeader('Content-Type', 'application/json');
+      req.setBody(formData);
+      req.setTimeout(60000);
+
+      HttpResponse res = h.send(req);
+      Map<String,Object> response = (Map<String,Object>)System.JSON.deserializeUntyped(res.getBody());
+
+      PDFResult result = new PDFResult();
+      result.building = (String)response.get('building');
+      if((String)response.get('status') == 'OK'){
+        result.pdf = EncodingUtil.base64Decode((String)response.get('pdf'));
+        result.status = 'OK';
+      } else {
+        result.status = (String)response.get('errorMessage');
+        System.debug(result.status);
+      }
+
+      return result;
     }
-
-    public PDFResult[] fetchPDFs(String json){
-      // TODO: once Ruby endpoint is setup
-      // Http h = new Http();
-      // HttpRequest req = new HttpRequest();
-      // endpoint = endpoint.replace(' ', '%20');
-      // req.setEndpoint(endpoint);
-      // req.setMethod('POST');
-      // req.setHeader('Accept', 'application/json');
-      // req.setHeader('Content-Type', 'application/json');
-      // req.setBody(json);
-      // req.setTimeout(60000);
-      //
-      // HttpResponse res = h.send(req);
-      // String pdf_urls = res.getBody();
-      // return JSON.serialize(pdf_urls);
-
-      PDFResult p1 = new PDFResult();
-      p1.url = 'https://na-production.s3.amazonaws.com/documents/EarlyLearning-FamilyEngagement-DigitalAge.pdf';
-      p1.building = 'Building 1';
-      PDFResult p2 = new PDFResult();
-      p2.url = 'https://na-production.s3.amazonaws.com/documents/Roadmapping_AI_Final.pdf';
-      p2.building = 'Building 2';
-
-      return new List<PDFResult>{ p1, p2 };
-    }
-  }
-
-  public static Blob downloadPDF(String url){
-    Http h = new Http();
-    HttpRequest req = new HttpRequest();
-
-    url = url.replace(' ', '%20');
-    req.setEndpoint(url);
-    req.setMethod('GET');
-    req.setHeader('Content-Type', 'application/pdf');
-    req.setCompressed(true);
-    req.setTimeout(60000);
-
-    HttpResponse res = h.send(req);
-    String response = res.getBody();
-
-    return res.getBodyAsBlob();
   }
 
   public class BoxPDFUploader {
     public box.Toolkit boxToolkit;
+    public String folderId;
+
     public BoxPDFUploader(){
       boxToolkit = new box.Toolkit();
     }
 
-    public String upload(Blob pdf, Id recordId, String fileName){
-      String folderId = boxToolkit.createFolderForRecordId(recordId, null, true);
-
-      Attachment attn = new Attachment();
-      attn.Name = fileName;
-      attn.Body = pdf;
-      attn.contentType = 'pdf';
-
-      boxToolkit.createFileFromAttachment(attn, fileName, folderId, null);
-
+    public String createOrGetFolder(Id recordId){
+      folderId = boxToolkit.createFolderForRecordId(recordId, null, true);
       return folderId;
+    }
+
+    public Attachment[] createAttachments(HousingApplication.PDFResult[] pdfResults, Id hapCaseId){
+      Attachment[] attachments = new List<Attachment>();
+  		for(HousingApplication.PDFResult r : pdfResults){
+  			Attachment a = new Attachment();
+  			a.Body = r.pdf;
+  			a.Name = System.now().format('yyyy-MM-dd HH:mm') + '__' + r.building + '.pdf';
+  			a.ParentId = hapCaseId;
+  			attachments.add(a);
+  		}
+
+      return attachments;
+  	}
+
+    public String[] uploadAttachments(Attachment[] attachments){
+      String[] fileIds = new List<String>();
+      for(Attachment a : attachments){
+        system.debug(a);
+        String fileId = boxToolkit.createFileFromAttachment(a, null, null, null);
+        system.debug(fileId);
+        fileIds.add(fileId);
+      }
+      return fileIds;
     }
 
     public void commitChanges(){
       boxToolkit.commitChanges();
     }
 
+  }
+
+  public static Building[] getBuildingData(Id clientId){
+    Application__c[] pastApplications = [
+      SELECT Id, Building_Name__r.Id, Date_Completed__c
+      FROM Application__c
+      WHERE Social_Services_Case__r.Client__c=:clientId
+      ORDER BY Date_Completed__c ASC
+    ];
+
+    Building_Detail__c[] building_details = [
+      SELECT Id, Name, App_Fee__c, Application_Info__c, Application_URL__c, Application_On_File__c, Building__r.Name,
+      Bank_Statement__c, Bedrooms_Offered__C, BedroomsOpen__c, Birth_Certificate__c,
+      Building_Address__c, Building__c, Building_Name__c, Building_Phone__c, Bus__c,
+      Company_Phone__c, Disability_Required__c, Elderly__c, Employment_History__c, General_Notes__c,
+      GeoLocation__longitude__s, GeoLocation__latitude__s, Income_Required__c, Minimum_Age_with_Disability__c, Minimum_Age_Without_Disability__c,
+      No_Proofs__c, Pets__c, Proof_of_Citizenship__c, Proof_of_DC_Residency__c, Proof_of_Disability__c, Proof_of_Income__c,
+      Rental_History__c, Require_Id__c, Require_Other__c, Social_Security_Card__c, Utilities__c,
+      Wait_Length__c, Waitlist_Closed_Until__c, Waitlist_Open__c, Ward__c, Mobility_Impairment_Required__c
+      FROM Building_Detail__c WHERE Application_URL__c != null
+      ORDER BY Name
+    ];
+
+    Building[] buildings = new List<Building>();
+    Integer i = 0;
+    for(Building_Detail__c d : building_details){
+      Building b = new Building();
+
+      b.id = i;
+      b.salesforceId = d.Id;
+      b.name = d.Name;
+      b.company_name = d.Building__r.Name;
+      b.application_fee = d.App_Fee__c;
+      b.application_info = d.Application_Info__c;
+      b.application_on_file = d.Application_On_File__c;
+      b.bedrooms_offered = d.Bedrooms_Offered__c;
+      b.bedrooms_open = d.BedroomsOpen__c;
+      b.address = d.Building_Address__c;
+      b.building_phone = d.Building_Phone__c;
+      b.company_phone = d.Company_phone__c;
+      b.bus_routes = d.Bus__c;
+      b.longitude = d.GeoLocation__longitude__s;
+      b.latitude = d.GeoLocation__latitude__s;
+      b.pets_allowed = d.Pets__c;
+      b.utilities_included = d.Utilities__c;
+      b.wait_length = d.Wait_Length__c;
+      b.waitlist_closed_until = d.Waitlist_Closed_Until__c;
+      b.waitlist_open = d.Waitlist_Open__c;
+      b.notes = d.General_Notes__c;
+      b.application_url = d.Application_URL__c;
+      for(Application__c a :pastApplications){
+        if(a.Building_Name__r.Id==d.Id) b.last_applied = a.Date_Completed__c;
+      }
+
+      b.eligibility.mobility_impairment = d.Mobility_Impairment_Required__c;
+      b.eligibility.disability = d.Disability_Required__c;
+      b.eligibility.elderly = d.Elderly__c;
+      b.eligibility.income = d.Income_Required__c;
+      b.eligibility.minimum_age_with_disability = d.Minimum_Age_with_Disability__c;
+      b.eligibility.minimum_age_without_disability = d.Minimum_Age_Without_Disability__c;
+      b.eligibility.rooms_available = d.BedroomsOpen__c;
+
+      b.required_proofs.none = d.No_Proofs__c;
+      b.required_proofs.birth_certificate = d.Birth_Certificate__c;
+      b.required_proofs.employment_history = d.Employment_History__c;
+      b.required_proofs.citizenship = d.Proof_of_Citizenship__c;
+      b.required_proofs.dc_residency = d.Proof_of_DC_Residency__c;
+      b.required_proofs.disability = d.Proof_of_Disability__c;
+      b.required_proofs.income = d.Proof_of_Income__c;
+      b.required_proofs.rental_history = d.Rental_History__c;
+      b.required_proofs.identification = d.Require_Id__c;
+      b.required_proofs.social_security_card = d.Social_Security_Card__c;
+      b.required_proofs.other = d.Require_Other__c;
+
+      buildings.add(b);
+      i+=1;
+    }
+    return buildings;
   }
 }

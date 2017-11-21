@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Jump from 'jump.js';
-import { fetchPDFs, uploadPDFsToBox } from 'apex-actions';
+import { uploadPDFsToBox } from 'apex-actions';
 import { easeInOutQuad } from '../utils';
 
 class NavSection extends Component {
@@ -37,10 +37,26 @@ const PDFResult = (props) => (
 );
 
 class Nav extends Component {
+  openBuildingList = () => {
+      let { dispatch } = this.props;
+      dispatch({type: 'ACTIVATE_BUILDING_LIST'});
+  }
+
   submit = () => {
-    let { formData, dispatch } = this.props;
-    dispatch({type:'SET_STATUS', status: 'FETCHING'});
-    setTimeout(()=>{fetchPDFs(formData);}, 1500);
+    let { dispatch, selectedBuildings } = this.props;
+    if(selectedBuildings.length===0){
+      alert('Please add at least one building.');
+      return;
+    }
+    dispatch({
+      type: 'SET_PDF_QUEUE',
+      queue: selectedBuildings
+    });
+
+    dispatch({
+      type: 'SET_STATUS',
+      status: 'READY_TO_FETCH'
+    });
   }
 
   uploadToBox = () => {
@@ -50,14 +66,14 @@ class Nav extends Component {
   }
 
   render(){
-    let { results, status } = this.props;
+    let { failed, status, fetching, selectedBuildings } = this.props;
     return(
       <nav>
         <div className="nav-sections-wrapper">
           <div className="nav-sections">
             <NavSection
               anchor='#contact_information'
-              label='Contact'/>
+              label='General'/>
             <NavSection
               anchor='#addresses'
               label='Addresses'/>
@@ -73,29 +89,45 @@ class Nav extends Component {
             <NavSection
               anchor='#criminal_histories'
               label='Record'/>
+            <NavSection
+              anchor='#contacts'
+              label='Contacts'/>
           </div>
         </div>
         {status=='READY' &&
-          <button onClick={this.submit}>Submit</button>
+          <button onClick={this.openBuildingList}>Add Buildings</button>
+        }
+        {status=='READY' &&
+          <button onClick={this.submit} className={selectedBuildings.length===0 ? 'disabled' : ''}>Submit</button>
         }
         {status=='FETCHING' &&
-          <div className="spinner">
-            <div className="rect1"></div>
-            <div className="rect2"></div>
-            <div className="rect3"></div>
-            <div className="rect4"></div>
-            <div className="rect5"></div>
+          <div className="fetching">
+            <div className="fetching-which">
+              generating pdf for <b>{fetching.name}</b>...
+            </div>
+            <div className="spinner">
+              <div className="rect1"></div>
+              <div className="rect2"></div>
+              <div className="rect3"></div>
+              <div className="rect4"></div>
+              <div className="rect5"></div>
+            </div>
           </div>
         }
         {status=='PDFS_READY' &&
           <button onClick={this.uploadToBox}>Upload to Box</button>
         }
         {status=='COMPLETE' &&
-          <h3>Success!</h3>
+          <h3>Done.</h3>
         }
-        <div className='results'>
-          {results.map((r,i)=>(
-            <PDFResult url={r.url} building={r.building} />
+        <div className='failures'>
+          {failed.map((f,i)=>(
+            <div className='failure'>
+              <em>failed to generate pdf for <b>{f.building.name}</b></em>
+              <p className="error-msg">
+                {f.status}
+              </p>
+            </div>
           ))}
         </div>
       </nav>
@@ -105,8 +137,10 @@ class Nav extends Component {
 
 const mapStateToProps = (state) => ({
   status: state.status,
-  results: state.pdfResults,
-  formData: state.formData
+  failed: state.failed,
+  selectedBuildings: state.selectedBuildings,
+  pdfQueue: state.pdfQueue,
+  fetching: state.fetching
 });
 
 export default connect(mapStateToProps)(Nav);

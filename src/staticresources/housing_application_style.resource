@@ -187,12 +187,17 @@
 .bodyDiv {
   background: #f2f3f7 !important; }
 
+html.hidden-overflow {
+  max-height: calc(100vh - 500px);
+  overflow: hidden; }
+
 #app {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 16px;
   color: #484848;
-  margin-top: 75px;
-  margin-bottom: 25vh; }
+  padding-top: 75px;
+  padding-bottom: 25vh;
+  background: #f2f3f7 !important; }
   #app * {
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
@@ -248,7 +253,7 @@
       background: rgba(72, 72, 72, 0.15);
       border-radius: 0.5em;
       position: absolute;
-      left: -1.5em;
+      left: -26px;
       top: 10px;
       display: block;
       content: ' ';
@@ -273,7 +278,7 @@
         width: 0.5em;
         border-radius: 0.5em;
         background: rgba(72, 72, 72, 0.4);
-        left: -1.5em;
+        left: -26px;
         position: absolute;
         top: 50%;
         -webkit-transform: translate(0, -50%);
@@ -292,7 +297,7 @@
           border-radius: .75em;
           height: .75em;
           width: .75em;
-          left: -1.6em; }
+          left: calc(-26px - 0.125em); }
     #app nav button {
       -webkit-transform: translateX(-25%);
       -moz-transform: translateX(-25%);
@@ -348,6 +353,27 @@
         color: #484848; }
         #app nav .pdf-result a:hover:before {
           background: rgba(0, 110, 167, 0.65); }
+    #app nav .failure {
+      margin-top: 10px;
+      position: relative;
+      left: -1.5em;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #dddddd; }
+      #app nav .failure em {
+        color: red;
+        font-size: 0.8em;
+        opacity: 0.5;
+        cursor: default; }
+      #app nav .failure .error-msg {
+        height: 0px;
+        overflow: hidden;
+        font-size: 0.8em;
+        color: #aaaaaa;
+        margin: 0 0 0 0;
+        font-family: monospace; }
+      #app nav .failure:hover .error-msg {
+        height: auto;
+        margin: 5px 0 0 0; }
   #app form, #app .sub-section {
     display: block;
     width: 100%;
@@ -398,7 +424,7 @@
     outline: none;
     position: relative;
     background: #fff;
-    z-index: 100;
+    z-index: 50;
     border: 1px solid rgba(175, 175, 177, 0.6);
     cursor: pointer;
     -webkit-transition: background 0.15s ease-in;
@@ -493,6 +519,8 @@
     -ms-transition: background 0.25s ease-out, border 0.25s ease-out, box-shadow 0.25s ease-out;
     -o-transition: background 0.25s ease-out, border 0.25s ease-out, box-shadow 0.25s ease-out;
     transition: background 0.25s ease-out, border 0.25s ease-out, box-shadow 0.25s ease-out; }
+    #app button.disabled {
+      opacity: 0.8; }
     #app button.remove-button {
       float: right;
       position: relative;
@@ -500,14 +528,24 @@
       padding: 0.5em 0.75em;
       border: 1px solid #A32645;
       background: rgba(163, 38, 69, 0.75); }
-  #app button:hover {
+    #app button.close-button {
+      border-radius: 1000px;
+      padding: 0.75em;
+      background: rgba(175, 175, 177, 0.75);
+      border: 1px solid #AFAFB1;
+      width: 36px;
+      height: 36px; }
+  #app button:hover:not(.disabled) {
     cursor: pointer;
     border: 1px solid rgba(0, 110, 167, 0);
     background: rgba(0, 110, 167, 0.95);
     box-shadow: 0px 0px 1px 1px rgba(72, 72, 72, 0); }
-    #app button:hover.remove-button {
+    #app button:hover:not(.disabled).remove-button {
       border: 1px solid rgba(163, 38, 69, 0);
       background: rgba(163, 38, 69, 0.95); }
+    #app button:hover:not(.disabled).close-button {
+      border: 1px solid rgba(175, 175, 177, 0);
+      background: rgba(175, 175, 177, 0.95); }
   #app .spinner {
     width: 70px;
     height: 40px;
@@ -552,3 +590,91 @@
   20% {
     transform: scaleY(1);
     -webkit-transform: scaleY(1); } }
+  #app .fetching-which {
+    font-size: 0.8em !important;
+    color: #aaaaaa !important;
+    position: relative;
+    left: -1.5em; }
+  #app #building-list {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 25px;
+    top: 100px;
+    right: 25px;
+    padding: 25px;
+    min-height: 500px;
+    max-height: calc(100vh - 200px);
+    overflow: hidden;
+    background: #fff;
+    border-radius: 0px;
+    box-shadow: 0px 0px 1px 0px #AFAFB1; }
+    #app #building-list h6 {
+      margin-bottom: 5px;
+      display: block; }
+    #app #building-list .eligibility {
+      width: 75%; }
+    #app #building-list button {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      z-index: 120; }
+    #app #building-list.active {
+      display: block; }
+    #app #building-list h3, #app #building-list h4 {
+      color: #484848; }
+    #app #building-list .building {
+      margin-bottom: 25px;
+      border-radius: 0px;
+      padding-left: 0;
+      padding-right: 0; }
+    #app #building-list .selected-buildings {
+      padding: 10px;
+      padding-right: 25px;
+      padding-bottom: 100px;
+      max-height: calc(100vh - 200px);
+      overflow-y: scroll; }
+    #app #building-list .selected-building {
+      position: relative;
+      font-weight: 600;
+      background: #fff;
+      border: 1px solid rgba(72, 72, 72, 0.25);
+      box-shadow: 0px 0px 1px 0px rgba(72, 72, 72, 0.15);
+      padding: 10px;
+      font-size: 12px;
+      margin: 5px 0; }
+      #app #building-list .selected-building .remove-selected-building {
+        position: absolute;
+        right: -10px;
+        top: -10px; }
+    #app #building-list .building-options {
+      max-height: calc(100vh - 200px);
+      overflow-y: scroll;
+      border-right: 1px solid #AFAFB1;
+      padding: 15px;
+      padding-bottom: 175px; }
+    #app #building-list .building-details {
+      padding: 15px;
+      z-index: 110;
+      cursor: pointer;
+      width: 100%; }
+      #app #building-list .building-details .building-detail {
+        margin-top: 5px; }
+        #app #building-list .building-details .building-detail label {
+          margin: 0;
+          width: 90%; }
+        #app #building-list .building-details .building-detail p {
+          margin: 0; }
+      #app #building-list .building-details:hover {
+        box-shadow: 0px 0px 1px 0px #AFAFB1; }
+  #app #overlay {
+    position: fixed;
+    z-index: 90;
+    background: rgba(0, 0, 0, 0.25);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none; }
+    #app #overlay.active {
+      display: block; }

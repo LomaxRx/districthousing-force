@@ -5,12 +5,20 @@
   background: #f2f3f7 !important;
 }
 
+html{
+  &.hidden-overflow{
+    max-height: calc(100vh - 500px);
+    overflow: hidden;
+  }
+}
+
 #app {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 16px;
   color: $black;
-  margin-top: 75px;
-  margin-bottom: 25vh;
+  padding-top: 75px;
+  padding-bottom: 25vh;
+  background: #f2f3f7 !important;
 
   * {
     -moz-box-sizing: border-box;
@@ -81,5 +89,6 @@
   @import 'form';
   @import 'button';
   @import 'spinner';
+  @import 'building-list';
 
 }
