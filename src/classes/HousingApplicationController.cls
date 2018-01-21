@@ -1,102 +1,110 @@
 public class HousingApplicationController {
-	private HousingApplication.Form hapForm;
-	private HousingApplication.BoxPDFUploader uploader;
-	transient HousingApplication.PDFResult[] pdfResults;
-	transient Attachment[] attachments;
-	private Id[] attachmentIds;
+    private HousingApplication.Form hapForm;
+    private HousingApplication.BoxPDFUploader uploader;
+    transient HousingApplication.PDFResult[] pdfResults;
+    transient Attachment[] attachments;
+    private Id[] attachmentIds;
 
-	public HousingApplication.Building[] buildings {get; set;}
-	public Client__c client {get; set;}
-	public String clientId {get; set;}
-	public String hapCaseId {get; set;}
-	public String initialState {get; set;}
-	public String fetchPdfResponse {get; set;}
-	/** actionFunction fetchPDFs passes formData **/
-	public String formData {get; set;}
-	public String applicationData {get; set;}
-	public Id buildingId {get; set;}
+    public HousingApplication.Building[] buildings {get; set;}
+    public Client__c client {get; set;}
+    public String clientId {get; set;}
+    public String hapCaseId {get; set;}
+    public String initialState {get; set;}
+    public String fetchPdfResponse {get; set;}
+    /** actionFunction fetchPDFs passes formData **/
+    public String formData {get; set;}
+    public String applicationData {get; set;}
+    public Id buildingId {get; set;}
 
-	public HousingApplicationController() {
-		clientId = ApexPages.currentPage().getParameters().get('clientId');
-		hapCaseId = ApexPages.currentPage().getParameters().get('hapCaseId');
-		hapForm = new HousingApplication.Form(clientId, hapCaseId);
-		client = hapform.client.clientRecord;
-		buildings = HousingApplication.getBuildingData(clientId);
-		attachments = new List<Attachment>();
-		attachmentIds = new List<Id>();
-		uploader = new HousingApplication.BoxPDFUploader();
+    public HousingApplicationController() {
+        clientId = ApexPages.currentPage().getParameters().get('clientId');
+        hapCaseId = ApexPages.currentPage().getParameters().get('hapCaseId');
+        hapForm = new HousingApplication.Form(clientId, hapCaseId);
+        client = hapform.client.clientRecord;
+        buildings = HousingApplication.getBuildingData(clientId);
+        attachments = new List<Attachment>();
+        attachmentIds = new List<Id>();
+        uploader = new HousingApplication.BoxPDFUploader();
 
-		JSONGenerator gen = JSON.createGenerator(false);
-		gen.writeStartObject();
-		// if(hapForm.hapCase.Application_Data__c != null){
-		// 	gen.writeObjectField('form',(Map<String,Object>)JSON.deserializeUntyped(hapForm.hapCase.Application_Data__c));
-		// } else {
-		// 	gen.writeObjectField('form', hapForm.data);
-		// }
-		gen.writeObjectField('form', hapForm.data);
-		gen.writeObjectField('eligibility', hapForm.client.eligibility);
-		gen.writeObjectField('buildings', buildings);
-		gen.writeEndObject();
-		initialState = gen.getAsString();
-	}
+        JSONGenerator gen = JSON.createGenerator(false);
+        gen.writeStartObject();
+        // if(hapForm.hapCase.Application_Data__c != null){
+        //  gen.writeObjectField('form',(Map<String,Object>)JSON.deserializeUntyped(hapForm.hapCase.Application_Data__c));
+        // } else {
+        //  gen.writeObjectField('form', hapForm.data);
+        // }
+        gen.writeObjectField('form', hapForm.data);
+        gen.writeObjectField('eligibility', hapForm.client.eligibility);
+        gen.writeObjectField('buildings', buildings);
+        gen.writeEndObject();
+        initialState = gen.getAsString();
+    }
 
-	public void createFolder(){
-		uploader.createOrGetFolder(hapCaseId);
-		uploader.commitChanges();
-	}
+    public void createFolder(){
+        uploader.createOrGetFolder(hapCaseId);
+        uploader.commitChanges();
+    }
 
-	public void fetchPDFs(){
-		pdfResults = new List<HousingApplication.PDFResult>();
-		transient HousingApplication.PDFResult pdfResult = hapForm.fetchPDFs(formData);
-		JSONGenerator gen = JSON.createGenerator(false);
-		gen.writeStartObject();
+    public void fetchPDFs(){
+        pdfResults = new List<HousingApplication.PDFResult>();
+        transient HousingApplication.PDFResult pdfResult;
 
-		if(pdfResult.status != 'OK'){
-			pdfResult.status = 'ERROR: ' + pdfResult.status;
-			gen.writeObjectField('pdfUrl', '');
-		} else {
-			pdfResults.add(pdfResult);
+        try {
+          pdfResult = hapForm.fetchPDFs(formData);
+        } catch (System.CalloutException e){
+          pdfResult = new HousingApplication.PDFResult();
+          pdfResult.status = '' + e;
+          pdfResult.building = '';
+        }
+        JSONGenerator gen = JSON.createGenerator(false);
+        gen.writeStartObject();
 
-			attachments = uploader.createAttachments(pdfResults, hapCaseId);
-			insert attachments;
-			for(Attachment a : attachments)
-				attachmentIds.add(a.Id);
+        if(pdfResult.status != 'OK'){
+            pdfResult.status = 'ERROR: ' + pdfResult.status;
+            gen.writeObjectField('pdfUrl', '');
+        } else {
+            pdfResults.add(pdfResult);
 
-			gen.writeObjectField('pdfUrl', URL.getSalesforceBaseUrl().toExternalForm() + '/' + attachments[0].Id);
-		}
+            attachments = uploader.createAttachments(pdfResults, hapCaseId);
+            insert attachments;
+            for(Attachment a : attachments)
+                attachmentIds.add(a.Id);
 
-		updateHapCase(applicationData);
-		insertApplication(buildingId);
+            gen.writeObjectField('pdfUrl', URL.getSalesforceBaseUrl().toExternalForm() + '/' + attachments[0].Id);
+        }
 
-		gen.writeObjectField('status', pdfResult.status);
-		gen.writeObjectField('building', pdfResult.building );
-		gen.writeEndObject();
-		fetchPdfResponse = gen.getAsString();
-	}
+        updateHapCase(applicationData);
+        insertApplication(buildingId);
 
-	public void uploadPDFsToBox(){
-		attachments = [
-			SELECT Id, Name, Body, ParentId
-			FROM Attachment
-			WHERE Id IN :attachmentIds
-		];
+        gen.writeObjectField('status', pdfResult.status);
+        gen.writeObjectField('building', pdfResult.building );
+        gen.writeEndObject();
+        fetchPdfResponse = gen.getAsString();
+    }
 
-		uploader.uploadAttachments(attachments);
-		uploader.commitChanges();
-		delete attachments;
-	}
+    public void uploadPDFsToBox(){
+        attachments = [
+            SELECT Id, Name, Body, ParentId
+            FROM Attachment
+            WHERE Id IN :attachmentIds
+        ];
 
-	public void updateHapCase(String appData){
-		hapForm.hapCase.Application_Data__c = appData;
-		update hapForm.hapCase;
-	}
+        uploader.uploadAttachments(attachments);
+        uploader.commitChanges();
+        delete attachments;
+    }
 
-	public void insertApplication(Id buildId){
-		Application__c app = new Application__c();
-		app.Social_Services_Case__c = hapCaseId;
-		app.Date_Completed__c = Date.today();
-		app.Building_Name__c = buildId;
-		app.Comments__c = 'Application generated by MegaApp©';
-		insert app;
-	}
+    public void updateHapCase(String appData){
+        hapForm.hapCase.Application_Data__c = appData;
+        update hapForm.hapCase;
+    }
+
+    public void insertApplication(Id buildId){
+        Application__c app = new Application__c();
+        app.Social_Services_Case__c = hapCaseId;
+        app.Date_Completed__c = Date.today();
+        app.Building_Name__c = buildId;
+        app.Comments__c = 'Application generated by MegaApp©';
+        insert app;
+    }
 }

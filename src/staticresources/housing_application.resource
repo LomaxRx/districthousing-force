@@ -2670,23 +2670,27 @@ var Nav = function (_Component2) {
           { className: 'try-again', href: '', onClick: this.reset },
           'try again'
         ),
-        completedPDFs.length > 0 && React.createElement(
+        React.createElement(
           'div',
           { className: 'completed-pdfs' },
-          completedPDFs.map(function (result) {
-            return React.createElement(
-              'div',
-              { className: 'completed-pdfs__item', onClick: function onClick() {
-                  _this3.navigateTo(result);
-                } },
-              React.createElement(
-                'h4',
-                null,
-                result.building
-              )
-            );
-          }),
-          React.createElement(
+          completedPDFs.length > 0 && React.createElement(
+            'div',
+            null,
+            completedPDFs.map(function (result) {
+              return React.createElement(
+                'div',
+                { className: 'completed-pdfs__item', onClick: function onClick() {
+                    _this3.navigateTo(result);
+                  } },
+                React.createElement(
+                  'h4',
+                  null,
+                  result.building
+                )
+              );
+            })
+          ),
+          failed.length > 0 && React.createElement(
             'div',
             { className: 'failures' },
             failed.map(function (f, i) {

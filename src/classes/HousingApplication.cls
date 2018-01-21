@@ -387,9 +387,9 @@ public class HousingApplication {
       req.setHeader('Accept', 'application/json');
       req.setHeader('Content-Type', 'application/json');
       req.setBody(formData);
-      req.setTimeout(60000);
+      req.setTimeout(120000);
 
-      HttpResponse res = h.send(req);
+      transient HttpResponse res = h.send(req);
       Map<String,Object> response = (Map<String,Object>)System.JSON.deserializeUntyped(res.getBody());
 
       PDFResult result = new PDFResult();

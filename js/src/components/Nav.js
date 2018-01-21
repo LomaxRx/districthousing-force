@@ -74,7 +74,7 @@ class Nav extends Component {
       window.open(pdfResult.pdfUrl);
     }
   }
-
+  
   reset = () => {
     let { dispatch } = this.props;
     dispatch({
@@ -144,25 +144,28 @@ class Nav extends Component {
         {status=='COMPLETE' &&
           <div className="try-again" href="" onClick={this.reset}>try again</div>
         }
+        <div className="completed-pdfs">
         {completedPDFs.length>0 &&
-          <div className="completed-pdfs">
+          <div>
             {completedPDFs.map((result)=>(
               <div className="completed-pdfs__item" onClick={()=>{this.navigateTo(result);}}>
                   <h4>{result.building}</h4>
               </div>
             ))}
-            <div className='failures'>
-              {failed.map((f,i)=>(
-                <div className='failure'>
-                  <em>failed to generate pdf for <b>{f.building.name}</b></em>
-                  <p className="error-msg">
-                    {f.status}
-                  </p>
-                </div>
-              ))}
-            </div>
+          </div>
+        }{failed.length>0 &&
+          <div className='failures'>
+            {failed.map((f,i)=>(
+              <div className='failure'>
+                <em>failed to generate pdf for <b>{f.building.name}</b></em>
+                <p className="error-msg">
+                  {f.status}
+                </p>
+              </div>
+            ))}
           </div>
         }
+        </div>
       </nav>
     )
   }

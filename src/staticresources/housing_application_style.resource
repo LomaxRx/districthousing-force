@@ -693,7 +693,7 @@ html.hidden-overflow {
       height: 335px; }
     #app #building-list h6.already-applied {
       display: block;
-      padding-top: 5px;
+      padding-top: 15px;
       border-top: 1px solid #dddddd; }
     #app #building-list .selected {
       background: #f2f3f7;

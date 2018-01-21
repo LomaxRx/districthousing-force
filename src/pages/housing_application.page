@@ -20,7 +20,7 @@
       This object is used to make actionFunctions available as a global object.
       These actions are used as makeshift async dispatch actions in React-Redux
     -->
-    <apex:form>
+    <apex:form >
       <apex:actionFunction action="{!fetchPDFs}" name="fetchPDFs" reRender="callback">
           <apex:param name="formData" assignTo="{!formData}" value="{!initialState}" />
           <apex:param name="applicationData" assignTo="{!applicationData}" value="" />
@@ -43,7 +43,7 @@
     <!-- makeshift callback functions after ApexActions call -->
     <apex:outputPanel id="callback">
       <script type="text/javascript">
-      if('{!fetchPdfResponse}' !== '') hapForm.pdfCallback({!fetchPdfResponse});
+      if({!LEN(fetchPdfResponse)} !== 0) hapForm.pdfCallback({!fetchPdfResponse});
       </script>
     </apex:outputPanel>
 
