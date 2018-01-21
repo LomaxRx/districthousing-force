@@ -41,9 +41,9 @@
     </script>
 
     <!-- makeshift callback functions after ApexActions call -->
-    <apex:outputPanel id="callback" rendered="{!IF(ISNULL(fetchPdfResponse), false, true)}">
+    <apex:outputPanel id="callback">
       <script type="text/javascript">
-        hapForm.pdfCallback('{!fetchPdfResponse}');
+      if('{!fetchPdfResponse}' !== '') hapForm.pdfCallback({!fetchPdfResponse});
       </script>
     </apex:outputPanel>
 

@@ -50,6 +50,12 @@ $max-height: calc(100vh - 200px);
     height: 335px;
   }
 
+  h6.already-applied {
+    display: block;
+    padding-top: 5px;
+    border-top: 1px solid #dddddd;
+  }
+
   .selected{
     background: #f2f3f7;
     height: 100vh;

@@ -24,7 +24,6 @@ public class HousingApplication {
     String driver_license_state;
     String driver_license_exp_date;
   }
-
   public class Person extends AbstractPerson{}
 
   public class Income {

@@ -83,6 +83,7 @@ nav {
     border-radius: 32px;
     text-align: center;
     color: $white;
+    line-height: 25px;
     padding: 0.25em;
     display: inline-block;
   }
@@ -99,6 +100,7 @@ nav {
     color: $blue;
     text-decoration: underline;
     text-align: center;
+    margin-top: 15px;
     cursor: pointer;
     font-size: 0.85em;
     @include transform(translate(-15%, -100%));

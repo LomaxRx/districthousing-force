@@ -248,6 +248,8 @@ html.hidden-overflow {
     top: 150px; }
     #app nav .nav-sections-wrapper {
       position: relative; }
+      #app nav .nav-sections-wrapper.hidden {
+        display: none; }
     #app nav .nav-sections:before {
       width: 0.5em;
       background: rgba(72, 72, 72, 0.15);
@@ -311,16 +313,75 @@ html.hidden-overflow {
       -ms-transform: translateX(-25%);
       -o-transform: translateX(-25%);
       transform: translateX(-25%); }
-    #app nav h3 {
+    #app nav .fetching {
+      height: 72px; }
+    #app nav .done-check {
       -webkit-transform: translateX(-25%);
       -moz-transform: translateX(-25%);
       -ms-transform: translateX(-25%);
       -o-transform: translateX(-25%);
       transform: translateX(-25%);
       background: rgba(0, 110, 167, 0.65);
+      width: 32px;
+      height: 32px;
+      border-radius: 32px;
+      text-align: center;
       color: #fff;
+      line-height: 25px;
       padding: 0.25em;
       display: inline-block; }
+    #app nav .completed-pdfs {
+      -webkit-transform: translateX(-15%);
+      -moz-transform: translateX(-15%);
+      -ms-transform: translateX(-15%);
+      -o-transform: translateX(-15%);
+      transform: translateX(-15%);
+      max-height: calc(100vh - 225px);
+      padding-top: 1px;
+      padding-bottom: 25px;
+      overflow-y: scroll; }
+    #app nav .try-again {
+      color: #006EA7;
+      text-decoration: underline;
+      text-align: center;
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 0.85em;
+      -webkit-transform: translate(-15%, -100%);
+      -moz-transform: translate(-15%, -100%);
+      -ms-transform: translate(-15%, -100%);
+      -o-transform: translate(-15%, -100%);
+      transform: translate(-15%, -100%); }
+    #app nav .completed-pdfs__item {
+      cursor: pointer;
+      position: relative;
+      padding: 10px;
+      padding-right: 30px;
+      margin-left: 1px;
+      margin-right: 1px;
+      background: white;
+      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1); }
+      #app nav .completed-pdfs__item h4 {
+        margin: 0;
+        color: rgba(72, 72, 72, 0.6);
+        line-height: 1em; }
+      #app nav .completed-pdfs__item:after {
+        display: block;
+        position: absolute;
+        text-align: center;
+        content: '➡';
+        right: 5px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        color: white;
+        background: rgba(0, 110, 167, 0.65); }
     #app nav .pdf-result a {
       display: block;
       position: relative;
@@ -356,7 +417,6 @@ html.hidden-overflow {
     #app nav .failure {
       margin-top: 10px;
       position: relative;
-      left: -1.5em;
       padding-bottom: 5px;
       border-bottom: 1px solid #dddddd; }
       #app nav .failure em {
@@ -602,18 +662,20 @@ html.hidden-overflow {
     left: 25px;
     top: 100px;
     right: 25px;
-    padding: 25px;
+    padding: 0px;
     min-height: 500px;
     max-height: calc(100vh - 200px);
     overflow: hidden;
     background: #fff;
     border-radius: 0px;
     box-shadow: 0px 0px 1px 0px #AFAFB1; }
-    #app #building-list h6 {
-      margin-bottom: 5px;
-      display: block; }
-    #app #building-list .eligibility {
-      width: 75%; }
+    #app #building-list .eligibility-header, #app #building-list .selected-header {
+      padding-bottom: 5px;
+      padding-top: 60px; }
+      #app #building-list .eligibility-header h4, #app #building-list .selected-header h4 {
+        margin-bottom: 10px; }
+    #app #building-list h4 {
+      margin: 0; }
     #app #building-list button {
       position: absolute;
       top: 25px;
@@ -627,10 +689,16 @@ html.hidden-overflow {
       margin-bottom: 25px;
       border-radius: 0px;
       padding-left: 0;
-      padding-right: 0; }
+      paddinwg-right: 0;
+      height: 335px; }
+    #app #building-list h6.already-applied {
+      display: block;
+      padding-top: 5px;
+      border-top: 1px solid #dddddd; }
+    #app #building-list .selected {
+      background: #f2f3f7;
+      height: 100vh; }
     #app #building-list .selected-buildings {
-      padding: 10px;
-      padding-right: 25px;
       padding-bottom: 100px;
       max-height: calc(100vh - 200px);
       overflow-y: scroll; }
@@ -638,19 +706,27 @@ html.hidden-overflow {
       position: relative;
       font-weight: 600;
       background: #fff;
-      border: 1px solid rgba(72, 72, 72, 0.25);
-      box-shadow: 0px 0px 1px 0px rgba(72, 72, 72, 0.15);
-      padding: 10px;
-      font-size: 12px;
-      margin: 5px 0; }
+      margin-left: 1px;
+      margin-right: 1px;
+      box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+      padding: 15px; }
+      #app #building-list .selected-building h4 {
+        color: rgba(72, 72, 72, 0.6);
+        line-height: 1em; }
       #app #building-list .selected-building .remove-selected-building {
+        font-size: 9px;
         position: absolute;
-        right: -10px;
-        top: -10px; }
+        right: 15px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%); }
     #app #building-list .building-options {
       max-height: calc(100vh - 200px);
       overflow-y: scroll;
-      border-right: 1px solid #AFAFB1;
+      box-shadow: 0px -1px 0 rgba(0, 0, 0, 0.15), 0px 1px 0 rgba(0, 0, 0, 0.15);
       padding: 15px;
       padding-bottom: 175px; }
     #app #building-list .building-details {

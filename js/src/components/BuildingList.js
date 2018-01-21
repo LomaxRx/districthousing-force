@@ -205,7 +205,7 @@ class BuildingList extends Component{
                 ))}
               </div>}
               {applied.length>0 && <div className="row">
-                <h6>Already Applied</h6>
+                <h6 className="already-applied">Already Applied</h6>
                 {applied.map((b,j)=>(
                   <Building building={b}/>
                 ))}

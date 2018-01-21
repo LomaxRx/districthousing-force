@@ -24,6 +24,7 @@ public class HousingApplicationController {
 		buildings = HousingApplication.getBuildingData(clientId);
 		attachments = new List<Attachment>();
 		attachmentIds = new List<Id>();
+		uploader = new HousingApplication.BoxPDFUploader();
 
 		JSONGenerator gen = JSON.createGenerator(false);
 		gen.writeStartObject();
@@ -52,7 +53,7 @@ public class HousingApplicationController {
 
 		if(pdfResult.status != 'OK'){
 			pdfResult.status = 'ERROR: ' + pdfResult.status;
-			gen.writeObjectField('pdfUrl', null);
+			gen.writeObjectField('pdfUrl', '');
 		} else {
 			pdfResults.add(pdfResult);
 
@@ -83,7 +84,6 @@ public class HousingApplicationController {
 		uploader.uploadAttachments(attachments);
 		uploader.commitChanges();
 		delete attachments;
-		status = 'COMPLETE';
 	}
 
 	public void updateHapCase(String appData){

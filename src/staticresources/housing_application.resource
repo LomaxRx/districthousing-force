@@ -2538,32 +2538,58 @@ var Nav = function (_Component2) {
         return;
       }
       dispatch({
-        type: 'SET_QUEUE',
+        type: 'SET_PDF_QUEUE',
         queue: selectedBuildings
+      });
+
+      dispatch({
+        type: 'SET_STATUS',
+        status: 'READY_TO_FETCH'
       });
     }, _this2.uploadToBox = function () {
       var dispatch = _this2.props.dispatch;
 
       dispatch({ type: 'SET_STATUS', status: 'FETCHING' });
       apexActions.uploadPDFsToBox();
+    }, _this2.navigateTo = function (pdfResult) {
+      if (pdfResult.pdfUrl.indexOf('data:application/pdf;base64') != -1) {
+        var iframe = "<iframe width='100%' height='100%' src='" + pdfResult.pdfUrl + "'></iframe>";
+        var pdf = window.open();
+        pdf.document.write(iframe);
+      } else {
+        window.open(pdfResult.pdfUrl);
+      }
+    }, _this2.reset = function () {
+      var dispatch = _this2.props.dispatch;
+
+      dispatch({
+        type: 'SET_STATUS',
+        status: 'READY'
+      });
+      dispatch({
+        type: 'CLEAR_COMPLETED_PDFS'
+      });
     }, _temp2), possibleConstructorReturn(_this2, _ret2);
   }
 
   createClass(Nav, [{
     key: 'render',
     value: function render$$1() {
+      var _this3 = this;
+
       var _props2 = this.props,
           failed = _props2.failed,
           status = _props2.status,
           fetching = _props2.fetching,
-          selectedBuildings = _props2.selectedBuildings;
+          selectedBuildings = _props2.selectedBuildings,
+          completedPDFs = _props2.completedPDFs;
 
       return React.createElement(
         'nav',
         null,
         React.createElement(
           'div',
-          { className: 'nav-sections-wrapper' },
+          { className: "nav-sections-wrapper " + (status == 'FETCHING' || status == 'COMPLETE' ? 'hidden' : '') },
           React.createElement(
             'div',
             { className: 'nav-sections' },
@@ -2632,32 +2658,59 @@ var Nav = function (_Component2) {
         status == 'COMPLETE' && React.createElement(
           'h3',
           null,
-          'Done.'
+          React.createElement(
+            'span',
+            { className: 'done-check' },
+            '\u2714'
+          ),
+          ' All Done.'
         ),
-        React.createElement(
+        status == 'COMPLETE' && React.createElement(
           'div',
-          { className: 'failures' },
-          failed.map(function (f, i) {
+          { className: 'try-again', href: '', onClick: this.reset },
+          'try again'
+        ),
+        completedPDFs.length > 0 && React.createElement(
+          'div',
+          { className: 'completed-pdfs' },
+          completedPDFs.map(function (result) {
             return React.createElement(
               'div',
-              { className: 'failure' },
+              { className: 'completed-pdfs__item', onClick: function onClick() {
+                  _this3.navigateTo(result);
+                } },
               React.createElement(
-                'em',
+                'h4',
                 null,
-                'failed to generate pdf for ',
-                React.createElement(
-                  'b',
-                  null,
-                  f.building.name
-                )
-              ),
-              React.createElement(
-                'p',
-                { className: 'error-msg' },
-                f.status
+                result.building
               )
             );
-          })
+          }),
+          React.createElement(
+            'div',
+            { className: 'failures' },
+            failed.map(function (f, i) {
+              return React.createElement(
+                'div',
+                { className: 'failure' },
+                React.createElement(
+                  'em',
+                  null,
+                  'failed to generate pdf for ',
+                  React.createElement(
+                    'b',
+                    null,
+                    f.building.name
+                  )
+                ),
+                React.createElement(
+                  'p',
+                  { className: 'error-msg' },
+                  f.status
+                )
+              );
+            })
+          )
         )
       );
     }
@@ -2670,8 +2723,9 @@ var mapStateToProps$9 = function mapStateToProps(state) {
     status: state.status,
     failed: state.failed,
     selectedBuildings: state.selectedBuildings,
-    fetchQueue: state.fetchQueue,
-    fetching: state.fetching
+    pdfQueue: state.pdfQueue,
+    fetching: state.fetching,
+    completedPDFs: state.completedPDFs
   };
 };
 
@@ -2714,20 +2768,16 @@ var SelectedBuilding = function (_Component) {
 
       return React.createElement(
         'div',
-        { className: 'selected-building-wrapper' },
+        { className: 'selected-building' },
         React.createElement(
-          'div',
-          { className: 'selected-building' },
-          React.createElement(
-            'h4',
-            null,
-            name
-          ),
-          React.createElement(
-            'button',
-            { className: 'remove-selected-building remove-button', onClick: this.removeBuildingFromForm },
-            'X'
-          )
+          'h4',
+          null,
+          name
+        ),
+        React.createElement(
+          'button',
+          { className: 'remove-selected-building remove-button', onClick: this.removeBuildingFromForm },
+          'X'
         )
       );
     }
@@ -2937,17 +2987,16 @@ var BuildingList = function (_Component3) {
 
       var filtered = buildings.filter(function (b) {
         if (waitlist_open && !b.waitlist_open) return false;
-        if (!b.eligibility.rooms_available) return false;
         if (!mobility_impairment && age < 62 && b.eligibility.mobility_impairment === true) return false;
         if (!disability && b.eligibility.disability === true) return false;
-        if (b.eligibility.minimum_age_with_disability) {
+        if (b.eligibility.minimum_age_with_disability && age) {
           if (disability && age < b.eligibility.minimum_age_with_disability) return false;
         }
-        if (b.eligibility.minimum_age_without_disability) {
+        if (b.eligibility.minimum_age_without_disability && age) {
           if (!disability && age < b.eligibility.minimum_age_without_disability) return false;
         }
         if (rooms_requested != '' && rooms_requested !== null) {
-          if (b.eligibility.rooms_available.indexOf(rooms_requested) == -1) return false;
+          if (b.bedrooms_open.indexOf(rooms_requested) == -1) return false;
         }
 
         return true;
@@ -3022,143 +3071,147 @@ var BuildingList = function (_Component3) {
         ),
         React.createElement(
           'div',
-          { className: 'eligibility' },
-          React.createElement(
-            'h6',
-            null,
-            'Filter by'
-          ),
+          { className: 'row' },
           React.createElement(
             'div',
-            { className: 'eligibility-inputs row' },
+            { className: 'eligibility-header col-md-9' },
             React.createElement(
-              'div',
-              { className: 'field col-md-3' },
-              React.createElement(
-                'label',
-                null,
-                'Mobility Impairment'
-              ),
-              React.createElement('input', { type: 'checkbox', value: mobility_impairment, checked: mobility_impairment, onChange: function onChange(e) {
-                  _this4.setElig('mobility_impairment', !mobility_impairment);
-                } })
+              'h4',
+              null,
+              'Filter by'
             ),
             React.createElement(
               'div',
-              { className: 'field col-md-3' },
+              { className: 'eligibility-inputs row' },
               React.createElement(
-                'label',
-                null,
-                'Disability'
-              ),
-              React.createElement('input', { type: 'checkbox', value: disability, checked: disability, onChange: function onChange(e) {
-                  _this4.setElig('disability', !disability);
-                } })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field col-md-2' },
-              React.createElement(
-                'label',
-                null,
-                'Age'
-              ),
-              React.createElement('input', { type: 'text', value: age, onChange: function onChange(e) {
-                  _this4.setElig('age', e.target.value);
-                } })
-            ),
-            React.createElement(
-              'div',
-              { className: 'field col-md-2' },
-              React.createElement(
-                'label',
-                null,
-                'Rooms Needed'
+                'div',
+                { className: 'field col-md-3' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Mobility Impairment'
+                ),
+                React.createElement('input', { type: 'checkbox', value: mobility_impairment, checked: mobility_impairment, onChange: function onChange(e) {
+                    _this4.setElig('mobility_impairment', !mobility_impairment);
+                  } })
               ),
               React.createElement(
-                'select',
-                { onChange: function onChange(e) {
-                    _this4.setElig('rooms_requested', e.target.value);
-                  } },
-                React.createElement('option', { value: '', selected: rooms_requested == "" || rooms_requested == null }),
+                'div',
+                { className: 'field col-md-3' },
                 React.createElement(
-                  'option',
-                  { value: '1', selected: rooms_requested == "1" },
-                  '1'
+                  'label',
+                  null,
+                  'Disability'
+                ),
+                React.createElement('input', { type: 'checkbox', value: disability, checked: disability, onChange: function onChange(e) {
+                    _this4.setElig('disability', !disability);
+                  } })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Age'
+                ),
+                React.createElement('input', { type: 'text', value: age, onChange: function onChange(e) {
+                    _this4.setElig('age', e.target.value);
+                  } })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Rooms Needed'
                 ),
                 React.createElement(
-                  'option',
-                  { value: '2', selected: rooms_requested == "2" },
-                  '2'
-                ),
-                React.createElement(
-                  'option',
-                  { value: '3', selected: rooms_requested == "3" },
-                  '3'
-                ),
-                React.createElement(
-                  'option',
-                  { value: '4', selected: rooms_requested == "4" },
-                  '4'
-                ),
-                React.createElement(
-                  'option',
-                  { value: '5', selected: rooms_requested == "5" },
-                  '5'
+                  'select',
+                  { onChange: function onChange(e) {
+                      _this4.setElig('rooms_requested', e.target.value);
+                    } },
+                  React.createElement('option', { value: '', selected: rooms_requested == "" || rooms_requested == null }),
+                  React.createElement(
+                    'option',
+                    { value: '1', selected: rooms_requested == "1" },
+                    '1'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: '2', selected: rooms_requested == "2" },
+                    '2'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: '3', selected: rooms_requested == "3" },
+                    '3'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: '4', selected: rooms_requested == "4" },
+                    '4'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: '5', selected: rooms_requested == "5" },
+                    '5'
+                  )
                 )
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-2' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Open Waitlist'
+                ),
+                React.createElement('input', { type: 'checkbox', value: waitlist_open, checked: waitlist_open, onChange: function onChange(e) {
+                    _this4.setElig('waitlist_open', !waitlist_open);
+                  } })
               )
             ),
             React.createElement(
               'div',
-              { className: 'field col-md-2' },
-              React.createElement(
-                'label',
-                null,
-                'Open Waitlist'
+              { className: 'building-options' },
+              options.length > 0 && React.createElement(
+                'div',
+                { className: 'row' },
+                options.map(function (b, j) {
+                  return React.createElement(Building, { building: b });
+                })
               ),
-              React.createElement('input', { type: 'checkbox', value: waitlist_open, checked: waitlist_open, onChange: function onChange(e) {
-                  _this4.setElig('waitlist_open', !waitlist_open);
-                } })
-            )
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'row column-wrapper' },
-          React.createElement(
-            'div',
-            { className: 'col-md-9 building-options' },
-            React.createElement(
-              'div',
-              { className: 'row' },
-              options.map(function (b, j) {
-                return React.createElement(Building, { building: b });
-              })
-            ),
-            applied.length && React.createElement(
-              'h6',
-              null,
-              'Already Applied'
-            ),
-            React.createElement(
-              'div',
-              { className: 'row' },
-              applied.map(function (b, j) {
-                return React.createElement(Building, { building: b });
-              })
+              applied.length > 0 && React.createElement(
+                'div',
+                { className: 'row' },
+                React.createElement(
+                  'h6',
+                  { className: 'already-applied' },
+                  'Already Applied'
+                ),
+                applied.map(function (b, j) {
+                  return React.createElement(Building, { building: b });
+                })
+              )
             )
           ),
           React.createElement(
             'div',
-            { className: 'col-md-3 selected-buildings' },
+            { className: 'selected col-md-3' },
             React.createElement(
-              'h6',
-              null,
-              'Selected'
+              'div',
+              { className: 'selected-header' },
+              React.createElement(
+                'h4',
+                null,
+                'Selected'
+              )
             ),
             React.createElement(
               'div',
-              { className: 'row' },
+              { className: 'selected-buildings' },
               selectedBuildings.map(function (s, i) {
                 return React.createElement(SelectedBuilding, { index: i, building: s });
               })
@@ -3231,7 +3284,7 @@ var status = function status() {
   switch (action.type) {
     case 'SET_STATUS':
       return action.status;
-    case 'SHIFT_QUEUE':
+    case 'SET_FETCHING_AND_SHIFT_QUEUE':
       return 'FETCHING';
     default:
       return state;
@@ -3243,23 +3296,11 @@ var fetching = function fetching() {
   var action = arguments[1];
 
   switch (action.type) {
-    case 'SHIFT_QUEUE':
+    case 'SET_FETCHING_AND_SHIFT_QUEUE':
       return action.building;
     case 'SET_STATUS':
       if (action.status == 'COMPLETE') return {};
       return state;
-    default:
-      return state;
-  }
-};
-
-var pdfResults = function pdfResults() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case 'SET_PDF_RESULTS':
-      return [].concat(toConsumableArray(action.pdfResults));
     default:
       return state;
   }
@@ -3296,6 +3337,20 @@ var buildings = function buildings() {
   switch (action.type) {
     case 'SET_BUILDING_DATA':
       return action.buildings;
+    default:
+      return state;
+  }
+};
+
+var completedPDFs = function completedPDFs() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'COMPLETED_PDF':
+      return [].concat(toConsumableArray(state), [action.result]);
+    case 'CLEAR_COMPLETED_PDFS':
+      return [];
     default:
       return state;
   }
@@ -3350,14 +3405,14 @@ var fetchingBuilding = function fetchingBuilding() {
   }
 };
 
-var fetchQueue = function fetchQueue() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+var pdfQueue = function pdfQueue() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
   var action = arguments[1];
 
   switch (action.type) {
-    case 'SET_QUEUE':
+    case 'SET_PDF_QUEUE':
       return [].concat(toConsumableArray(action.queue));
-    case 'SHIFT_QUEUE':
+    case 'SET_FETCHING_AND_SHIFT_QUEUE':
       var queue = [].concat(toConsumableArray(state));
       queue.shift();
       return queue;
@@ -3373,6 +3428,8 @@ var failed = function failed() {
   switch (action.type) {
     case 'ADD_FAILURE':
       return [].concat(toConsumableArray(state), [{ building: _extends({}, action.building), status: action.status }]);
+    case 'CLEAR_COMPLETED_PDFS':
+      return [];
     default:
       return state;
   }
@@ -3398,7 +3455,6 @@ var buildingListActive = function buildingListActive() {
 
 var reducers = Object.freeze({
 	status: status,
-	pdfResults: pdfResults,
 	scrollPosition: scrollPosition,
 	inViewSection: inViewSection,
 	eligibility: eligibility,
@@ -3407,8 +3463,9 @@ var reducers = Object.freeze({
 	buildingListActive: buildingListActive,
 	fetchingBuilding: fetchingBuilding,
 	fetching: fetching,
-	fetchQueue: fetchQueue,
-	failed: failed
+	pdfQueue: pdfQueue,
+	failed: failed,
+	completedPDFs: completedPDFs
 });
 
 var App = function (_Component) {
@@ -3464,13 +3521,13 @@ var HapForm = function () {
       var _store$getState = _this2.store.getState(),
           selectedBuildings$$1 = _store$getState.selectedBuildings,
           status$$1 = _store$getState.status,
-          fetchQueue$$1 = _store$getState.fetchQueue,
+          pdfQueue$$1 = _store$getState.pdfQueue,
           formData = _store$getState.formData;
 
-      var building = fetchQueue$$1[0];
+      var building = pdfQueue$$1[0];
 
       dispatch({
-        type: 'SHIFT_QUEUE',
+        type: 'SET_FETCHING_AND_SHIFT_QUEUE',
         building: building
       });
 
@@ -3490,7 +3547,7 @@ var HapForm = function () {
       apexActions.fetchPDFs(submitDataString, JSON.stringify(submitData.applicant), building.salesforceId);
     };
 
-    // make archived data compatible with new models
+    // make archived data compatible with new models by merging old and new models
     state.form = _extends({}, initialState.form, state.form);
     this.store = redux.createStore(redux.combineReducers(_extends({}, reducers, {
       formData: reactReduxForm.combineForms(state.form, 'formData')
@@ -3502,69 +3559,63 @@ var HapForm = function () {
       React.createElement(App, null)
     ), document.getElementById(idSelector));
 
+    this.setFetchQueue();
     this.setEligibility(state.eligibility);
     this.setBuildings(state.buildings);
     this.addScrollListener();
-
-    var queueLen = 0;
-    this.store.subscribe(function () {
-      var _store$getState2 = _this2.store.getState(),
-          fetchQueue$$1 = _store$getState2.fetchQueue,
-          status$$1 = _store$getState2.status;
-
-      var queue = fetchQueue$$1;
-
-      if (queue.length === queueLen) {
-        return;
-      } else if (queue.length > 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY' || status$$1.indexOf('ERROR') != -1)) {
-        queueLen = queue.length;
-        _this2.fetchBuilding();
-      } else if (queue.length === 0 && (status$$1 == 'PDF_FETCHED' || status$$1 == 'READY' || status$$1.indexOf('ERROR') != -1)) {
-        queueLen = 0;
-        _this2.store.dispatch({
-          type: 'SET_STATUS',
-          status: 'COMPLETE'
-        });
-      }
-    });
   }
 
   createClass(HapForm, [{
-    key: 'addScrollListener',
-    value: function addScrollListener() {
-      var dispatch = this.store.dispatch;
+    key: 'setFetchQueue',
+    value: function setFetchQueue() {
+      var _this3 = this;
 
+      /**
+        Fetch next building when status changes
+        to READY_TO_FETCH
+      **/
+      var currentStatus = void 0;
+      this.store.subscribe(function () {
+        var prevStatus = currentStatus;
 
-      window.addEventListener('scroll', function (e) {
-        dispatch({
-          type: 'SET_SCROLL_POSITION',
-          scrollPosition: window.scrollTop || window.pageYOffset
-        });
+        var _store$getState2 = _this3.store.getState(),
+            status$$1 = _store$getState2.status,
+            pdfQueue$$1 = _store$getState2.pdfQueue;
+
+        currentStatus = status$$1;
+
+        if (currentStatus == prevStatus) return;
+        if (currentStatus != 'READY_TO_FETCH') return;
+
+        if (pdfQueue$$1.length === 0) {
+          _this3.store.dispatch({
+            type: 'SET_STATUS',
+            status: 'COMPLETE'
+          });
+        } else {
+          _this3.fetchBuilding();
+        }
       });
     }
   }, {
-    key: 'setPDFResults',
-    value: function setPDFResults(pdfResults$$1) {
-      var dispatch = this.store.dispatch;
-
-      dispatch({ type: 'SET_PDF_RESULTS', pdfResults: pdfResults$$1 });
-    }
-  }, {
-    key: 'setStatus',
-    value: function setStatus(status$$1) {
+    key: 'pdfCallback',
+    value: function pdfCallback(result) {
       var dispatch = this.store.dispatch;
 
       var _store$getState3 = this.store.getState(),
           fetching$$1 = _store$getState3.fetching;
 
-      if (status$$1.indexOf('ERROR') != -1) {
+      console.log(result);
+      if (result.status.indexOf('ERROR') != -1) {
         dispatch({
           type: 'ADD_FAILURE',
           building: fetching$$1,
-          status: status$$1
+          status: result.status
         });
+      } else {
+        dispatch({ type: 'COMPLETED_PDF', result: result });
       }
-      dispatch({ type: 'SET_STATUS', status: status$$1 });
+      dispatch({ type: 'SET_STATUS', status: 'READY_TO_FETCH' });
     }
   }, {
     key: 'setEligibility',
@@ -3579,6 +3630,19 @@ var HapForm = function () {
       var dispatch = this.store.dispatch;
 
       dispatch({ type: 'SET_BUILDING_DATA', buildings: buildings$$1 });
+    }
+  }, {
+    key: 'addScrollListener',
+    value: function addScrollListener() {
+      var dispatch = this.store.dispatch;
+
+
+      window.addEventListener('scroll', function (e) {
+        dispatch({
+          type: 'SET_SCROLL_POSITION',
+          scrollPosition: window.scrollTop || window.pageYOffset
+        });
+      });
     }
   }]);
   return HapForm;

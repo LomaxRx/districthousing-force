@@ -123,6 +123,7 @@ export default class HapForm{
     pdfCallback(result){
       let { dispatch } = this.store;
       let { fetching } = this.store.getState();
+      console.log(result);
       if(result.status.indexOf('ERROR')!=-1){
         dispatch({
           type: 'ADD_FAILURE',
