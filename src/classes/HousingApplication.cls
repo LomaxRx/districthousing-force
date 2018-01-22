@@ -310,6 +310,7 @@ public class HousingApplication {
      // blech!!
      if(c.Emergency_Contact_Name__c != null || c.Emergency_Contact_Email__c != null || c.Emergency_Contact_Phone__c != null || c.Emergency_Contact_Relationship__c != null || c.Emergency_Contact_Mailing_Address__c != null){
        Contact emergency_contact = new Contact();
+       emergency_contact.contact_type = 'Emergency';
        emergency_contact.first_name = c.Emergency_Contact_Name__c;
        emergency_contact.relationship = c.Emergency_Contact_Relationship__c;
        emergency_contact.home_phone = c.Emergency_Contact_Phone__c;
@@ -322,6 +323,7 @@ public class HousingApplication {
    private void mapReferenceContact(Case__c c){
      if(c.Reference_Contact_Name__c != null || c.Reference_Contact_Email__c != null || c.Reference_Contact_Phone__c != null || c.Reference_Contact_Relationship_to_Client__c != null){
        Contact reference_contact = new Contact();
+       reference_contact.contact_type = 'Reference';
        reference_contact.first_name = c.Reference_Contact_Name__c;
        reference_contact.relationship = c.Reference_Contact_Relationship_to_Client__c;
        reference_contact.home_phone = c.Reference_Contact_Phone__c;

@@ -2298,7 +2298,7 @@ var ContactForm = function (_Component) {
                 React.createElement(
                   'label',
                   null,
-                  'Relationship'
+                  'Type'
                 ),
                 React.createElement(
                   reactReduxForm.Control.select,

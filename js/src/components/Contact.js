@@ -43,7 +43,7 @@ class ContactForm extends Component {
             </div>
             <div className='row'>
               <div className="field col-md-4">
-                <label>Relationship</label>
+                <label>Type</label>
                 <Control.select model='.contact_type'>
                   <option value=''></option>
                   <option value='Emergency'>Emergency</option>

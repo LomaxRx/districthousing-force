@@ -4,7 +4,7 @@ private class HousingApplicationTest {
 	@testSetup static void setup(){
 		Client__c client = new Client__c(
 			Name='Testy Test', First_Name__c='Testy', Last_Name__c='Test',
-			DOB__c=Date.today()
+			DOB__c=Date.today(), Emergency_Contact_Name__c='Fake Emergency Contact Name'
 		);
 
 		insert client;
@@ -19,7 +19,8 @@ private class HousingApplicationTest {
 			Amount__c=600.89, client__c=client.Id
 		);
 		Case__c hapCase = new Case__c(
-			client__c=client.Id, RecordTypeId=Schema.SObjectType.Case__c.getRecordTypeInfosByName().get('HAP').getRecordTypeId()
+			client__c=client.Id, RecordTypeId=Schema.SObjectType.Case__c.getRecordTypeInfosByName().get('HAP').getRecordTypeId(),
+			Reference_Contact_Name__c='Fake Reference Contact name', Crime_Type__c='Jay walking', Employment_Position__c='CEO'
 		);
 
 		insert address; insert member; insert income; insert hapCase;
