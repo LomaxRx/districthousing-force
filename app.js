@@ -362,6 +362,7 @@ var models = {
 		"first_name": '',
 		"relationship": '',
 		"cell_phone": '',
+		"contact_type": '',
 		"address": {
 			"street": '',
 			"state": '',
@@ -2293,7 +2294,31 @@ var ContactForm = function (_Component) {
               { className: 'row' },
               React.createElement(
                 'div',
-                { className: 'field' },
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Type'
+                ),
+                React.createElement(
+                  reactReduxForm.Control.select,
+                  { model: '.contact_type' },
+                  React.createElement('option', { value: '' }),
+                  React.createElement(
+                    'option',
+                    { value: 'Emergency' },
+                    'Emergency'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Reference' },
+                    'Reference'
+                  )
+                )
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-8' },
                 React.createElement(
                   'label',
                   null,
@@ -2670,23 +2695,27 @@ var Nav = function (_Component2) {
           { className: 'try-again', href: '', onClick: this.reset },
           'try again'
         ),
-        completedPDFs.length > 0 && React.createElement(
+        React.createElement(
           'div',
           { className: 'completed-pdfs' },
-          completedPDFs.map(function (result) {
-            return React.createElement(
-              'div',
-              { className: 'completed-pdfs__item', onClick: function onClick() {
-                  _this3.navigateTo(result);
-                } },
-              React.createElement(
-                'h4',
-                null,
-                result.building
-              )
-            );
-          }),
-          React.createElement(
+          completedPDFs.length > 0 && React.createElement(
+            'div',
+            null,
+            completedPDFs.map(function (result) {
+              return React.createElement(
+                'div',
+                { className: 'completed-pdfs__item', onClick: function onClick() {
+                    _this3.navigateTo(result);
+                  } },
+                React.createElement(
+                  'h4',
+                  null,
+                  result.building
+                )
+              );
+            })
+          ),
+          failed.length > 0 && React.createElement(
             'div',
             { className: 'failures' },
             failed.map(function (f, i) {
@@ -3188,7 +3217,7 @@ var BuildingList = function (_Component3) {
                 { className: 'row' },
                 React.createElement(
                   'h6',
-                  null,
+                  { className: 'already-applied' },
                   'Already Applied'
                 ),
                 applied.map(function (b, j) {
@@ -3605,6 +3634,7 @@ var HapForm = function () {
       var _store$getState3 = this.store.getState(),
           fetching$$1 = _store$getState3.fetching;
 
+      console.log(result);
       if (result.status.indexOf('ERROR') != -1) {
         dispatch({
           type: 'ADD_FAILURE',
