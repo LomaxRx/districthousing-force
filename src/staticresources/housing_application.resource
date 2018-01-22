@@ -362,6 +362,7 @@ var models = {
 		"first_name": '',
 		"relationship": '',
 		"cell_phone": '',
+		"contact_type": '',
 		"address": {
 			"street": '',
 			"state": '',
@@ -2293,7 +2294,31 @@ var ContactForm = function (_Component) {
               { className: 'row' },
               React.createElement(
                 'div',
-                { className: 'field' },
+                { className: 'field col-md-4' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Relationship'
+                ),
+                React.createElement(
+                  reactReduxForm.Control.select,
+                  { model: '.contact_type' },
+                  React.createElement('option', { value: '' }),
+                  React.createElement(
+                    'option',
+                    { value: 'Emergency' },
+                    'Emergency'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Reference' },
+                    'Reference'
+                  )
+                )
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-8' },
                 React.createElement(
                   'label',
                   null,

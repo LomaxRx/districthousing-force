@@ -24,7 +24,6 @@ public class HousingApplication {
     String driver_license_state;
     String driver_license_exp_date;
   }
-  public class Person extends AbstractPerson{}
 
   public class Income {
     Integer id;
@@ -68,8 +67,11 @@ public class HousingApplication {
   public class Contact extends AbstractPerson {
     Integer id;
     String relationship;
+    String contact_type; // Emergency or Reference.
     Address address = new Address();
   }
+
+  public class Person extends AbstractPerson{}
 
   public class Employment {
     Integer id;
@@ -231,7 +233,11 @@ public class HousingApplication {
       client = new ClientData();
 
       hapCase = [
-       SELECT Id, Name, Wheelchair__c, Disability__c, Age__c, Bedrooms_Needed__c, Application_Data__c
+       SELECT Id, Name, Wheelchair__c, Disability__c, Age__c, Bedrooms_Needed__c, Application_Data__c,
+       Reference_Contact_Relationship_to_Client__c, Reference_Contact_Name__c,
+       Reference_Contact_Phone__c, Reference_Contact_Email__c, State_of_Crime__c, Description_of_Crime__c,
+       Year_of_Crime__c, Crime_Type__c, Start_Date__c, End_Date__c, Employer_Name__c, Supervisor_Name__c,
+       Employment_Position__c, Employment_Verification_Phone_No__c, Employment_Status__c
        FROM Case__c WHERE Id=:hapCaseId LIMIT 1
       ];
 
@@ -240,7 +246,9 @@ public class HousingApplication {
         Alternate_Phone__c, Alternate_Phone_Type__c, Primary_Phone__c, Primary_Phone_Type__c,
         City_of_Birth__c, State_of_Birth__c, Country_of_Birth__c, DOB__c, Drivers_License_Number__c,
         Drivers_License_State__c, Ethnicity__c, Gender__c, Hispanic__c, Marital_Status__c,
-        Student_Status__c, Race__c, SSN__c, Occupation__c
+        Student_Status__c, Race__c, SSN__c, Occupation__c, Emergency_Contact_Relationship__c, Emergency_Contact_Name__c,
+        Emergency_Contact_Mailing_Address__c, Emergency_Contact_Phone__c, Emergency_Contact_Email__c,
+        Immigrant_Status__c
         FROM Client__c
         WHERE id=:clientId
       ];
@@ -253,6 +261,10 @@ public class HousingApplication {
         client.eligibility.rooms_requested = hapCase.Bedrooms_Needed__c;
         client.eligibility.age = hapCase.Age__c;
         mapPerson(clients[0]);
+        mapEmergencyContact(clients[0]);
+        mapReferenceContact(hapCase);
+        mapEmployment(hapCase);
+        mapCriminalHistory(hapCase);
         mapIncome(clientId);
         mapAddress(clientId);
         mapHouseholdMember(clientId);
@@ -294,6 +306,54 @@ public class HousingApplication {
 
     }
 
+   private void mapEmergencyContact(Client__c c){
+     // blech!!
+     if(c.Emergency_Contact_Name__c != null || c.Emergency_Contact_Email__c != null || c.Emergency_Contact_Phone__c != null || c.Emergency_Contact_Relationship__c != null || c.Emergency_Contact_Mailing_Address__c != null){
+       Contact emergency_contact = new Contact();
+       emergency_contact.first_name = c.Emergency_Contact_Name__c;
+       emergency_contact.relationship = c.Emergency_Contact_Relationship__c;
+       emergency_contact.home_phone = c.Emergency_Contact_Phone__c;
+       emergency_contact.email = c.Emergency_Contact_Email__c;
+       emergency_contact.address.street = c.Emergency_Contact_Mailing_Address__c;
+       data.contacts.add(emergency_contact);
+     }
+   }
+
+   private void mapReferenceContact(Case__c c){
+     if(c.Reference_Contact_Name__c != null || c.Reference_Contact_Email__c != null || c.Reference_Contact_Phone__c != null || c.Reference_Contact_Relationship_to_Client__c != null){
+       Contact reference_contact = new Contact();
+       reference_contact.first_name = c.Reference_Contact_Name__c;
+       reference_contact.relationship = c.Reference_Contact_Relationship_to_Client__c;
+       reference_contact.home_phone = c.Reference_Contact_Phone__c;
+       reference_contact.email = c.Reference_Contact_Email__c;
+       data.contacts.add(reference_contact);
+     }
+   }
+
+   private void mapCriminalHistory(Case__c c){
+     if(c.State_of_Crime__c != null || c.Description_of_Crime__c != null || c.Crime_Type__c != null || c.Year_of_Crime__c != null){
+       CriminalHistory history = new CriminalHistory();
+       history.state = c.State_of_Crime__c;
+       history.description = c.Description_of_Crime__c;
+       if(c.Year_of_Crime__c != null) history.year = c.Year_of_Crime__c.intValue();
+       history.crime_type = c.Crime_Type__c;
+       data.criminal_histories.add(history);
+     }
+   }
+
+   private void mapEmployment(Case__c c){
+     if(c.Start_Date__c != null || c.End_Date__c != null || c.Employer_Name__c != null || c.Supervisor_Name__c != null || c.Employment_Position__c != null || c.Employment_Verification_Phone_No__c != null || c.Employment_Status__c != null){
+       Employment history = new Employment();
+       history.start_date = c.Start_Date__c;
+       history.end_date = c.End_Date__c;
+       history.employer_name = c.Employer_Name__c;
+       history.position = c.Employment_Position__c;
+       history.phone = c.Employment_Verification_Phone_No__c;
+       if(c.Employment_Status__c == 'Part time') history.part_time = True;
+       data.employments.add(history);
+     }
+   }
+
     private void mapIncome(Id clientId){
       client.incomes = [
         SELECT Id, RecordType.Name, Amount__c, Type__c
@@ -315,9 +375,10 @@ public class HousingApplication {
 
     private void mapAddress(Id clientId){
       client.addresses = [
-        SELECT Id, Name, Address_2__c, City__c, State__c, Zip_Code__c,
+        SELECT Id, Name, Address_2__c, City__c, State__c, Zip_Code__c, Landlord_Email__c,
         Landlord_Name__c, Landlord_Cell_Phone__c, Landlord_Home_Phone__c, Landlord_Work_Phone__c,
-        Current_Address__c, Start_Date__c, End_Date__c, Address_Type__c
+        Current_Address__c, Start_Date__c, End_Date__c, Address_Type__c, Reason_for_leaving__c,
+        Total_Rent__c
         FROM Address__c
         WHERE Client__c=:clientId
       ];
@@ -356,7 +417,7 @@ public class HousingApplication {
 
     private void mapHouseholdMember(Id clientId){
       client.household_members = [
-        SELECT Id, Name, DOB__c, Relationship__c
+        SELECT Id, Name, DOB__c, Relationship__c, Email_Address__c, Phone_Number__c
         FROM Household_Members__c
         WHERE Client__c=:clientId
       ];

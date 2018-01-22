@@ -42,7 +42,15 @@ class ContactForm extends Component {
               </div>
             </div>
             <div className='row'>
-              <div className="field">
+              <div className="field col-md-4">
+                <label>Relationship</label>
+                <Control.select model='.contact_type'>
+                  <option value=''></option>
+                  <option value='Emergency'>Emergency</option>
+                  <option value='Reference'>Reference</option>
+                </Control.select>
+              </div>
+              <div className="field col-md-8">
                 <label>Relationship</label>
                 <Control.select model='.relationship'>
                   <option value=''></option>

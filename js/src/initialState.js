@@ -236,6 +236,7 @@ export let models = {
 		"first_name": '',
 		"relationship": '',
 		"cell_phone": '',
+		"contact_type": '',
 		"address": {
 			"street": '',
 			"state": '',
