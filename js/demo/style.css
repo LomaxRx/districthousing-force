@@ -327,6 +327,7 @@ html.hidden-overflow {
       border-radius: 32px;
       text-align: center;
       color: #fff;
+      line-height: 25px;
       padding: 0.25em;
       display: inline-block; }
     #app nav .completed-pdfs {
@@ -343,6 +344,7 @@ html.hidden-overflow {
       color: #006EA7;
       text-decoration: underline;
       text-align: center;
+      margin-top: 15px;
       cursor: pointer;
       font-size: 0.85em;
       -webkit-transform: translate(-15%, -100%);
@@ -689,6 +691,10 @@ html.hidden-overflow {
       padding-left: 0;
       paddinwg-right: 0;
       height: 335px; }
+    #app #building-list h6.already-applied {
+      display: block;
+      padding-top: 15px;
+      border-top: 1px solid #dddddd; }
     #app #building-list .selected {
       background: #f2f3f7;
       height: 100vh; }
