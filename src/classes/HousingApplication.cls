@@ -235,8 +235,10 @@ public class HousingApplication {
       hapCase = [
        SELECT Id, Name, Wheelchair__c, Disability__c, Age__c, Bedrooms_Needed__c, Application_Data__c,
        Reference_Contact_Relationship_to_Client__c, Reference_Contact_Name__c,
-       Reference_Contact_Phone__c, Reference_Contact_Email__c, State_of_Crime__c, Description_of_Crime__c,
-       Year_of_Crime__c, Crime_Type__c, Start_Date__c, End_Date__c, Employer_Name__c, Supervisor_Name__c,
+       Reference_Contact_Phone__c, Reference_Contact_Email__c, State_of_Crime__c,
+       Year_of_Crime__c, Crime_Type__c, Description_of_Crime__c,
+       Description_of_Crime2__c, State_Of_Crime2__c, Year_of_Crime2__c,
+       Crime2_Type__c, Start_Date__c, End_Date__c, Employer_Name__c, Supervisor_Name__c,
        Employment_Position__c, Employment_Verification_Phone_No__c, Employment_Status__c
        FROM Case__c WHERE Id=:hapCaseId LIMIT 1
       ];
@@ -333,13 +335,21 @@ public class HousingApplication {
    }
 
    private void mapCriminalHistory(Case__c c){
-     if(c.State_of_Crime__c != null || c.Description_of_Crime__c != null || c.Crime_Type__c != null || c.Year_of_Crime__c != null){
+     if(c.State_of_Crime__c != null || c.Crime_Type__c != null || c.Year_of_Crime__c != null || c.Description_of_Crime__c != null){
        CriminalHistory history = new CriminalHistory();
        history.state = c.State_of_Crime__c;
        history.description = c.Description_of_Crime__c;
        if(c.Year_of_Crime__c != null) history.year = c.Year_of_Crime__c.intValue();
        history.crime_type = c.Crime_Type__c;
        data.criminal_histories.add(history);
+     }
+     if(c.State_of_Crime2__c != null || c.Crime2_Type__c != null || c.Year_of_Crime2__c != null || c.Description_of_Crime2__c != null){
+       CriminalHistory history2 = new CriminalHistory();
+       history2.state = c.State_of_Crime2__c;
+       history2.description = c.Description_of_Crime2__c;
+       if(c.Year_of_Crime__c != null) history2.year = c.Year_of_Crime2__c.intValue();
+       history2.crime_type = c.Crime2_Type__c;
+       data.criminal_histories.add(history2);
      }
    }
 
@@ -378,8 +388,8 @@ public class HousingApplication {
     private void mapAddress(Id clientId){
       client.addresses = [
         SELECT Id, Name, Address_2__c, City__c, State__c, Zip_Code__c, Landlord_Email__c,
-        Landlord_Name__c, Landlord_Cell_Phone__c, Landlord_Home_Phone__c, Landlord_Work_Phone__c,
-        Current_Address__c, Start_Date__c, End_Date__c, Address_Type__c, Reason_for_leaving__c,
+        Landlord_Name__c, Landlord_Phone__c, Current_Address__c, Start_Date__c,
+        End_Date__c, Address_Type__c, Reason_for_leaving__c,
         Total_Rent__c
         FROM Address__c
         WHERE Client__c=:clientId
@@ -406,9 +416,7 @@ public class HousingApplication {
           r.start_date = client_address.Start_Date__c;
           r.end_date = client_address.End_Date__c;
           r.landlord.first_name = client_address.Landlord_Name__c;
-          r.landlord.cell_phone = client_address.Landlord_Cell_Phone__c;
-          r.landlord.home_phone = client_address.Landlord_Home_Phone__c;
-          r.landlord.work_phone = client_address.Landlord_Work_Phone__c;
+          r.landlord.work_phone = client_address.Landlord_Phone__c;
           data.residences.add(r);
         }
 

@@ -2177,6 +2177,16 @@ var CriminalHistoryForm = function (_Component) {
                   'State'
                 ),
                 React.createElement(reactReduxForm.Control.text, { model: '.state' })
+              ),
+              React.createElement(
+                'div',
+                { className: 'field col-md-12' },
+                React.createElement(
+                  'label',
+                  null,
+                  'Description'
+                ),
+                React.createElement(reactReduxForm.Control.textarea, { model: '.description' })
               )
             )
           );

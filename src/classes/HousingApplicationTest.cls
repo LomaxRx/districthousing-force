@@ -20,7 +20,7 @@ private class HousingApplicationTest {
 		);
 		Case__c hapCase = new Case__c(
 			client__c=client.Id, RecordTypeId=Schema.SObjectType.Case__c.getRecordTypeInfosByName().get('HAP').getRecordTypeId(),
-			Reference_Contact_Name__c='Fake Reference Contact name', Crime_Type__c='Jay walking', Employment_Position__c='CEO'
+			Reference_Contact_Name__c='Fake Reference Contact name', Crime_Type__c='Jay walking', Employment_Position__c='CEO', Crime2_Type__c='Eating on Metro'
 		);
 
 		insert address; insert member; insert income; insert hapCase;
