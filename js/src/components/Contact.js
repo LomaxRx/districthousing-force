@@ -24,6 +24,7 @@ class ContactForm extends Component {
 
     return (
       <FormSection id='contacts' className='form-list'>
+      {console.log(contacts)}
         <h2>Contacts</h2>
         {contacts.map((c,i)=>(
           <Form model={track('formData.contacts[]', { id: c.id })} className='form-item'>
@@ -48,6 +49,7 @@ class ContactForm extends Component {
                   <option value=''></option>
                   <option value='Emergency'>Emergency</option>
                   <option value='Reference'>Reference</option>
+                  <option value='Alternate'>Alternate</option>
                 </Control.select>
               </div>
               <div className="field col-md-8">

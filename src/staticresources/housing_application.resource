@@ -1226,17 +1226,17 @@ var PersonForm = function (_Component) {
                 React.createElement('option', { value: '' }),
                 React.createElement(
                   'option',
-                  { value: 'Not a student' },
+                  { value: 'Not a Student' },
                   'Not a student'
                 ),
                 React.createElement(
                   'option',
-                  { value: 'Part-time' },
+                  { value: 'Part-Time' },
                   'Part-time'
                 ),
                 React.createElement(
                   'option',
-                  { value: 'Full-time' },
+                  { value: 'Full-Time' },
                   'Full-time'
                 )
               )
@@ -1379,7 +1379,7 @@ var PersonForm = function (_Component) {
                 null,
                 'License Expiration Date'
               ),
-              React.createElement(CustomControl, { model: '.drive_licenese_exp_date' })
+              React.createElement(CustomControl, { model: '.driver_license_exp_date' })
             )
           )
         )
@@ -2177,16 +2177,6 @@ var CriminalHistoryForm = function (_Component) {
                   'State'
                 ),
                 React.createElement(reactReduxForm.Control.text, { model: '.state' })
-              ),
-              React.createElement(
-                'div',
-                { className: 'field col-md-12' },
-                React.createElement(
-                  'label',
-                  null,
-                  'Description'
-                ),
-                React.createElement(reactReduxForm.Control.textarea, { model: '.description' })
               )
             )
           );
@@ -2253,6 +2243,7 @@ var ContactForm = function (_Component) {
       return React.createElement(
         FormSection$1,
         { id: 'contacts', className: 'form-list' },
+        console.log(contacts),
         React.createElement(
           'h2',
           null,
@@ -2323,6 +2314,11 @@ var ContactForm = function (_Component) {
                     'option',
                     { value: 'Reference' },
                     'Reference'
+                  ),
+                  React.createElement(
+                    'option',
+                    { value: 'Alternate' },
+                    'Alternate'
                   )
                 )
               ),

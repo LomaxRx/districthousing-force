@@ -22,7 +22,7 @@ public class HousingApplication {
     String city_of_birth;
     String driver_license_number;
     String driver_license_state;
-    String driver_license_exp_date;
+    Date driver_license_exp_date;
   }
 
   public class Income {
@@ -239,7 +239,9 @@ public class HousingApplication {
        Year_of_Crime__c, Crime_Type__c, Description_of_Crime__c,
        Description_of_Crime2__c, State_Of_Crime2__c, Year_of_Crime2__c,
        Crime2_Type__c, Start_Date__c, End_Date__c, Employer_Name__c, Supervisor_Name__c,
-       Employment_Position__c, Employment_Verification_Phone_No__c, Employment_Status__c
+       Employment_Position__c, Employment_Verification_Phone_No__c, Employment_Status__c,
+       Alternate_Contact_Name__c,Alternate_Contact_Relationship__c,Alternate_Contact_Phone__c,
+       Alternate_Contact_Address__c
        FROM Case__c WHERE Id=:hapCaseId LIMIT 1
       ];
 
@@ -247,7 +249,7 @@ public class HousingApplication {
         SELECT Id, Name, First_Name__c, Last_Name__c, Middle_Name__c, Alternate_Name__c, Email_Address__c,
         Alternate_Phone__c, Alternate_Phone_Type__c, Primary_Phone__c, Primary_Phone_Type__c,
         City_of_Birth__c, State_of_Birth__c, Country_of_Birth__c, DOB__c, Drivers_License_Number__c,
-        Drivers_License_State__c, Ethnicity__c, Gender__c, Hispanic__c, Marital_Status__c,
+        Drivers_License_State__c, Drivers_License_Expiration_Date__c, Ethnicity__c, Gender__c, Hispanic__c, Marital_Status__c,
         Student_Status__c, Race__c, SSN__c, Occupation__c, Emergency_Contact_Relationship__c, Emergency_Contact_Name__c,
         Emergency_Contact_Mailing_Address__c, Emergency_Contact_Phone__c, Emergency_Contact_Email__c,
         Immigrant_Status__c
@@ -265,6 +267,7 @@ public class HousingApplication {
         mapPerson(clients[0]);
         mapEmergencyContact(clients[0]);
         mapReferenceContact(hapCase);
+        mapAlternateContact(hapCase);
         mapEmployment(hapCase);
         mapCriminalHistory(hapCase);
         mapIncome(clientId);
@@ -297,21 +300,49 @@ public class HousingApplication {
       else
         data.person.home_phone = c.Primary_Phone__c;
 
+      if(c.Immigrant_Status__c == null){
+        data.person.citizenship = 'US Citizen';
+      } else {
+        data.person.citizenship = c.Immigrant_Status__c;
+      }
+
+      if(c.Race__c == 'Latino/Hispanic')
+        data.person.ethnicity = 'Hispanic';
+
       data.person.email = c.Email_Address__c;
-      data.person.race = c.Race__c;
-      data.person.ethnicity = c.Ethnicity__c;
+      data.person.race = getRace(c.Race__c);
       data.person.student_status = c.Student_Status__c;
       data.person.marital_status = c.Marital_Status__c;
+      data.person.city_of_birth = c.City_of_Birth__c;
+      data.person.state_of_birth = c.State_of_Birth__c;
       data.person.driver_license_number = c.Drivers_License_Number__c;
       data.person.driver_license_state = c.Drivers_License_State__c;
+      data.person.driver_license_exp_date = c.Drivers_License_Expiration_Date__c;
       data.person.occupation = c.Occupation__c;
+    }
 
+    private String getRace(String race){
+      if(race == 'Black/African American')
+        return 'Black';
+      if(race == 'Asian/Pacific Islander')
+        return 'Asian';
+      if(race == 'White')
+        return 'White';
+      if(race == 'Native American')
+        return 'NativeAmerican';
+      if(race == 'Mixed Race' || race == 'Other' || race == 'Latino/Hispanic')
+        return 'Other';
+      if(race == 'Refused')
+        return 'Decline';
+
+      return '';
     }
 
    private void mapEmergencyContact(Client__c c){
      // blech!!
      if(c.Emergency_Contact_Name__c != null || c.Emergency_Contact_Email__c != null || c.Emergency_Contact_Phone__c != null || c.Emergency_Contact_Relationship__c != null || c.Emergency_Contact_Mailing_Address__c != null){
        Contact emergency_contact = new Contact();
+       emergency_contact.id = data.contacts.size() + 1;
        emergency_contact.contact_type = 'Emergency';
        emergency_contact.first_name = c.Emergency_Contact_Name__c;
        emergency_contact.relationship = c.Emergency_Contact_Relationship__c;
@@ -326,10 +357,24 @@ public class HousingApplication {
      if(c.Reference_Contact_Name__c != null || c.Reference_Contact_Email__c != null || c.Reference_Contact_Phone__c != null || c.Reference_Contact_Relationship_to_Client__c != null){
        Contact reference_contact = new Contact();
        reference_contact.contact_type = 'Reference';
+       reference_contact.id = data.contacts.size() + 1;
        reference_contact.first_name = c.Reference_Contact_Name__c;
        reference_contact.relationship = c.Reference_Contact_Relationship_to_Client__c;
        reference_contact.home_phone = c.Reference_Contact_Phone__c;
        reference_contact.email = c.Reference_Contact_Email__c;
+       data.contacts.add(reference_contact);
+     }
+   }
+
+   private void mapAlternateContact(Case__c c){
+     if(c.Alternate_Contact_Name__c != null || c.Alternate_Contact_Phone__c != null || c.Alternate_Contact_Relationship__c != null){
+       Contact reference_contact = new Contact();
+       reference_contact.contact_type = 'Alternate';
+       reference_contact.id = data.contacts.size() + 1;
+       reference_contact.first_name = c.Alternate_Contact_Name__c;
+       reference_contact.relationship = c.Alternate_Contact_Relationship__c;
+       reference_contact.home_phone = c.Alternate_Contact_Phone__c;
+       reference_contact.address.street = c.Alternate_Contact_Address__c;
        data.contacts.add(reference_contact);
      }
    }
@@ -407,12 +452,15 @@ public class HousingApplication {
         a.zip = client_address.Zip_Code__c;
         if(
           (client_address.Landlord_Name__c!=null&&client_address.Landlord_Name__c!='')||
-          client_address.Start_Date__c!=null||client_address.End_Date__c!=null
+          client_address.Start_Date__c!=null||client_address.End_Date__c!=null||
+          client_address.Total_Rent__c!=null
         ){
           a.residence = TRUE;
           Residence r = new Residence();
           r.id = a.id;
           r.address_id = a.Id;
+          if(client_address.Total_Rent__c != null)
+            r.rent = client_address.Total_Rent__c.intValue();
           r.start_date = client_address.Start_Date__c;
           r.end_date = client_address.End_Date__c;
           r.landlord.first_name = client_address.Landlord_Name__c;

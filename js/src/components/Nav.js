@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Jump from 'jump.js';
-import { uploadPDFsToBox } from 'apex-actions';
 import { easeInOutQuad } from '../utils';
 
 class NavSection extends Component {
@@ -74,7 +73,7 @@ class Nav extends Component {
       window.open(pdfResult.pdfUrl);
     }
   }
-  
+
   reset = () => {
     let { dispatch } = this.props;
     dispatch({

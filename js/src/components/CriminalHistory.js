@@ -42,10 +42,6 @@ class CriminalHistoryForm extends Component {
                 <label>State</label>
                 <Control.text model='.state'/>
               </div>
-              <div className="field col-md-12">
-                <label>Description</label>
-                <Control.textarea model='.description'/>
-              </div>
             </div>
           </Form>
         ))}

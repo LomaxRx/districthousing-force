@@ -26,7 +26,6 @@
           <apex:param name="applicationData" assignTo="{!applicationData}" value="" />
           <apex:param name="buildingId" assignTo="{!buildingId}" value="" />
       </apex:actionFunction>
-      <apex:actionFunction action="{!uploadPDFsToBox}" name="uploadPDFsToBox" reRender="callback" />
     </apex:form>
 
     <div id="app">

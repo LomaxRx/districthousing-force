@@ -96,9 +96,9 @@ class PersonForm extends Component {
             <label>Student Status</label>
             <Control.select model='.student_status'>
               <option value=''></option>
-              <option value='Not a student'>Not a student</option>
-              <option value='Part-time'>Part-time</option>
-              <option value='Full-time'>Full-time</option>
+              <option value='Not a Student'>Not a student</option>
+              <option value='Part-Time'>Part-time</option>
+              <option value='Full-Time'>Full-time</option>
             </Control.select>
           </div>
         </div>
@@ -145,7 +145,7 @@ class PersonForm extends Component {
           </div>
           <div className='field col-md-4'>
             <label>License Expiration Date</label>
-            <DatePicker model='.drive_licenese_exp_date'/>
+            <DatePicker model='.driver_license_exp_date'/>
           </div>
         </div>
         </Form>
